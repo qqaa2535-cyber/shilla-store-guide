@@ -52,7 +52,7 @@ body{font-family:Roboto,"Noto Sans KR","Noto Sans Thai","PingFang SC","Hiragino 
 .spd{flex:0 0 auto;border:1px solid #ffffff80;background:#ffffff22;color:#fff;font:inherit;font-size:13px;font-weight:700;border-radius:999px;padding:6px 10px;cursor:pointer}
 .navbar .ni{font-size:20px;width:26px;text-align:center}
 .navbar .nt{font-size:15px;font-weight:500;line-height:1.3}
-.navbar .ns{font-size:13px;opacity:.85}
+.navbar .ns{white-space:pre-line;font-size:13px;opacity:.85}
 .floors{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:#fff;border-radius:8px;box-shadow:0 1px 4px #0004;display:flex;flex-direction:column;overflow:hidden;z-index:8}
 .floors button{width:44px;height:38px;border:0;border-bottom:1px solid var(--g4);background:#fff;font:inherit;font-size:13px;font-weight:500;color:var(--g2);position:relative;cursor:pointer}
 .floors button:last-child{border-bottom:0}
@@ -88,8 +88,10 @@ body{font-family:Roboto,"Noto Sans KR","Noto Sans Thai","PingFang SC","Hiragino 
 .st{display:flex;gap:14px;padding:11px 0;border-bottom:1px solid var(--g4);align-items:flex-start}
 .st .si{width:28px;height:28px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;color:var(--g2)}
 .st .si svg{width:24px;height:24px}
-.st .sx{font-size:14px;line-height:1.45}
-.st .sx small{display:block;color:var(--g2);font-size:12px}
+.st .sx{font-size:16px;line-height:1.45;flex:1}
+.st .no{width:22px;flex:0 0 auto;font-size:13px;font-weight:700;color:#1a73e8;padding-top:4px;text-align:center}
+.arr{width:28px;height:28px;border-radius:50%;background:#e8f0fe;color:#1a73e8;font-size:16px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.st .sx small{display:block;color:var(--g2);font-size:13px;margin-top:2px;white-space:pre-line}
 .st.cur .sx{color:var(--blue);font-weight:500}
 .empty{color:var(--g2);font-size:14px;padding:4px 0 2px}
 .legend{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:11px;color:var(--g2);margin-top:12px}
@@ -145,11 +147,11 @@ B1F:{vb:[120,80,560,360],bg:[128,127,655,472],lift:'esc',
 '2F':{vb:[118,100,562,330],bg:[128,145,652,455],lift:'esc',
  nodes:{tl:[252,150],h0:[150,202],h1:[258,202],h2:[322,202],h3:[390,202],h4:[470,202],h5:[508,202],h6:[570,202],h7:[655,208],tr1:[508,149],tr2:[590,149],m1:[258,293],m2:[322,293],v1:[390,263],esc:[393,236],c:[432,283],m6:[570,293],b1:[170,377],b2:[258,377],b3:[322,377],b4:[380,377],b5:[490,368],b6:[570,377],b7:[655,377]},
  edges:'h1-tl h0-h1 h1-h2 h2-h3 h3-h4 h4-h5 h5-h6 h6-h7 h5-tr1 tr1-tr2 h1-m1 m1-b2 h2-m2 m2-b3 h3-esc esc-v1 v1-c c-b4 c-b5 h4-c h6-m6 m6-b6 b1-b2 b2-b3 b3-b4 b4-b5 b5-b6 b6-b7',
- esc:[],fac:[['esc',391,268],['esc',467,268],['wc',222,178],['awc',238,178],['elev',230,302],['stairs',656,247,'']],
+ esc:[],fac:[['esc',391,268],['esc',467,268],['wc',222,178],['awc',238,178],['elev',230,302],['stairs',656,247,'2MF · 3F']],
  stores:`CHANEL|250|145|460|232|f|샤넬;OPENING·SOON|460|145|497|232|x|오픈 예정;HUBLOT|497|145|535|182|w|위블로;TAG HEUER|535|145|575|182|w|태그호이어;BREITLING|575|145|612|182|w|브라이틀링;LONGINES|612|145|652|205|w|론진;TISSOT·MIDO·RADO·HAMILTON·G-SHOCK|520|190|575|232|w|티쏘·미도·라도·해밀턴·지샥;CHOPARD|595|205|652|240|w|쇼파드;LE LABO|212|185|245|212|b|르라보;F.MALLE·KILIAN·TOM FORD·BEAUTY PFM|260|185|300|232|b|프레데릭말·킬리안·톰포드 뷰티;JO MALONE|212|215|245|245|b|조말론;DECORTE|130|248|163|278|b|코스메 데코르테;ELIZABETH·ARDEN|165|248|205|278|b|엘리자베스아덴;ATKINSONS PFM·VERSACE PFM|207|248|245|290|b|앳킨슨즈·베르사체 향수;DIOR COS|250|248|292|275|b|디올 코스메틱;GUERLAIN|250|277|292|297|b|겔랑;GUCCI COS|250|298|292|315|b|구찌 뷰티;BOBBI·BROWN|300|245|335|275|b|바비브라운;DIPTYQUE|300|280|335|312|b|딥디크;MAISON·MARGIELA PFM|343|245|383|261|b|메종 마르지엘라 향수;KIEHL'S|343|262|383|290|b|키엘;G.ARMANI·COS|343|292|383|317|b|조르지오 아르마니 뷰티;LA MER|333|320|380|340|b|라메르;CLINIQUE|333|342|380|361|b|크리니크;FRESH|333|363|380|381|b|프레시;HELENA·RUBINSTEIN|333|382|380|398|b|헬레나 루빈스타인;CHANEL COS|407|260|458|292|b|샤넬 코스메틱;TIFFANY&CO|485|243|555|293|w|티파니;TREND ON|485|295|555|341|f|트렌드온;UGG|485|342|555|365|f|어그;OMEGA|578|250|652|315|w|오메가;QEELIN|578|315|652|342|w|기린;IOPE·PRIMERA·LANEIGE·HERA|578|345|652|383|b|아이오페·프리메라·라네즈·헤라;SULWHASOO|578|385|652|410|b|설화수;BELIF·OHUI|578|415|605|455|b|빌리프·오휘;WHOO|605|415|652|455|b|후;HERMES·BEAUTY PFM|130|280|163|308|b|에르메스 뷰티;SERGE LUTENS·AVEDA·LAB SERIES|165|282|205|312|b|세르주루텐·아베다·랩시리즈;MAKEUP·FOREVER|130|310|163|335|b|메이크업포에버;AESOP|180|325|215|342|b|이솝;LA PRAIRIE|215|325|252|342|b|라프레리;BENEFIT|180|344|215|362|b|베네피트;BIOTHERM|215|344|252|362|b|비오템;ESTEE·LAUDER|265|325|310|362|b|에스티로더;SISLEY|130|338|163|362|b|시슬리;MAC|130|365|163|390|b|맥;LA ROCHE·POSAY|180|372|215|392|b|라로슈포제;CLARINS|215|372|252|392|b|클라랑스;KERASTASE|180|394|215|410|b|케라스타즈;SHU·UEMURA|215|394|252|410|b|슈에무라;SK-II|265|372|310|410|b|에스케이투;NARS|130|392|163|418|b|나스;CLE DE·PEAU·BEAUTE|130|422|163|455|b|끌레드뽀 보떼;SHISEIDO|165|425|205|455|b|시세이도;L'OCCITANE|205|425|250|455|b|록시땅;YSL COS|250|425|285|455|b|입생로랑 뷰티;LANCOME|285|425|325|455|b|랑콤;GIVENCHY·COS|325|425|360|455|b|지방시 뷰티;ALBION|360|425|390|455|b|알비온;DRUNK·ELEPHANT|390|415|428|435|b|드렁크엘리펀트;PAULA'S CHOICE|390|435|428|455|b|폴라초이스;VALENTINO·BEAUTY|383|368|420|397|b|발렌티노 뷰티;LOEWE·PFM|420|383|440|397|b|로에베 향수;CHLOE·PFM|440|383|462|397|b|끌로에 향수;CREED|462|383|485|397|b|크리드;PARFUMS DE MARLY|420|368|485|382|b|퍼퓸 드 말리;CHOPARD PFM·TOMMY HILFIGER PFM|428|415|500|435|b|쇼파드·타미힐피거 향수;TRUSSARDI PFM·BVLGARI PFM|428|435|500|455|b|트루사르디·불가리 향수;ACQUA DI PARMA·BALENCIAGA PFM·TRUDON·KINFOLK NOTES|485|368|555|397|b|아쿠아디파르마·발렌시아가 향수·트루동;SEKKISEI|500|415|537|433|b|세키세이;LAURA·MERCIER|500|433|537|455|b|로라메르시에;ABIB·KANEBO|537|415|575|433|b|아비브·가네보;LUNASOL·SUQQU|537|433|575|455|b|루나솔·스쿠`},
-'2MF':{vb:[160,175,480,215],bg:[178,233,622,402],lift:'esc',nodes:{},edges:'',esc:[[385,382,415,398]],fac:[['esc',400,390]],stores:''},
+'2MF':{vb:[160,175,480,215],bg:[178,233,622,402],lift:'esc',nodes:{},edges:'',esc:[],fac:[['stairs',400,390,'2F · 3F']],stores:''},
 '3F':{vb:[120,170,570,200],bg:[128,233,670,365],lift:'esc',
- nodes:{esc:[622,300],c:[560,263]},edges:'esc-c',esc:[[600,345,645,362]],fac:[['esc',622,353],['wc',622,297]],
+ nodes:{esc:[622,300],c:[560,263]},edges:'esc-c',esc:[],fac:[['stairs',622,353,'2MF'],['wc',622,297]],
  stores:`CAFE LA·ROOFTOP & CAFE|128|233|572|365|x|카페라 루프탑`}
 };
 // brands inside the 2MF perfume zone (searchable, all point to the zone)
@@ -172,19 +174,20 @@ const MPU=0.18; // metres per map unit (estimated)
 
 /* ===== i18n ===== */
 const T={
-ko:{title:'신라면세점 서울점 매장 안내',fromPh:'출발지 검색',toPh:'도착지 검색',my:'내 위치',corr:'{f} 통로',near:'{s} 근처',start:'출발',stop:'종료',stepsT:'경로 안내',walk:'{b}까지 걷기',ride:'에스컬레이터 {a} → {b}',arrive:'{b} 도착',min:'{n}분',m:'약 {n}m',via:'에스컬레이터 {n}회 이용',same:'같은 층 · 도보',hint:'지도를 탭하면 그 자리로 이동해요',pick:'도착지를 검색하거나 위 버튼을 눌러보세요',chipWc:'화장실',chipInfo:'안내데스크',chipEsc:'에스컬레이터',nearest:'가장 가까운 {p}',fac:{wc:'화장실',awc:'장애인 화장실',elev:'엘리베이터',info:'안내데스크',esc:'에스컬레이터',stroller:'유모차 대여',stairs:'계단'},wcDesc:'남녀 화장실',awcDesc:'휠체어 이용 가능',escHop:'{f}로 이동 중',up:'상행',down:'하행',speed:'속도',arrived:'도착했습니다',note:'※ 신라면세점 공식 층별 안내도(2026년 9·11월 판)를 보고 직접 그린 약도입니다. 거리·시간은 추정치이며, 매장 크기·통로·에스컬레이터 연결은 실제와 다를 수 있습니다.',none:'검색 결과 없음',cat:{b:'화장품/향수',f:'패션/가방',w:'시계/주얼리',e:'선글라스',d:'식품/주류/담배',x:'기타',z:'라운지'}},
-zh:{title:'新罗免税店 首尔店 店铺指南',fromPh:'搜索起点',toPh:'搜索终点',my:'我的位置',corr:'{f} 通道',near:'{s}附近',start:'出发',stop:'结束',stepsT:'路线指引',walk:'步行至{b}',ride:'自动扶梯 {a} → {b}',arrive:'到达{b}',min:'{n}分钟',m:'约{n}米',via:'乘自动扶梯{n}次',same:'同楼层 · 步行',hint:'点击地图即可移动到该位置',pick:'搜索终点或点击上方按钮',chipWc:'洗手间',chipInfo:'服务台',chipEsc:'自动扶梯',nearest:'最近的{p}',fac:{wc:'洗手间',awc:'无障碍洗手间',elev:'电梯',info:'服务台',esc:'自动扶梯',stroller:'婴儿车租借',stairs:'楼梯'},wcDesc:'男女洗手间',awcDesc:'可供轮椅使用',escHop:'正在前往{f}',up:'上行',down:'下行',speed:'速度',arrived:'已到达',note:'※ 根据新罗免税店官方楼层指南（2026年9·11月版）手绘。距离与时间为估算值，店铺大小、通道及扶梯连接可能与实际不同。',none:'无搜索结果',cat:{b:'化妆品/香水',f:'时装/箱包',w:'手表/珠宝',e:'太阳镜',d:'食品/酒类/烟草',x:'其他',z:'贵宾室'}},
-tw:{title:'新羅免稅店 首爾店 店舖指南',fromPh:'搜尋起點',toPh:'搜尋目的地',my:'我的位置',corr:'{f} 走道',near:'{s}附近',start:'出發',stop:'結束',stepsT:'路線指引',walk:'步行至{b}',ride:'電扶梯 {a} → {b}',arrive:'抵達{b}',min:'{n}分鐘',m:'約{n}公尺',via:'搭電扶梯{n}次',same:'同樓層 · 步行',hint:'點一下地圖就會移動到該處',pick:'搜尋目的地或點選上方按鈕',chipWc:'洗手間',chipInfo:'服務台',chipEsc:'電扶梯',nearest:'最近的{p}',fac:{wc:'洗手間',awc:'無障礙洗手間',elev:'電梯',info:'服務台',esc:'電扶梯',stroller:'嬰兒車租借',stairs:'樓梯'},wcDesc:'男女洗手間',awcDesc:'可供輪椅使用',escHop:'正在前往{f}',up:'上行',down:'下行',speed:'速度',arrived:'已抵達',note:'※ 依新羅免稅店官方樓層指南（2026年9·11月版）手繪。距離與時間為估算值，店舖大小、走道及電扶梯連接可能與實際不同。',none:'查無結果',cat:{b:'化妝品/香水',f:'時尚/包款',w:'手錶/珠寶',e:'太陽眼鏡',d:'食品/酒類/菸草',x:'其他',z:'貴賓室'}},
-en:{title:'Shilla Duty Free Seoul · Store Guide',fromPh:'Choose starting point',toPh:'Choose destination',my:'Your location',corr:'{f} aisle',near:'Near {s}',start:'Go',stop:'Exit',stepsT:'Steps',walk:'Walk to {b}',ride:'Escalator {a} → {b}',arrive:'Arrive at {b}',min:'{n} min',m:'~{n} m',via:'{n} escalator ride(s)',same:'Same floor · walk',hint:'Tap the map to move there',pick:'Search a destination or tap a button above',chipWc:'Restrooms',chipInfo:'Information',chipEsc:'Escalators',nearest:'Nearest {p}',fac:{wc:'Restroom',awc:'Accessible restroom',elev:'Elevator',info:'Information desk',esc:'Escalator',stroller:'Stroller rental',stairs:'Stairs'},wcDesc:'Men & women',awcDesc:'Wheelchair accessible',escHop:'Going to {f}',up:'Up',down:'Down',speed:'Speed',arrived:'You have arrived',note:'※ Hand-drawn from the official Shilla Duty Free floor guide (Sep/Nov 2026). Distances and times are estimates; store sizes, aisles and escalator links may differ from reality.',none:'No results',cat:{b:'Cosmetics/Perfume',f:'Fashion/Bags',w:'Watches/Jewelry',e:'Sunglasses',d:'Food/Liquor/Tobacco',x:'Other',z:'Lounge'}},
-ja:{title:'新羅免税店 ソウル店 店舗案内',fromPh:'出発地を検索',toPh:'目的地を検索',my:'現在地',corr:'{f} 通路',near:'{s}付近',start:'出発',stop:'終了',stepsT:'ルート案内',walk:'{b}まで歩く',ride:'エスカレーター {a} → {b}',arrive:'{b}に到着',min:'{n}分',m:'約{n}m',via:'エスカレーター{n}回',same:'同じフロア · 徒歩',hint:'地図をタップするとその場所へ移動します',pick:'目的地を検索するか、上のボタンを押してください',chipWc:'トイレ',chipInfo:'インフォメーション',chipEsc:'エスカレーター',nearest:'最寄りの{p}',fac:{wc:'トイレ',awc:'多目的トイレ',elev:'エレベーター',info:'インフォメーション',esc:'エスカレーター',stroller:'ベビーカー貸出',stairs:'階段'},wcDesc:'男女トイレ',awcDesc:'車いす対応',escHop:'{f}へ移動中',up:'上り',down:'下り',speed:'速度',arrived:'到着しました',note:'※ 新羅免税店公式フロアガイド（2026年9・11月版）をもとに描いた略図です。距離・時間は推定で、店舗の大きさ・通路・エスカレーターの接続は実際と異なる場合があります。',none:'該当なし',cat:{b:'化粧品/香水',f:'ファッション/バッグ',w:'時計/ジュエリー',e:'サングラス',d:'食品/酒/たばこ',x:'その他',z:'ラウンジ'}},
-vi:{title:'Shilla Duty Free Seoul · Hướng dẫn cửa hàng',fromPh:'Chọn điểm xuất phát',toPh:'Chọn điểm đến',my:'Vị trí của bạn',corr:'Lối đi {f}',near:'Gần {s}',start:'Đi',stop:'Thoát',stepsT:'Các bước',walk:'Đi bộ đến {b}',ride:'Thang cuốn {a} → {b}',arrive:'Đến {b}',min:'{n} phút',m:'~{n} m',via:'Đi thang cuốn {n} lần',same:'Cùng tầng · đi bộ',hint:'Chạm vào bản đồ để di chuyển đến đó',pick:'Tìm điểm đến hoặc chạm nút bên trên',chipWc:'Nhà vệ sinh',chipInfo:'Quầy thông tin',chipEsc:'Thang cuốn',nearest:'{p} gần nhất',fac:{wc:'Nhà vệ sinh',awc:'WC cho người khuyết tật',elev:'Thang máy',info:'Quầy thông tin',esc:'Thang cuốn',stroller:'Cho thuê xe đẩy',stairs:'Cầu thang'},wcDesc:'Nam & nữ',awcDesc:'Dành cho xe lăn',escHop:'Đang lên {f}',up:'Lên',down:'Xuống',speed:'Tốc độ',arrived:'Bạn đã đến nơi',note:'※ Sơ đồ vẽ tay theo sơ đồ tầng chính thức của Shilla Duty Free (bản 9 & 11/2026). Khoảng cách và thời gian là ước tính; kích thước cửa hàng, lối đi và thang cuốn có thể khác thực tế.',none:'Không có kết quả',cat:{b:'Mỹ phẩm/Nước hoa',f:'Thời trang/Túi',w:'Đồng hồ/Trang sức',e:'Kính mát',d:'Thực phẩm/Rượu/Thuốc lá',x:'Khác',z:'Phòng chờ'}}
+ko:{title:'신라면세점 서울점 매장 안내',fromPh:'출발지 검색',toPh:'도착지 검색',my:'내 위치',corr:'{f} 통로',near:'{s} 근처',start:'출발',stop:'종료',stepsT:'경로 안내',walk:'{b}까지 걷기',ride:'에스컬레이터 {a} → {b}',arrive:'{b} 도착',min:'{n}분',m:'약 {n}m',via:'에스컬레이터 {n}회 이용',same:'같은 층 · 도보',hint:'지도를 탭하면 그 자리로 이동해요',pick:'도착지를 검색하거나 위 버튼을 눌러보세요',chipWc:'화장실',chipInfo:'안내데스크',chipEsc:'에스컬레이터',nearest:'가장 가까운 {p}',fac:{wc:'화장실',awc:'장애인 화장실',elev:'엘리베이터',info:'안내데스크',esc:'에스컬레이터',stroller:'유모차 대여',stairs:'계단'},wcDesc:'남녀 화장실',awcDesc:'휠체어 이용 가능',escHop:'{f}로 이동 중',up:'상행',down:'하행',speed:'속도',iStart:'{s} 쪽으로 약 {m}m 직진하세요',iTurn:'{s} 앞에서 {d}으로 돌아 약 {m}m 가세요',iArrive:'{b}은(는) {d}에 있어요',L:'왼쪽',R:'오른쪽',sL:'살짝 왼쪽',sR:'살짝 오른쪽',dL:'왼쪽',dR:'오른쪽',dF:'바로 앞',stepsN:'약 {n}걸음',rEscUp:'상행 에스컬레이터를 타고 {b}로 올라가세요',rEscDown:'하행 에스컬레이터를 타고 {b}로 내려가세요',rStUp:'계단을 걸어서 {b}까지 올라가세요',rStDown:'계단을 걸어서 {b}까지 내려가세요',viaE:'에스컬레이터 {n}회',viaS:'계단 {n}회',pass:'지나는 곳: {s}',arrived:'도착했습니다',note:'※ 신라면세점 공식 층별 안내도(2026년 9·11월 판)를 보고 직접 그린 약도입니다. 거리·시간은 추정치이며, 매장 크기·통로·에스컬레이터 연결은 실제와 다를 수 있습니다.',none:'검색 결과 없음',cat:{b:'화장품/향수',f:'패션/가방',w:'시계/주얼리',e:'선글라스',d:'식품/주류/담배',x:'기타',z:'라운지'}},
+zh:{title:'新罗免税店 首尔店 店铺指南',fromPh:'搜索起点',toPh:'搜索终点',my:'我的位置',corr:'{f} 通道',near:'{s}附近',start:'出发',stop:'结束',stepsT:'路线指引',walk:'步行至{b}',ride:'自动扶梯 {a} → {b}',arrive:'到达{b}',min:'{n}分钟',m:'约{n}米',via:'乘自动扶梯{n}次',same:'同楼层 · 步行',hint:'点击地图即可移动到该位置',pick:'搜索终点或点击上方按钮',chipWc:'洗手间',chipInfo:'服务台',chipEsc:'自动扶梯',nearest:'最近的{p}',fac:{wc:'洗手间',awc:'无障碍洗手间',elev:'电梯',info:'服务台',esc:'自动扶梯',stroller:'婴儿车租借',stairs:'楼梯'},wcDesc:'男女洗手间',awcDesc:'可供轮椅使用',escHop:'正在前往{f}',up:'上行',down:'下行',speed:'速度',iStart:'朝{s}方向直行约{m}米',iTurn:'在{s}前{d}，再走约{m}米',iArrive:'{b}在您的{d}',L:'左转',R:'右转',sL:'稍向左转',sR:'稍向右转',dL:'左边',dR:'右边',dF:'正前方',stepsN:'约{n}步',rEscUp:'乘上行自动扶梯到{b}',rEscDown:'乘下行自动扶梯到{b}',rStUp:'走楼梯上到{b}',rStDown:'走楼梯下到{b}',viaE:'自动扶梯{n}次',viaS:'楼梯{n}次',pass:'途经：{s}',arrived:'已到达',note:'※ 根据新罗免税店官方楼层指南（2026年9·11月版）手绘。距离与时间为估算值，店铺大小、通道及扶梯连接可能与实际不同。',none:'无搜索结果',cat:{b:'化妆品/香水',f:'时装/箱包',w:'手表/珠宝',e:'太阳镜',d:'食品/酒类/烟草',x:'其他',z:'贵宾室'}},
+tw:{title:'新羅免稅店 首爾店 店舖指南',fromPh:'搜尋起點',toPh:'搜尋目的地',my:'我的位置',corr:'{f} 走道',near:'{s}附近',start:'出發',stop:'結束',stepsT:'路線指引',walk:'步行至{b}',ride:'電扶梯 {a} → {b}',arrive:'抵達{b}',min:'{n}分鐘',m:'約{n}公尺',via:'搭電扶梯{n}次',same:'同樓層 · 步行',hint:'點一下地圖就會移動到該處',pick:'搜尋目的地或點選上方按鈕',chipWc:'洗手間',chipInfo:'服務台',chipEsc:'電扶梯',nearest:'最近的{p}',fac:{wc:'洗手間',awc:'無障礙洗手間',elev:'電梯',info:'服務台',esc:'電扶梯',stroller:'嬰兒車租借',stairs:'樓梯'},wcDesc:'男女洗手間',awcDesc:'可供輪椅使用',escHop:'正在前往{f}',up:'上行',down:'下行',speed:'速度',iStart:'朝{s}方向直走約{m}公尺',iTurn:'在{s}前{d}，再走約{m}公尺',iArrive:'{b}在您的{d}',L:'左轉',R:'右轉',sL:'稍微左轉',sR:'稍微右轉',dL:'左邊',dR:'右邊',dF:'正前方',stepsN:'約{n}步',rEscUp:'搭上行電扶梯到{b}',rEscDown:'搭下行電扶梯到{b}',rStUp:'走樓梯上到{b}',rStDown:'走樓梯下到{b}',viaE:'電扶梯{n}次',viaS:'樓梯{n}次',pass:'途經：{s}',arrived:'已抵達',note:'※ 依新羅免稅店官方樓層指南（2026年9·11月版）手繪。距離與時間為估算值，店舖大小、走道及電扶梯連接可能與實際不同。',none:'查無結果',cat:{b:'化妝品/香水',f:'時尚/包款',w:'手錶/珠寶',e:'太陽眼鏡',d:'食品/酒類/菸草',x:'其他',z:'貴賓室'}},
+en:{title:'Shilla Duty Free Seoul · Store Guide',fromPh:'Choose starting point',toPh:'Choose destination',my:'Your location',corr:'{f} aisle',near:'Near {s}',start:'Go',stop:'Exit',stepsT:'Steps',walk:'Walk to {b}',ride:'Escalator {a} → {b}',arrive:'Arrive at {b}',min:'{n} min',m:'~{n} m',via:'{n} escalator ride(s)',same:'Same floor · walk',hint:'Tap the map to move there',pick:'Search a destination or tap a button above',chipWc:'Restrooms',chipInfo:'Information',chipEsc:'Escalators',nearest:'Nearest {p}',fac:{wc:'Restroom',awc:'Accessible restroom',elev:'Elevator',info:'Information desk',esc:'Escalator',stroller:'Stroller rental',stairs:'Stairs'},wcDesc:'Men & women',awcDesc:'Wheelchair accessible',escHop:'Going to {f}',up:'Up',down:'Down',speed:'Speed',iStart:'Walk straight toward {s} for about {m} m',iTurn:'At {s}, turn {d} and walk about {m} m',iArrive:'{b} is {d}',L:'left',R:'right',sL:'slightly left',sR:'slightly right',dL:'on your left',dR:'on your right',dF:'straight ahead',stepsN:'~{n} steps',rEscUp:'Take the up escalator to {b}',rEscDown:'Take the down escalator to {b}',rStUp:'Walk up the stairs to {b}',rStDown:'Walk down the stairs to {b}',viaE:'{n} escalator ride(s)',viaS:'{n} flight(s) of stairs',pass:"You'll pass: {s}",arrived:'You have arrived',note:'※ Hand-drawn from the official Shilla Duty Free floor guide (Sep/Nov 2026). Distances and times are estimates; store sizes, aisles and escalator links may differ from reality.',none:'No results',cat:{b:'Cosmetics/Perfume',f:'Fashion/Bags',w:'Watches/Jewelry',e:'Sunglasses',d:'Food/Liquor/Tobacco',x:'Other',z:'Lounge'}},
+ja:{title:'新羅免税店 ソウル店 店舗案内',fromPh:'出発地を検索',toPh:'目的地を検索',my:'現在地',corr:'{f} 通路',near:'{s}付近',start:'出発',stop:'終了',stepsT:'ルート案内',walk:'{b}まで歩く',ride:'エスカレーター {a} → {b}',arrive:'{b}に到着',min:'{n}分',m:'約{n}m',via:'エスカレーター{n}回',same:'同じフロア · 徒歩',hint:'地図をタップするとその場所へ移動します',pick:'目的地を検索するか、上のボタンを押してください',chipWc:'トイレ',chipInfo:'インフォメーション',chipEsc:'エスカレーター',nearest:'最寄りの{p}',fac:{wc:'トイレ',awc:'多目的トイレ',elev:'エレベーター',info:'インフォメーション',esc:'エスカレーター',stroller:'ベビーカー貸出',stairs:'階段'},wcDesc:'男女トイレ',awcDesc:'車いす対応',escHop:'{f}へ移動中',up:'上り',down:'下り',speed:'速度',iStart:'{s}の方へ約{m}mまっすぐ進んでください',iTurn:'{s}の前で{d}、約{m}m進んでください',iArrive:'{b}は{d}にあります',L:'左に曲がり',R:'右に曲がり',sL:'やや左に曲がり',sR:'やや右に曲がり',dL:'左手',dR:'右手',dF:'目の前',stepsN:'約{n}歩',rEscUp:'上りエスカレーターで{b}へ',rEscDown:'下りエスカレーターで{b}へ',rStUp:'階段で{b}へ上がってください',rStDown:'階段で{b}へ下りてください',viaE:'エスカレーター{n}回',viaS:'階段{n}回',pass:'途中: {s}',arrived:'到着しました',note:'※ 新羅免税店公式フロアガイド（2026年9・11月版）をもとに描いた略図です。距離・時間は推定で、店舗の大きさ・通路・エスカレーターの接続は実際と異なる場合があります。',none:'該当なし',cat:{b:'化粧品/香水',f:'ファッション/バッグ',w:'時計/ジュエリー',e:'サングラス',d:'食品/酒/たばこ',x:'その他',z:'ラウンジ'}},
+vi:{title:'Shilla Duty Free Seoul · Hướng dẫn cửa hàng',fromPh:'Chọn điểm xuất phát',toPh:'Chọn điểm đến',my:'Vị trí của bạn',corr:'Lối đi {f}',near:'Gần {s}',start:'Đi',stop:'Thoát',stepsT:'Các bước',walk:'Đi bộ đến {b}',ride:'Thang cuốn {a} → {b}',arrive:'Đến {b}',min:'{n} phút',m:'~{n} m',via:'Đi thang cuốn {n} lần',same:'Cùng tầng · đi bộ',hint:'Chạm vào bản đồ để di chuyển đến đó',pick:'Tìm điểm đến hoặc chạm nút bên trên',chipWc:'Nhà vệ sinh',chipInfo:'Quầy thông tin',chipEsc:'Thang cuốn',nearest:'{p} gần nhất',fac:{wc:'Nhà vệ sinh',awc:'WC cho người khuyết tật',elev:'Thang máy',info:'Quầy thông tin',esc:'Thang cuốn',stroller:'Cho thuê xe đẩy',stairs:'Cầu thang'},wcDesc:'Nam & nữ',awcDesc:'Dành cho xe lăn',escHop:'Đang lên {f}',up:'Lên',down:'Xuống',speed:'Tốc độ',iStart:'Đi thẳng về phía {s} khoảng {m} m',iTurn:'Tại {s}, {d} rồi đi khoảng {m} m',iArrive:'{b} ở {d}',L:'rẽ trái',R:'rẽ phải',sL:'chếch sang trái',sR:'chếch sang phải',dL:'bên trái bạn',dR:'bên phải bạn',dF:'ngay phía trước',stepsN:'khoảng {n} bước',rEscUp:'Đi thang cuốn lên {b}',rEscDown:'Đi thang cuốn xuống {b}',rStUp:'Đi bộ cầu thang lên {b}',rStDown:'Đi bộ cầu thang xuống {b}',viaE:'Thang cuốn {n} lần',viaS:'Cầu thang {n} lần',pass:'Đi qua: {s}',arrived:'Bạn đã đến nơi',note:'※ Sơ đồ vẽ tay theo sơ đồ tầng chính thức của Shilla Duty Free (bản 9 & 11/2026). Khoảng cách và thời gian là ước tính; kích thước cửa hàng, lối đi và thang cuốn có thể khác thực tế.',none:'Không có kết quả',cat:{b:'Mỹ phẩm/Nước hoa',f:'Thời trang/Túi',w:'Đồng hồ/Trang sức',e:'Kính mát',d:'Thực phẩm/Rượu/Thuốc lá',x:'Khác',z:'Phòng chờ'}}
 ,
-th:{title:'ร้านปลอดภาษีชิลล่า สาขาโซล · คู่มือร้านค้า',fromPh:'ค้นหาจุดเริ่มต้น',toPh:'ค้นหาจุดหมาย',my:'ตำแหน่งของคุณ',corr:'ทางเดิน {f}',near:'ใกล้ {s}',start:'ไป',stop:'หยุด',stepsT:'ขั้นตอน',walk:'เดินไปที่ {b}',ride:'บันไดเลื่อน {a} → {b}',arrive:'ถึง {b}',min:'{n} นาที',m:'~{n} ม.',via:'ใช้บันไดเลื่อน {n} ครั้ง',same:'ชั้นเดียวกัน · เดิน',hint:'แตะแผนที่เพื่อไปยังจุดนั้น',pick:'ค้นหาจุดหมายหรือแตะปุ่มด้านบน',chipWc:'ห้องน้ำ',chipInfo:'จุดบริการข้อมูล',chipEsc:'บันไดเลื่อน',nearest:'{p} ที่ใกล้ที่สุด',fac:{wc:'ห้องน้ำ',awc:'ห้องน้ำผู้พิการ',elev:'ลิฟต์',info:'จุดบริการข้อมูล',esc:'บันไดเลื่อน',stroller:'ให้ยืมรถเข็นเด็ก',stairs:'บันได'},wcDesc:'ห้องน้ำชายและหญิง',awcDesc:'รองรับรถเข็น',escHop:'กำลังไป {f}',up:'ขึ้น',down:'ลง',speed:'ความเร็ว',arrived:'ถึงแล้ว',note:'※ แผนที่วาดจากคู่มือชั้นอย่างเป็นทางการของ Shilla Duty Free (ฉบับ ก.ย./พ.ย. 2026) ระยะทางและเวลาเป็นค่าประมาณ ขนาดร้าน ทางเดิน และบันไดเลื่อนอาจต่างจากของจริง',none:'ไม่พบผลลัพธ์',cat:{b:'เครื่องสำอาง/น้ำหอม',f:'แฟชั่น/กระเป๋า',w:'นาฬิกา/เครื่องประดับ',e:'แว่นกันแดด',d:'อาหาร/สุรา/ยาสูบ',x:'อื่นๆ',z:'เลานจ์'}},
-fil:{title:'Shilla Duty Free Seoul · Gabay sa Tindahan',fromPh:'Pumili ng simula',toPh:'Pumili ng pupuntahan',my:'Lokasyon mo',corr:'Pasilyo ng {f}',near:'Malapit sa {s}',start:'Tara',stop:'Ihinto',stepsT:'Mga hakbang',walk:'Maglakad papunta sa {b}',ride:'Escalator {a} → {b}',arrive:'Nakarating sa {b}',min:'{n} min',m:'~{n} m',via:'{n} beses sa escalator',same:'Parehong palapag · lakad',hint:'I-tap ang mapa para pumunta roon',pick:'Maghanap ng pupuntahan o i-tap ang button sa itaas',chipWc:'CR',chipInfo:'Impormasyon',chipEsc:'Escalator',nearest:'Pinakamalapit na {p}',fac:{wc:'CR',awc:'CR para sa PWD',elev:'Elevator',info:'Information desk',esc:'Escalator',stroller:'Paupahan ng stroller',stairs:'Hagdan'},wcDesc:'Panlalaki at pambabae',awcDesc:'Pang-wheelchair',escHop:'Papunta sa {f}',up:'Pataas',down:'Pababa',speed:'Bilis',arrived:'Nakarating ka na',note:'※ Iginuhit batay sa opisyal na floor guide ng Shilla Duty Free (Set/Nob 2026). Tantiya lang ang layo at oras; maaaring iba ang laki ng tindahan, pasilyo at escalator sa totoo.',none:'Walang resulta',cat:{b:'Kosmetiko/Pabango',f:'Fashion/Bag',w:'Relo/Alahas',e:'Sunglasses',d:'Pagkain/Alak/Sigarilyo',x:'Iba pa',z:'Lounge'}}
+th:{title:'ร้านปลอดภาษีชิลล่า สาขาโซล · คู่มือร้านค้า',fromPh:'ค้นหาจุดเริ่มต้น',toPh:'ค้นหาจุดหมาย',my:'ตำแหน่งของคุณ',corr:'ทางเดิน {f}',near:'ใกล้ {s}',start:'ไป',stop:'หยุด',stepsT:'ขั้นตอน',walk:'เดินไปที่ {b}',ride:'บันไดเลื่อน {a} → {b}',arrive:'ถึง {b}',min:'{n} นาที',m:'~{n} ม.',via:'ใช้บันไดเลื่อน {n} ครั้ง',same:'ชั้นเดียวกัน · เดิน',hint:'แตะแผนที่เพื่อไปยังจุดนั้น',pick:'ค้นหาจุดหมายหรือแตะปุ่มด้านบน',chipWc:'ห้องน้ำ',chipInfo:'จุดบริการข้อมูล',chipEsc:'บันไดเลื่อน',nearest:'{p} ที่ใกล้ที่สุด',fac:{wc:'ห้องน้ำ',awc:'ห้องน้ำผู้พิการ',elev:'ลิฟต์',info:'จุดบริการข้อมูล',esc:'บันไดเลื่อน',stroller:'ให้ยืมรถเข็นเด็ก',stairs:'บันได'},wcDesc:'ห้องน้ำชายและหญิง',awcDesc:'รองรับรถเข็น',escHop:'กำลังไป {f}',up:'ขึ้น',down:'ลง',speed:'ความเร็ว',iStart:'เดินตรงไปทาง {s} ประมาณ {m} ม.',iTurn:'ที่ {s} ให้{d} แล้วเดินประมาณ {m} ม.',iArrive:'{b} อยู่{d}',L:'เลี้ยวซ้าย',R:'เลี้ยวขวา',sL:'เบี่ยงซ้าย',sR:'เบี่ยงขวา',dL:'ทางซ้ายมือ',dR:'ทางขวามือ',dF:'ตรงหน้า',stepsN:'ประมาณ {n} ก้าว',rEscUp:'ขึ้นบันไดเลื่อนไปชั้น {b}',rEscDown:'ลงบันไดเลื่อนไปชั้น {b}',rStUp:'เดินขึ้นบันไดไปชั้น {b}',rStDown:'เดินลงบันไดไปชั้น {b}',viaE:'บันไดเลื่อน {n} ครั้ง',viaS:'บันได {n} ครั้ง',pass:'ผ่าน: {s}',arrived:'ถึงแล้ว',note:'※ แผนที่วาดจากคู่มือชั้นอย่างเป็นทางการของ Shilla Duty Free (ฉบับ ก.ย./พ.ย. 2026) ระยะทางและเวลาเป็นค่าประมาณ ขนาดร้าน ทางเดิน และบันไดเลื่อนอาจต่างจากของจริง',none:'ไม่พบผลลัพธ์',cat:{b:'เครื่องสำอาง/น้ำหอม',f:'แฟชั่น/กระเป๋า',w:'นาฬิกา/เครื่องประดับ',e:'แว่นกันแดด',d:'อาหาร/สุรา/ยาสูบ',x:'อื่นๆ',z:'เลานจ์'}},
+fil:{title:'Shilla Duty Free Seoul · Gabay sa Tindahan',fromPh:'Pumili ng simula',toPh:'Pumili ng pupuntahan',my:'Lokasyon mo',corr:'Pasilyo ng {f}',near:'Malapit sa {s}',start:'Tara',stop:'Ihinto',stepsT:'Mga hakbang',walk:'Maglakad papunta sa {b}',ride:'Escalator {a} → {b}',arrive:'Nakarating sa {b}',min:'{n} min',m:'~{n} m',via:'{n} beses sa escalator',same:'Parehong palapag · lakad',hint:'I-tap ang mapa para pumunta roon',pick:'Maghanap ng pupuntahan o i-tap ang button sa itaas',chipWc:'CR',chipInfo:'Impormasyon',chipEsc:'Escalator',nearest:'Pinakamalapit na {p}',fac:{wc:'CR',awc:'CR para sa PWD',elev:'Elevator',info:'Information desk',esc:'Escalator',stroller:'Paupahan ng stroller',stairs:'Hagdan'},wcDesc:'Panlalaki at pambabae',awcDesc:'Pang-wheelchair',escHop:'Papunta sa {f}',up:'Pataas',down:'Pababa',speed:'Bilis',iStart:'Dumiretso papunta sa {s}, mga {m} m',iTurn:'Sa {s}, {d} at maglakad nang mga {m} m',iArrive:'Ang {b} ay nasa {d}',L:'kumaliwa',R:'kumanan',sL:'bahagyang kumaliwa',sR:'bahagyang kumanan',dL:'kaliwa mo',dR:'kanan mo',dF:'harap mo',stepsN:'mga {n} hakbang',rEscUp:'Sumakay sa paakyat na escalator papuntang {b}',rEscDown:'Sumakay sa pababang escalator papuntang {b}',rStUp:'Umakyat sa hagdan papuntang {b}',rStDown:'Bumaba sa hagdan papuntang {b}',viaE:'{n} beses sa escalator',viaS:'{n} beses sa hagdan',pass:'Madadaanan: {s}',arrived:'Nakarating ka na',note:'※ Iginuhit batay sa opisyal na floor guide ng Shilla Duty Free (Set/Nob 2026). Tantiya lang ang layo at oras; maaaring iba ang laki ng tindahan, pasilyo at escalator sa totoo.',none:'Walang resulta',cat:{b:'Kosmetiko/Pabango',f:'Fashion/Bag',w:'Relo/Alahas',e:'Sunglasses',d:'Pagkain/Alak/Sigarilyo',x:'Iba pa',z:'Lounge'}}
 };
 let L='ko';
 try{const s=localStorage.getItem('sdf_lang');if(s&&T[s])L=s;else{const n=(navigator.language||'').toLowerCase();L=/^zh-(tw|hk)/.test(n)?'tw':n.startsWith('zh')?'zh':n.startsWith('ja')?'ja':n.startsWith('vi')?'vi':n.startsWith('th')?'th':/^(fil|tl)/.test(n)?'fil':n.startsWith('ko')?'ko':'en'}}catch(e){}
-const t=k=>T[L][k],tf=(k,o)=>t(k).replace(/\{(\w)\}/g,(_,x)=>o[x]);
+function batchim(w){w=(w||'').trim();const c=w.charCodeAt(w.length-1);if(c>=0xAC00&&c<=0xD7A3)return (c-0xAC00)%28!==0;const ch=w.slice(-1).toLowerCase();if(/[0-9]/.test(ch))return '013678'.includes(ch);return 'bcdgklmnpt'.includes(ch)}
+const t=k=>T[L][k],tf=(k,o)=>t(k).replace(/\{(\w)\}(은\(는\))?/g,(_,x,j)=>o[x]+(j?(batchim(o[x])?'은':'는'):''));
 
 /* ===== parse ===== */
 const F={},ALL=[],Y=v=>v-37;
@@ -239,14 +242,27 @@ function path(f,A,B){const g=F[f].G,sa=snap(f,A),sb=snap(f,B),[si,sj]=cellOf(f,s
   const out=[cells[0]];let i=0;while(i<cells.length-1){let j=cells.length-1;while(j>i+1&&!los(f,cells[i],cells[j]))j--;out.push(cells[j]);i=j}
   return out}
 const plen=p=>p.reduce((a,q,i)=>i?a+dist(q,p[i-1]):0,0);
-function hops(a,b){const i=ORDER.indexOf(a),j=ORDER.indexOf(b),r=[];if(i<j)for(let k=i;k<j;k++)r.push([ORDER[k],ORDER[k+1]]);else for(let k=i;k>j;k--)r.push([ORDER[k],ORDER[k-1]]);return r}
-function plan(S,E){const r=plan0(S,E);r.from=S.floor;r.to=E.floor;return r}
-function plan0(S,E){const e=tgt(E);if(S.floor===E.floor)return{segs:[{floor:S.floor,pts:path(S.floor,[S.x,S.y],e)}],rides:[]};
-  const a=F[S.floor].liftPt,b=F[E.floor].liftPt;
-  return{segs:[{floor:S.floor,pts:path(S.floor,[S.x,S.y],a)},{floor:E.floor,pts:path(E.floor,b,e)}],rides:hops(S.floor,E.floor)}}
+// B1F–1F–2F are linked by escalators; 2F–2MF–3F by stairs
+const XPRAW={B1F:{esc:[531,113]},'1F':{esc:[437,276]},'2F':{esc:[391,231],st:[656,210]},'2MF':{st:[400,353]},'3F':{st:[622,316]}};
+for(const f of ORDER){F[f].xp={};for(const k in XPRAW[f])F[f].xp[k]=snap(f,XPRAW[f][k])}
+const ESCF=['B1F','1F','2F'];
+const hopType=(a,b)=>ESCF.includes(a)&&ESCF.includes(b)?'esc':'st';
+function chain(a,b){const i=ORDER.indexOf(a),j=ORDER.indexOf(b),r=[];if(i<=j)for(let k=i;k<=j;k++)r.push(ORDER[k]);else for(let k=i;k>=j;k--)r.push(ORDER[k]);return r}
+function plan(S,E){const ch=chain(S.floor,E.floor),legs=[];let cur=[S.x,S.y];
+  for(let k=0;k<ch.length-1;k++){const a=ch[k],b=ch[k+1],ty=hopType(a,b),ex=F[a].xp[ty];
+    if(dist(cur,ex)>2)legs.push({k:'walk',floor:a,pts:path(a,cur,ex),end:ty,next:b});
+    legs.push({k:'ride',type:ty,a,b});cur=F[b].xp[ty]}
+  legs.push({k:'walk',floor:E.floor,pts:path(E.floor,cur,tgt(E)),end:'dest'});
+  const r={legs,from:S.floor,to:E.floor};r.segs=legs.filter(l=>l.k==='walk');r.rides=legs.filter(l=>l.k==='ride');return r}
 function cost(S,E){const p=plan(S,E);return p.segs.reduce((a,s)=>a+plen(s.pts),0)+p.rides.length*150}
-function metrics(p){const m=p.segs.reduce((a,s)=>a+plen(s.pts),0)*MPU;const sec=m/1.1+p.rides.length*35;return{m:Math.max(5,Math.round(m/5)*5),min:Math.max(1,Math.round(sec/60))}}
-
+function metrics(p){const m=p.segs.reduce((a,s)=>a+plen(s.pts),0)*MPU;const sec=m/1.1+p.rides.reduce((a,r)=>a+(r.type==='st'?45:35),0);return{m:Math.max(5,Math.round(m/5)*5),min:Math.max(1,Math.round(sec/60))}}
+// turn-by-turn: keep vertices where the walker really turns
+function turns(pts){const K=[0];const n=pts.length-1;const ang=(a,b,c)=>{const u=[b[0]-a[0],b[1]-a[1]],v=[c[0]-b[0],c[1]-b[1]];return Math.atan2(u[0]*v[1]-u[1]*v[0],u[0]*v[0]+u[1]*v[1])*180/Math.PI};
+  for(let i=1;i<n;i++){const last=pts[K[K.length-1]];if(dist(last,pts[i])<20)continue;const th=ang(last,pts[i],pts[i+1]);if(Math.abs(th)>=40)K.push(i)}
+  while(K.length>1&&plen(pts.slice(K[K.length-1],n+1))<14&&K[K.length-1]!==0)K.pop();
+  K.push(n);return{K,ang}}
+function landmark2(f,p,ex){let b=null,bd=1e9;for(const s of F[f].stores){if(ex.includes(s))continue;const cx=Math.max(s.x1,Math.min(p[0],s.x2)),cy=Math.max(s.y1,Math.min(p[1],s.y2)),d=Math.hypot(cx-p[0],cy-p[1]);if(d<bd){bd=d;b=s}}return b}
+function landmark(f,p,excl){let b=null,bd=1e9;for(const s of F[f].stores){if(excl&&s===excl)continue;const cx=Math.max(s.x1,Math.min(p[0],s.x2)),cy=Math.max(s.y1,Math.min(p[1],s.y2)),d=Math.hypot(cx-p[0],cy-p[1]);if(d<bd){bd=d;b=s}}return b}
 /* ===== SVG helpers ===== */
 const NS='http://www.w3.org/2000/svg',$=id=>document.getElementById(id),svg=$('map');
 function el(n,a,p){const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e}
@@ -364,23 +380,23 @@ svg.addEventListener('click',ev=>{if(moved)return;const p=svg.createSVGPoint();p
   const s=whereIs(viewFloor,q.x,q.y);walkTo({floor:viewFloor,x:q.x,y:q.y,pt:1,label:s?sn(s):''})});
 
 /* ===== route drawing ===== */
+let curSeg=null,STEPS=null;
 function drawRoute(livePts){const g=$('routeG');g.innerHTML='';$('pinG').innerHTML='';
   if(PLAN){for(const s of PLAN.segs){if(s.floor!==viewFloor)continue;const pts=(livePts&&s===curSeg)?livePts:s.pts;if(pts.length<2)continue;
       const d='M'+pts.map(p=>p.map(v=>v.toFixed(1)).join(' ')).join(' L');
-      el('path',{d,fill:'none',stroke:'#1a73e8','stroke-width':4.2,'stroke-linecap':'round','stroke-linejoin':'round','stroke-dasharray':'0 7.5'},g);
-      el('path',{d,fill:'none',stroke:'#fff','stroke-width':1.4,'stroke-linecap':'round','stroke-dasharray':'0 7.5','stroke-opacity':.0},g)}
-    // escalator transfer bubbles
-    if(PLAN.rides.length){for(const s of PLAN.segs){if(s.floor!==viewFloor)continue;const isFirst=s===PLAN.segs[0];const n=F[s.floor].liftPt;
-      const other=isFirst?PLAN.segs[1].floor:PLAN.segs[0].floor;const txt=(isFirst?'↗ ':'↙ ')+other;
-      const bg=el('g',{transform:`translate(${n[0]} ${n[1]-14})`},g);el('rect',{x:-15,y:-6.5,width:30,height:13,rx:6.5,fill:'#fff',stroke:'#1a73e8','stroke-width':.8},bg);
-      poiIcon(bg,'esc',-8.5,0,4.2);const tx=el('text',{x:3.5,y:.3,'font-size':5.8,'font-weight':700,fill:'#1a73e8','text-anchor':'middle','dominant-baseline':'middle'},bg);tx.textContent=txt.replace(/^. /,'');}}}
-  // highlight destination
+      el('path',{d,fill:'none',stroke:'#1a73e8','stroke-width':4.2,'stroke-linecap':'round','stroke-linejoin':'round','stroke-dasharray':'0 7.5'},g)}
+    // numbered turn markers that match the step list
+    if(STEPS)for(const it of STEPS){if(it.num==null||!it.at||it.floor!==viewFloor)continue;const m=el('g',{transform:`translate(${it.at[0]} ${it.at[1]})`},g);
+      el('circle',{r:4.6,fill:'#fff',stroke:'#1a73e8','stroke-width':1.2},m);const tx=el('text',{y:.3,'font-size':5.4,'font-weight':700,fill:'#1a73e8','text-anchor':'middle','dominant-baseline':'middle'},m);tx.textContent=it.num}
+    // transfer bubbles (escalator / stairs)
+    for(const s of PLAN.segs){if(s.floor!==viewFloor||s.end==='dest')continue;const n=s.pts[s.pts.length-1],up=ORDER.indexOf(s.next)>ORDER.indexOf(s.floor);
+      const bg=el('g',{transform:`translate(${n[0]} ${n[1]-14})`},g);el('rect',{x:-17,y:-6.5,width:34,height:13,rx:6.5,fill:'#fff',stroke:'#1a73e8','stroke-width':.8},bg);
+      poiIcon(bg,s.end==='esc'?'esc':'stairs',-10.5,0,4.2);const tx=el('text',{x:3.5,y:.3,'font-size':5.6,'font-weight':700,fill:'#1a73e8','text-anchor':'middle','dominant-baseline':'middle'},bg);tx.textContent=(up?'▲':'▼')+s.next}}
   for(const f of ORDER)for(const r of Object.values(F[f].storeEls)){r.setAttribute('stroke','#c9ced6');r.setAttribute('stroke-width',.6)}
   if(DEST&&DEST.floor===viewFloor){const z=DEST.zone||DEST;if(z.x1!==undefined){const r=F[z.floor].storeEls[z.raw+z.x1];if(r){r.setAttribute('stroke','#ea4335');r.setAttribute('stroke-width',1.6)}}
     const p=el('g',{transform:`translate(${DEST.x} ${DEST.y})`},$('pinG'));
     el('path',{d:'M0 0 C-1.5 -5 -7 -8 -7 -13.5 a7 7 0 0 1 14 0 C7 -8 1.5 -5 0 0z',fill:'#ea4335',stroke:'#b31412','stroke-width':.6},p);el('circle',{cx:0,cy:-13.5,r:2.6,fill:'#b31412'},p);
     el('ellipse',{cx:0,cy:.3,rx:2.6,ry:1,fill:'#0004'},p)}}
-let curSeg=null;
 
 /* ===== movement ===== */
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
@@ -388,10 +404,10 @@ function walk(seg,my,onProg){return new Promise(res=>{const pts=seg.pts;let i=1,
   function st(ts){if(my!==job){C.walk=0;return res(false)}if(last===null)last=ts;const dt=Math.min(.05,(ts-last)/1000);last=ts;let mv=(navigating?30*SPD:50)*dt;
     while(mv>0&&i<pts.length){const [tx,ty]=pts[i],dx=tx-C.x,dy=ty-C.y,dd=Math.hypot(dx,dy);if(Math.abs(dx)>.3)C.face=dx<0?-1:1;
       if(dd<=mv){C.x=tx;C.y=ty;mv-=dd;i++}else{C.x+=dx/dd*mv;C.y+=dy/dd*mv;mv=0}}
-    drawRoute([[C.x,C.y],...pts.slice(i)]);if(onProg)onProg(plen([[C.x,C.y],...pts.slice(i)]));
+    drawRoute([[C.x,C.y],...pts.slice(i)]);if(onProg)onProg(i);
     if(i>=pts.length){C.walk=0;curSeg=null;return res(true)}requestAnimationFrame(st)}
   requestAnimationFrame(st)})}
-async function ride(a,b,my){const up=ORDER.indexOf(b)>ORDER.indexOf(a),es=$('escSvg');es.innerHTML='';
+async function ride(a,b,my,ty){if(ty==='st')return climb(a,b,my);const up=ORDER.indexOf(b)>ORDER.indexOf(a),es=$('escSvg');es.innerHTML='';
   $('trBig').innerHTML=`<span class="dir ${up?'up':'down'}">${up?'▲ '+t('up'):'▼ '+t('down')}</span> ${a} → ${b}`;$('trSm').textContent=t('fac').esc+' · '+tf('escHop',{f:b});
   const P0=[62,168],P1=[238,58],lo=up?a:b,hi=up?b:a;
   // floors
@@ -416,41 +432,82 @@ async function ride(a,b,my){const up=ORDER.indexOf(b)>ORDER.indexOf(a),es=$('esc
       const am=off([(P0[0]+P1[0])/2,(P0[1]+P1[1])/2],44);arrow.setAttribute('x',am[0]);arrow.setAttribute('y',am[1]+((ts/300)%1)*(up?-6:6));
       if(k<1&&my===job)requestAnimationFrame(fr);else res()}requestAnimationFrame(fr)});
   if(my!==job){$('transfer').style.display='none';C.op=1;return false}
-  await sleep(250);const n=F[b].liftPt;C.floor=b;C.x=n[0];C.y=n[1];setView(b,true);cam=null;
+  await sleep(250);const n=F[b].xp.esc;C.floor=b;C.x=n[0];C.y=n[1];setView(b,true);cam=null;
+  $('transfer').style.display='none';C.scale=1;C.op=1;return my===job}
+
+async function climb(a,b,my){const up=ORDER.indexOf(b)>ORDER.indexOf(a),es=$('escSvg');es.innerHTML='';
+  $('trBig').innerHTML=`<span class="dir ${up?'up':'down'}">${up?'▲ '+t('up'):'▼ '+t('down')}</span> ${a} → ${b}`;$('trSm').textContent=t('fac').stairs+' · '+tf('escHop',{f:b});
+  const P0=[56,170],P1=[244,60],N=9,lo=up?a:b,hi=up?b:a,w=(P1[0]-P0[0])/N,h=(P0[1]-P1[1])/N;
+  el('rect',{x:6,y:170,width:52,height:9,rx:2,fill:'#dadce0'},es);el('rect',{x:242,y:51,width:52,height:9,rx:2,fill:'#dadce0'},es);
+  const tl=el('text',{x:32,y:194,'font-size':13,'font-weight':700,'text-anchor':'middle',fill:'#5f6368'},es);tl.textContent=lo;
+  const th=el('text',{x:268,y:44,'font-size':13,'font-weight':700,'text-anchor':'middle',fill:'#5f6368'},es);th.textContent=hi;
+  let d=`M${P0[0]} ${P0[1]+10} L${P0[0]} ${P0[1]}`;for(let k=0;k<N;k++){d+=` h${w} v${-h}`}d+=` L${P1[0]} ${P0[1]+10} Z`;
+  el('path',{d,fill:'#bdc1c6',stroke:'#9aa0a6','stroke-width':1},es);
+  let tr=`M${P0[0]} ${P0[1]-24}`;for(let k=0;k<=N;k++)tr+=` L${P0[0]+k*w} ${P0[1]-k*h-24}`;el('path',{d:tr,fill:'none',stroke:'#5f6368','stroke-width':2.4,'stroke-linecap':'round'},es);
+  for(let k=0;k<=N;k+=3)el('line',{x1:P0[0]+k*w,y1:P0[1]-k*h-24,x2:P0[0]+k*w,y2:P0[1]-k*h,stroke:'#9aa0a6','stroke-width':1.2},es);
+  const arrow=el('text',{'font-size':16,'font-weight':700,fill:up?'#1a73e8':'#e8710a','text-anchor':'middle',x:120,y:70},es);arrow.textContent=up?'▲':'▼';
+  const kid=body.cloneNode(true);const kg=el('g',{},es);kg.appendChild(kid);kid.setAttribute('transform',`scale(${up?1:-1} 1)`);
+  $('transfer').style.display='flex';for(let k=0;k<=8;k++){C.op=1-k*.12;await sleep(25)}
+  const dur=3400/SPD;let t0=null;await new Promise(res=>{function fr(ts){if(t0===null)t0=ts;const k=Math.min(1,(ts-t0)/dur);
+      const u=up?k:1-k,stepF=u*N,si=Math.min(N-1,Math.floor(stepF)),fr2=stepF-si;
+      const px=P0[0]+Math.min(stepF,N-0.5)*w+w*0.25,py=P0[1]-si*h-Math.sin(fr2*Math.PI)*h*0.9-(fr2>0.5?0:0);
+      kg.setAttribute('transform',`translate(${px.toFixed(1)} ${py.toFixed(1)}) scale(2.2)`);arrow.setAttribute('y',70+((ts/300)%1)*(up?-6:6));
+      if(k<1&&my===job)requestAnimationFrame(fr);else res()}requestAnimationFrame(fr)});
+  if(my!==job){$('transfer').style.display='none';C.op=1;return false}
+  await sleep(250);const n=F[b].xp.st;C.floor=b;C.x=n[0];C.y=n[1];setView(b,true);cam=null;
   $('transfer').style.display='none';C.scale=1;C.op=1;return my===job}
 async function walkTo(T){const my=++job;setView(C.floor,true);mode='follow';const p=plan(C,T);
-  for(const s of p.segs){if(s.floor!==C.floor)break;if(!(await walk(s,my)))return;}
-  if(p.rides.length){for(const [a,b] of p.rides)if(!(await ride(a,b,my)))return;await walk(p.segs[1],my)}
+  for(const l of p.legs){if(l.k==='walk'){if(!(await walk(l,my)))return}else if(!(await ride(l.a,l.b,my,l.type)))return}
   if(my!==job)return;origin=null;afterMove()}
 function afterMove(){C.face=1;refreshFrom();if(DEST&&!navigating){PLAN=plan(C,DEST);renderSheet();if(PLAN)drawRoute()}}
 
-/* ===== navigation ===== */
-function stepList(p){const S=[];const st=origin||{me:1};
-  const a0=whereIs(C.floor,C.x,C.y);
-  if(p.rides.length){S.push({ic:'walk',tx:tf('walk',{b:t('fac').esc}),sub:plen(p.segs[0].pts)*MPU<5?'':tf('m',{n:Math.round(plen(p.segs[0].pts)*MPU)}),seg:0});
-    p.rides.forEach(([a,b])=>S.push({ic:'esc',tx:tf('ride',{a,b}),sub:''}));
-    S.push({ic:'walk',tx:tf('walk',{b:nm(DEST)}),sub:tf('m',{n:Math.round(plen(p.segs[1].pts)*MPU)}),seg:1})}
-  else S.push({ic:'walk',tx:tf('walk',{b:nm(DEST)}),sub:tf('m',{n:Math.round(plen(p.segs[0].pts)*MPU)}),seg:0});
-  S.push({ic:'pin',tx:tf('arrive',{b:nm(DEST)}),sub:desc(DEST)});return S}
-const SI={walk:'<svg viewBox="0 0 24 24" fill="#5f6368"><circle cx="13.5" cy="4.5" r="2"/><path d="M9.8 8.9 7 23h2.1l1.8-8 2.1 2v6h2v-7.5l-2.1-2 .6-3A7.3 7.3 0 0 0 19 13v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L6 8.3V13h2V9.6z"/></svg>',
- esc:chipSvg('esc'),pin:'<svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7z" fill="#ea4335"/><circle cx="12" cy="9" r="2.6" fill="#b31412"/></svg>'};
+/* ===== navigation: detailed, landmark-based steps ===== */
+const ARW={start:'⬆',L:'⬅',R:'➡',sL:'↖',sR:'↗'};
+function sideOf(f,from,at,target){const u=[at[0]-from[0],at[1]-from[1]],v=[target[0]-at[0],target[1]-at[1]];if(Math.hypot(...v)<3)return'dF';
+  const a=Math.atan2(u[0]*v[1]-u[1]*v[0],u[0]*v[0]+u[1]*v[1])*180/Math.PI;return Math.abs(a)<35?'dF':a>0?'dR':'dL'}
+const ln=s=>sn(s).split('·')[0].trim();
+function passBy(f,seg,ex){if(plen(seg)<110)return'';const out=[];let acc=0;for(let i=1;i<seg.length;i++){const a=seg[i-1],b=seg[i],L=dist(a,b);for(let d=(acc>0?0:30);d<L;d+=30){const p=[a[0]+(b[0]-a[0])*d/L,a[1]+(b[1]-a[1])*d/L];const s=landmark2(f,p,ex);if(s&&!out.includes(s))out.push(s)}acc+=L}
+  const pick=out.slice(0,-1).filter((_,i,arr)=>arr.length<=3||i%Math.ceil(arr.length/3)===0).slice(0,3);return pick.length?tf('pass',{s:pick.map(ln).join(' → ')}):''}
+function mtxt(L){const m=Math.max(1,Math.round(L*MPU));return{m,sub:tf('m',{n:m})+' · '+tf('stepsN',{n:Math.max(1,Math.round(m/0.65))})}}
+function stepList(p){const S=[];let num=1;
+  p.legs.forEach((l,li)=>{
+    if(l.k==='ride'){const up=ORDER.indexOf(l.b)>ORDER.indexOf(l.a);S.push({ic:l.type==='esc'?'esc':'stairs',tx:tf(l.type==='esc'?(up?'rEscUp':'rEscDown'):(up?'rStUp':'rStDown'),{b:l.b}),sub:l.a+' → '+l.b,leg:li,num:num++});return}
+    const pts=l.pts,{K,ang}=turns(pts),destStore=l.end==='dest'?(DEST.zone||DEST):null;
+    for(let j=0;j<K.length-1;j++){const seg=pts.slice(K[j],K[j+1]+1),mm=mtxt(plen(seg));
+      if(j===0){const endP=pts[K[1]],startS=landmark(l.floor,pts[0]);let lmS=(K.length===2&&l.end==='dest')?null:landmark(l.floor,endP,destStore);if(lmS&&lmS===startS)lmS=landmark2(l.floor,endP,[destStore,startS]);
+        const s=lmS?ln(lmS):(l.end==='dest'?nm(DEST):t('fac')[l.end==='esc'?'esc':'stairs']);const pb=passBy(l.floor,seg,[destStore,startS,lmS]);
+        S.push({ic:'start',tx:tf('iStart',{s,m:mm.m}),sub:l.floor+' · '+mm.sub+(pb?'\n'+pb:''),leg:li,v0:K[0],v1:K[j+1],floor:l.floor,num:num++})}
+      else{const th=ang(pts[K[j-1]],pts[K[j]],pts[K[j+1]]),dk=Math.abs(th)<45?(th>0?'sR':'sL'):(th>0?'R':'L');const lm=landmark2(l.floor,pts[K[j]],[destStore]);
+        const pb=passBy(l.floor,seg,[destStore,lm]);S.push({ic:dk,tx:tf('iTurn',{s:lm?ln(lm):t('corr').replace('{f}',l.floor),d:t(dk),m:mm.m}),sub:mm.sub+(pb?'\n'+pb:''),leg:li,v0:K[j],v1:K[j+1],floor:l.floor,at:pts[K[j]],num:num++})}}
+    const last=pts[pts.length-1],prev=pts[Math.max(0,K[K.length-2])];
+    if(l.end==='dest'){const sd=sideOf(l.floor,prev,last,[DEST.x,DEST.y]);S.push({ic:'pin',tx:tf('iArrive',{b:nm(DEST),d:t(sd)}),sub:desc(DEST),leg:li,arrive:1,num:num++})}
+    else{const xpo=F[l.floor].pois.find(o=>o.poi===(l.end==='esc'?'esc':'stairs'))||{x:last[0],y:last[1]};let best=xpo,bd=1e9;for(const o of F[l.floor].pois)if(o.poi===(l.end==='esc'?'esc':'stairs')){const dd=dist([o.x,o.y],last);if(dd<bd){bd=dd;best=o}}
+      const sd=sideOf(l.floor,prev,last,[best.x,best.y]);const lm=landmark(l.floor,last);S.push({ic:l.end==='esc'?'esc':'stairs',tx:tf('iArrive',{b:t('fac')[l.end==='esc'?'esc':'stairs'],d:t(sd)}),sub:lm?tf('near',{s:ln(lm)}):'',leg:li,side:1,num:num++})}});
+  return S}
+const SI={pin:'<svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7z" fill="#ea4335"/><circle cx="12" cy="9" r="2.6" fill="#b31412"/></svg>',esc:chipSvg('esc'),stairs:chipSvg('stairs')};
+function icHTML(ic){return SI[ic]||`<span class="arr">${ARW[ic]||'⬆'}</span>`}
 function setGo(on){const g=$('goTop');g.disabled=!on;g.textContent=navigating?t('stop'):t('start');g.classList.toggle('stop',navigating)}
 function renderSheet(active){const box=$('sumBox'),stp=$('steps');setGo(!!DEST);
-  if(!DEST){box.innerHTML=`<div class="empty">${t('pick')}</div>`;stp.innerHTML='';return}
-  if(!navigating&&C.floor===DEST.floor&&dist([C.x,C.y],tgt(DEST))<6){PLAN=null;drawRoute();box.innerHTML=`<div class="sum"><div class="tm">📍 ${t('arrived')}</div></div><div class="via" style="color:#5f6368;font-size:13px;margin-top:4px">${nm(DEST)} · ${desc(DEST)}</div>`;stp.innerHTML='';setGo(false);return}
-  if(!PLAN)PLAN=plan(C,DEST);const m=metrics(PLAN);
-  box.innerHTML=`<div class="sum"><div style="flex:1"><div class="tm">${tf('min',{n:m.min})}<small>(${tf('m',{n:m.m})})</small></div><div class="via">${PLAN.rides.length?PLAN.from+' → '+PLAN.to+' · '+tf('via',{n:PLAN.rides.length}):t('same')}</div></div></div>
-`;
-  const S=stepList(PLAN);stp.innerHTML='';S.forEach((s,i)=>{const d=document.createElement('div');d.className='st'+(i===active?' cur':'');
-    d.innerHTML=`<div class="si">${SI[s.ic]}</div><div class="sx"></div>`;d.lastChild.textContent=s.tx;if(s.sub){const sm=document.createElement('small');sm.textContent=s.sub;d.lastChild.appendChild(sm)}stp.appendChild(d)})}
+  if(!DEST){box.innerHTML=`<div class="empty">${t('pick')}</div>`;stp.innerHTML='';STEPS=null;return}
+  if(!navigating&&C.floor===DEST.floor&&dist([C.x,C.y],tgt(DEST))<6){PLAN=null;STEPS=null;drawRoute();box.innerHTML=`<div class="sum"><div class="tm">📍 ${t('arrived')}</div></div><div class="via" style="color:#5f6368;font-size:13px;margin-top:4px">${nm(DEST)} · ${desc(DEST)}</div>`;stp.innerHTML='';setGo(false);return}
+  if(!PLAN)PLAN=plan(C,DEST);const m=metrics(PLAN),ne=PLAN.rides.filter(r=>r.type==='esc').length,ns=PLAN.rides.length-ne;
+  const via=PLAN.rides.length?PLAN.from+' → '+PLAN.to+' · '+[ne?tf('viaE',{n:ne}):'',ns?tf('viaS',{n:ns}):''].filter(Boolean).join(' · '):t('same');
+  box.innerHTML=`<div class="sum"><div style="flex:1"><div class="tm">${tf('min',{n:m.min})}<small>(${tf('m',{n:m.m})})</small></div><div class="via">${via}</div></div></div>`;
+  STEPS=stepList(PLAN);stp.innerHTML='';STEPS.forEach((s,i)=>{const d=document.createElement('div');d.className='st'+(i===active?' cur':'');
+    d.innerHTML=`<div class="no">${s.num}</div><div class="si">${icHTML(s.ic)}</div><div class="sx"></div>`;d.lastChild.textContent=s.tx;if(s.sub){const sm=document.createElement('small');sm.textContent=s.sub;d.lastChild.appendChild(sm)}stp.appendChild(d)});
+  if(active!=null){const c=stp.children[active];if(c&&navigating)c.scrollIntoView({block:'nearest',behavior:'smooth'})}
+  drawRoute()}
 function navShow(ic,txt,sub){spdLabel();$('navbar').style.display='flex';$('top').classList.add('nav');$('navI').textContent=ic;$('navT').textContent=txt;$('navS').textContent=sub||''}
-async function startNav(){if(!DEST)return;const my=++job;navigating=true;mode='follow';setView(C.floor,true);PLAN=plan(C,DEST);const p=PLAN,S=stepList(p);renderSheet(0);
-  let si=0;const nav=(i,rem)=>{const s=S[i];navShow(s.ic==='esc'?'⇅':s.ic==='pin'?'📍':'↑',s.tx,rem!=null?tf('m',{n:Math.round(rem*MPU)}):s.sub)};
-  nav(0);if(!(await walk(p.segs[0],my,r=>nav(0,r))))return;si=1;
-  for(const [a,b] of p.rides){renderSheet(si);nav(si);if(!(await ride(a,b,my)))return;si++}
-  if(p.rides.length){renderSheet(si);nav(si);if(!(await walk(p.segs[1],my,r=>nav(si,r))))return;si++}
-  renderSheet(si);navShow('🏁',t('arrived'),nm(DEST));C.face=1;refreshFrom();celebrate();
-  await sleep(2600);if(my!==job)return;navigating=false;$('navbar').style.display='none';$('top').classList.remove('nav');PLAN=plan(C,DEST);renderSheet();if(PLAN)drawRoute()}
+const NI=s=>s.ic==='esc'||s.ic==='stairs'?'⇅':s.ic==='pin'?'📍':ARW[s.ic]||'⬆';
+async function startNav(){if(!DEST)return;const my=++job;navigating=true;mode='follow';setView(C.floor,true);PLAN=plan(C,DEST);const p=PLAN;renderSheet(0);const S=STEPS;
+  const show=i=>{renderSheet(i);navShow(NI(S[i]),S[i].tx,S[i].sub)};
+  for(let li=0;li<p.legs.length;li++){const l=p.legs[li];
+    if(l.k==='walk'){const mine=S.map((s,i)=>[s,i]).filter(([s])=>s.leg===li&&s.v0!=null);let cur=-1;
+      const prog=vi=>{let k=mine.findIndex(([s])=>vi<=s.v1);if(k<0)k=mine.length-1;if(mine[k]&&mine[k][1]!==cur){cur=mine[k][1];show(cur)}};prog(1);
+      if(!(await walk(l,my,prog)))return;
+      const sideI=S.findIndex(s=>s.leg===li&&(s.side||s.arrive));if(sideI>=0){show(sideI);if(S[sideI].side){await sleep(1300/SPD);if(my!==job)return}}}
+    else{const ri=S.findIndex(s=>s.leg===li);show(ri);await sleep(700/SPD);if(my!==job)return;if(!(await ride(l.a,l.b,my,l.type)))return}}
+  C.face=1;refreshFrom();celebrate();await sleep(2600);if(my!==job)return;navigating=false;$('navbar').style.display='none';$('top').classList.remove('nav');PLAN=plan(C,DEST);renderSheet()}
 function stopNav(){job++;navigating=false;C.walk=0;$('navbar').style.display='none';$('top').classList.remove('nav');$('transfer').style.display='none';C.scale=1;C.op=1;afterMove()}
 function celebrate(){const g=el('g',{},$('pinG'));const cs=['#ea4335','#fbbc04','#34a853','#1a73e8'];
   for(let k=0;k<20;k++){const a=Math.random()*Math.PI*2,r=8+Math.random()*16;const c=el('circle',{cx:C.x,cy:C.y-14,r:1.3,fill:cs[k%4]},g);
