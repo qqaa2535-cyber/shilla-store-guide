@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>신라면세점 서울점 매장 안내</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Sans+Thai:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#1a73e8;--blue2:#1967d2;--red:#ea4335;--g1:#202124;--g2:#5f6368;--g3:#dadce0;--g4:#f1f3f4;--green:#188038}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{font-family:Roboto,"Noto Sans KR","Noto Sans Thai","PingFang SC","Hiragino Sans","Microsoft JhengHei",sans-serif;color:var(--g1);background:#fff;-webkit-tap-highlight-color:transparent}
+.app{display:flex;flex-direction:column;height:100dvh;max-width:820px;margin:0 auto;position:relative;overflow:hidden}
+/* top directions card */
+.top{position:relative;z-index:20;background:#fff;box-shadow:0 1px 4px #0003;padding:10px 10px 8px}
+.brandbar{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:15px;font-weight:700;letter-spacing:-.01em;padding:0 2px 9px 4px;color:#202124}
+.langw{display:flex;align-items:center;gap:4px;border:1px solid var(--g3);border-radius:999px;padding:3px 4px 3px 10px;font-size:14px;flex:0 0 auto;cursor:pointer}
+.langw .lang{border:0;padding:3px 2px;margin:0;font-weight:500;color:var(--blue);background:transparent;outline:none}
+.dir{display:flex;align-items:stretch;gap:8px}
+.pts{width:22px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:15px 0}
+.pts .o{width:12px;height:12px;border-radius:50%;border:3px solid var(--blue);background:#fff}
+.pts .dots{flex:1;width:2px;margin:4px 0;background:repeating-linear-gradient(var(--g2) 0 2px,transparent 2px 6px)}
+.pts .d{width:12px;height:16px;position:relative}
+.pts .d:before{content:"";position:absolute;left:0;top:0;width:12px;height:12px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--red)}
+.ins{flex:1;display:grid;gap:6px;min-width:0}
+.inp{position:relative}
+.inp input{width:100%;font:inherit;font-size:15px;padding:10px 12px;border:1px solid var(--g3);border-radius:8px;background:var(--g4);outline:none;color:var(--g1)}
+.inp input:focus{background:#fff;border-color:var(--blue);box-shadow:0 0 0 1px var(--blue)}
+.side{display:flex;flex-direction:column;justify-content:space-between;align-items:center;gap:6px;width:64px}
+.swap{width:40px;height:36px;border:0;background:none;font-size:20px;color:var(--g2);cursor:pointer}
+.gobtn{width:64px;height:42px;border:0;border-radius:21px;background:var(--blue);color:#fff;font:inherit;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 1px 3px #0003;padding:0 4px;line-height:1.1}
+.gobtn:disabled{background:#dadce0;color:#80868b;box-shadow:none;cursor:default}
+.gobtn.stop{background:#d93025}
+.list{position:absolute;left:0;right:0;top:100%;margin-top:4px;background:#fff;border-radius:8px;max-height:46vh;overflow:auto;z-index:30;box-shadow:0 4px 16px #0003;display:none}
+.list div{padding:11px 12px;border-bottom:1px solid var(--g4);font-size:14px;display:flex;align-items:center;gap:10px;cursor:pointer}
+.list div:hover{background:var(--g4)}
+.list .ic{width:28px;height:28px;border-radius:50%;background:var(--g4);display:flex;align-items:center;justify-content:center;flex:0 0 auto;font-size:13px}
+.list .tx{flex:1;min-width:0}
+.list .tx b{display:block;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.list .tx span{font-size:12px;color:var(--g2)}
+.chips{display:flex;gap:6px;margin-top:8px;overflow-x:auto;padding-bottom:2px;align-items:center}
+.chip{flex:0 0 auto;font:inherit;font-size:13px;padding:6px 12px;border-radius:999px;border:1px solid var(--g3);background:#fff;color:var(--g1);display:flex;align-items:center;gap:6px;cursor:pointer}
+.chip svg{width:16px;height:16px}
+.chip:active{background:var(--g4)}
+.lang{margin-left:auto;font:inherit;font-size:13px;padding:6px 8px;border:1px solid var(--g3);border-radius:999px;background:#fff}
+/* map stage */
+.stage{flex:1;position:relative;background:#fff;overflow:hidden;min-height:200px}
+#map{width:100%;height:100%;display:block;touch-action:none;cursor:grab}
+.navbar{position:absolute;left:10px;right:10px;top:10px;background:var(--green);color:#fff;border-radius:12px;padding:12px 14px;display:none;align-items:center;gap:12px;z-index:10;box-shadow:0 2px 8px #0004}
+.navbar .ni{font-size:26px;width:34px;text-align:center}
+.navbar .nt{font-size:17px;font-weight:500;line-height:1.3}
+.navbar .ns{font-size:13px;opacity:.85}
+.floors{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:#fff;border-radius:8px;box-shadow:0 1px 4px #0004;display:flex;flex-direction:column;overflow:hidden;z-index:8}
+.floors button{width:44px;height:38px;border:0;border-bottom:1px solid var(--g4);background:#fff;font:inherit;font-size:13px;font-weight:500;color:var(--g2);position:relative;cursor:pointer}
+.floors button:last-child{border-bottom:0}
+.floors button.on{background:#e8f0fe;color:var(--blue)}
+.floors button i{position:absolute;right:4px;top:4px;width:6px;height:6px;border-radius:50%}
+.fab{position:absolute;right:10px;bottom:12px;display:flex;flex-direction:column;gap:8px;z-index:8}
+.fab button{width:44px;height:44px;border-radius:50%;border:0;background:#fff;box-shadow:0 1px 4px #0004;font-size:18px;color:var(--g2);cursor:pointer;display:flex;align-items:center;justify-content:center}
+.fab button.on{color:var(--blue)}
+.zoom{position:absolute;left:10px;bottom:12px;display:flex;flex-direction:column;background:#fff;border-radius:8px;box-shadow:0 1px 4px #0004;z-index:8;overflow:hidden}
+.zoom button{width:40px;height:40px;border:0;background:#fff;font-size:20px;color:var(--g2);cursor:pointer}
+.zoom button+button{border-top:1px solid var(--g4)}
+.toast{position:absolute;left:50%;top:10px;transform:translateX(-50%);background:#323232;color:#fff;padding:8px 14px;border-radius:6px;font-size:13px;white-space:nowrap;z-index:9;transition:opacity .5s}
+.transfer{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:#ffffffd9;z-index:12;flex-direction:column;gap:10px}
+.transfer .big{font-size:30px;font-weight:700;color:var(--g1);display:flex;align-items:center;gap:14px}
+.transfer .big span{background:var(--blue);color:#fff;border-radius:10px;padding:6px 14px}
+.transfer .sm{font-size:14px;color:var(--g2)}
+/* bottom sheet */
+.sheet{background:#fff;border-radius:14px 14px 0 0;box-shadow:0 -2px 10px #0002;z-index:15;max-height:44vh;overflow:auto;padding:6px 16px 16px;margin-top:-12px;position:relative}
+.grab{width:36px;height:4px;border-radius:2px;background:var(--g3);margin:4px auto 10px}
+.sum{display:flex;align-items:center;gap:12px}
+.sum .tm{font-size:22px;font-weight:500}
+.sum .tm small{font-size:15px;color:var(--g2);font-weight:400;margin-left:6px}
+.sum .via{font-size:13px;color:var(--g2);margin-top:2px}
+.btns{display:flex;gap:8px;margin-top:12px}
+.btns button{font:inherit;font-size:14px;font-weight:500;padding:9px 18px;border-radius:999px;border:1px solid var(--g3);background:#fff;color:var(--blue);cursor:pointer;display:flex;align-items:center;gap:6px}
+.btns button.pri{background:var(--blue);color:#fff;border-color:var(--blue)}
+.btns button:disabled{opacity:.45}
+.steps{margin-top:12px;border-top:1px solid var(--g4)}
+.st{display:flex;gap:14px;padding:11px 0;border-bottom:1px solid var(--g4);align-items:flex-start}
+.st .si{width:28px;height:28px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;color:var(--g2)}
+.st .si svg{width:24px;height:24px}
+.st .sx{font-size:14px;line-height:1.45}
+.st .sx small{display:block;color:var(--g2);font-size:12px}
+.st.cur .sx{color:var(--blue);font-weight:500}
+.empty{color:var(--g2);font-size:14px;padding:4px 0 2px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:11px;color:var(--g2);margin-top:12px}
+.legend b{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:-1px;border:1px solid #0001}
+.note{font-size:11px;color:#80868b;line-height:1.5;margin-top:8px}
+</style>
+</head>
+<body>
+<div class="app">
+ <div class="top">
+  <div class="brandbar"><span id="brandbar"></span><label class="langw">🌐<select class="lang" id="lang"><option value="ko">한국어</option><option value="zh">简体中文</option><option value="tw">繁體中文</option><option value="en">English</option><option value="ja">日本語</option><option value="vi">Tiếng Việt</option><option value="th">ภาษาไทย</option><option value="fil">Filipino</option></select></label></div>
+  <div class="dir">
+   <div class="pts"><span class="o"></span><span class="dots"></span><span class="d"></span></div>
+   <div class="ins">
+     <div class="inp"><input id="inFrom" autocomplete="off"><div class="list" id="lsFrom"></div></div>
+     <div class="inp"><input id="inTo" autocomplete="off"><div class="list" id="lsTo"></div></div>
+   </div>
+   <div class="side"><button class="swap" id="swap" aria-label="swap">⇅</button><button class="gobtn" id="goTop" disabled></button></div>
+  </div>
+  <div class="chips" id="chips"></div>
+ </div>
+ <div class="stage" id="stage">
+  <svg id="map" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 526">
+   <g id="floorsG"></g><g id="routeG"></g><g id="poiG"></g><g id="pinG"></g><g id="charG"></g>
+  </svg>
+  <div class="navbar" id="navbar"><div class="ni" id="navI">↑</div><div><div class="nt" id="navT"></div><div class="ns" id="navS"></div></div></div>
+  <div class="floors" id="floorSw"></div>
+  <div class="zoom"><button id="zin">+</button><button id="zout">−</button></div>
+  <div class="fab"><button id="recenter" title="My location">◎</button></div>
+  <div class="toast" id="toast"></div>
+  <div class="transfer" id="transfer"><div class="big" id="trBig"></div><div class="sm" id="trSm"></div></div>
+ </div>
+ <div class="sheet" id="sheet">
+  <div class="grab"></div>
+  <div id="sumBox"></div>
+  <div class="steps" id="steps"></div>
+  <div class="legend" id="legend"></div>
+  <div class="note" id="note"></div>
+ </div>
+</div>
+<script>
+const RAW={
+B1F:{vb:[120,80,560,360],bg:[128,127,655,472],lift:'esc',
+ nodes:{t1:[242,138],t2:[330,135],t3:[420,135],t4:[500,135],esc:[530,122],t5:[570,148],r1:[572,263],r2:[565,388],b1:[480,391],b2:[380,391],b3:[300,391],b4:[246,383],l1:[240,263]},
+ edges:'t1-t2 t2-t3 t3-t4 t4-esc t4-t5 esc-t5 t5-r1 r1-r2 r2-b1 b1-b2 b2-b3 b3-b4 b4-l1 l1-t1',
+ esc:[[512,128,550,146]],fac:[['esc',521,137],['esc',540,137],['wc',139,296],['wc',660,247],['stairs',662,372,'B2F']],
+ stores:`CAFE LA|128|127|188|305|x|카페라;PRESTIGE LOUNGE|128|305|188|425|z|프레스티지 라운지;正官庄|188|127|236|212|d|정관장;HEALTH CARE|248|127|312|165|d|건강기능식품;DUALSONIC|312|127|362|165|x|듀얼소닉;AHC|362|127|390|165|b;COSMETICS·& PERFUMES|390|127|465|165|b|화장품·향수;HYPE·STREET|465|127|515|165|b|하이프스트리트;SUNGLASSES|583|127|655|180|e|선글라스;GENTLE MONSTER|583|185|655|240|e|젠틀몬스터;CARIN EYE|583|253|655|280|e|카린;WHO.A.U|583|280|655|308|f|후아유;HEALTH CARE|583|308|655|335|d|건강기능식품;MALTESE|583|335|655|365|d|말티즈;ADLV|583|385|655|412|f|아크메드라비;KEEK|575|415|655|472|f|키크;TOBACCO|188|215|230|258|d|담배;NATIONAL·GEOGRAPHIC|188|258|230|292|f|내셔널지오그래픽;MLB|188|305|230|370|f|엠엘비;FILA|188|370|230|425|f|휠라;KODAK|232|425|268|450|f|코닥;NORTH FACE|268|440|325|472|f|노스페이스;EIDER|325|440|390|472|f|아이더;SATUR|390|440|455|472|f|세터;DISCOVERY|455|440|520|472|f|디스커버리;MLB KIDS|520|440|570|472|f|엠엘비 키즈;COVERNAT|385|398|440|420|f|커버낫;SNOW PEAK|440|398|500|420|f|스노우피크;CALVIN KLEIN|500|398|555|420|f|캘빈클라인;CILOCALA|320|408|360|422|f|실로칼라;EVISU|268|365|305|397|f|에비수;MARITHE|305|365|380|397|f|마리떼;M.DUCK|248|308|312|325|f|엠덕;WACKY·WILLY|248|325|290|360|f|와키윌리;FOOD·SOUVENIR·ELECTRONICS|250|235|322|290|d|식품·기념품·전자;LIQUOR·TOBACCO|322|235|400|290|d|주류·담배;MEME BOX·KAHI·REFA·DR.G·GOONGBE|255|185|320|215|b|미미박스·가히·리파·닥터지·궁중비책;NUMBUZIN·FWEE·LUVUM·PIXELPURE·RENODERM|320|185|385|215|b|넘버즈인·퓌·러븀·레노덤;CELL·FUSION C|385|185|425|215|b|셀퓨전씨;REJURAN|425|185|460|212|b|리쥬란;JUNG SAEM·MOOL|490|185|545|212|b|정샘물;BANILA CO·MEDIHEAL|460|215|515|238|b|바닐라코·메디힐;3CE|520|212|560|238|b;CNP·IT'S SKIN|490|240|535|262|b|차앤박·잇츠스킨;VT·TOO COOL FOR SCHOOL·OLIVE YOUNG|405|240|488|268|b|브이티·투쿨포스쿨·올리브영;CLIO|465|268|500|290|b|클리오;YUNGO·PAPA RECIPE|400|270|462|292|b|윤고·파파레서피;THE SAEM·LAVIEN·BIBIANG|365|292|420|315|b|더샘·라비앙·비비앙;TIRTIR·ROM&ND|425|292|488|312|b|티르티르·롬앤;JM SOLUTION|330|317|390|342|b|제이엠솔루션;THE FACE SHOP·THE ORCHID|398|315|458|338|b|더페이스샵·디오키드;GLUTANEX·ATOPALM·TONYMOLY|365|342|425|365|b|글루타넥스·아토팜·토니모리;CHOW·TAI FOOK|430|345|488|375|w|주대복;SWAROVSKI|500|290|553|320|w|스와로브스키;APM MONACO·DIDIER DUBOT·J.ESTINA·PANDORA|490|320|553|353|w|아페쎄모나코·디디에두보·제이에스티나·판도라;STONE HENGE·ROSEMONT·LLOYD·HAESOO|490|353|553|383|w|스톤헨지·로즈몽·로이드·해수`},
+'1F':{vb:[118,95,562,340],bg:[128,142,672,458],lift:'n',
+ nodes:{a:[188,188],b:[268,188],c:[345,188],d:[420,188],e:[420,135],f:[500,135],g:[597,135],h:[597,223],i:[597,293],j:[597,348],k:[540,348],m:[470,348],n:[450,278],o:[420,253],p:[395,323],q:[268,318],r:[188,318],s:[268,263],t:[188,253]},
+ edges:'a-b b-c c-d d-e e-f f-g g-h h-i i-j j-k k-m m-n n-o o-d m-p p-n p-q q-r r-t t-a q-s s-b',
+ esc:[[415,318,460,345]],fac:[['awc',268,277],['elev',268,294],['esc',403,323],['esc',432,330],['esc',447,330],['esc',493,325],['info',493,290],['stroller',493,307]],
+ stores:`MCM|177|142|255|217|f|엠씨엠;TORY BURCH|255|142|322|217|f|토리버치;LONGCHAMP|322|142|382|217|f|롱샴;VEDI VERO·HUNTER·(EYE)|382|163|412|217|e|베디베로;COACH|382|142|575|163|f|코치;VIVIENNE·WESTWOOD|575|142|672|205|f|비비안 웨스트우드;BURBERRY|128|142|177|345|f|버버리;COMME DES·GARCONS|610|205|672|290|f|꼼데가르송;FERRAGAMO|610|290|672|368|f|페라가모;HERMES|507|395|670|458|f|에르메스;LOUIS VUITTON|128|365|390|458|f|루이비통;DIOR|503|292|583|375|f|디올;CELINE|503|247|583|292|f|셀린느;LOEWE|503|197|583|247|f|로에베;HOURGLASS|503|180|553|197|b|아워글래스;ROJA|553|180|583|197|b|로자;BOADICEA|430|180|470|195|b|보아디세아;DU BOIS|470|180|503|195|b|뒤부아;ADDICTION|430|195|475|209|b|어딕션;ELLA K|475|195|503|209|b|엘라케이;JILLSTUART|430|209|503|221|b|질스튜어트;PENHALIGON'S PFM|430|221|503|236|b|펜할리곤스;M.FRANCIS KURKDJIAN|430|236|503|252|b|메종 프란시스 커정;CHANTECAILLE|430|252|503|267|b|샹테카이;BYREDO|430|267|470|280|b|바이레도;POLA|470|267|503|280|b|폴라;TUMI|197|237|347|253|f|투미;RMK|347|237|412|253|b|알엠케이;MONTBLANC|197|255|250|315|f|몽블랑;BALLY|197|315|250|345|f|발리;BVLGARI|285|255|347|345|w|불가리;SAINT·LAURENT|347|255|412|310|f|생로랑;CHARLOTTE·TILBURY|415|350|460|368|b|샬롯틸버리;VALENTINO EYE|414|395|484|412|e|발렌티노 아이웨어`},
+'2F':{vb:[118,100,562,330],bg:[128,145,652,455],lift:'esc',
+ nodes:{tl:[252,150],h0:[150,202],h1:[258,202],h2:[322,202],h3:[390,202],h4:[470,202],h5:[508,202],h6:[570,202],h7:[655,208],tr1:[508,149],tr2:[590,149],m1:[258,293],m2:[322,293],v1:[390,263],esc:[393,236],c:[432,283],m6:[570,293],b1:[170,377],b2:[258,377],b3:[322,377],b4:[380,377],b5:[490,368],b6:[570,377],b7:[655,377]},
+ edges:'h1-tl h0-h1 h1-h2 h2-h3 h3-h4 h4-h5 h5-h6 h6-h7 h5-tr1 tr1-tr2 h1-m1 m1-b2 h2-m2 m2-b3 h3-esc esc-v1 v1-c c-b4 c-b5 h4-c h6-m6 m6-b6 b1-b2 b2-b3 b3-b4 b4-b5 b5-b6 b6-b7',
+ esc:[],fac:[['esc',391,268],['esc',467,268],['wc',222,178],['awc',238,178],['elev',230,302],['stairs',656,247,'']],
+ stores:`CHANEL|250|145|460|232|f|샤넬;OPENING·SOON|460|145|497|232|x|오픈 예정;HUBLOT|497|145|535|182|w|위블로;TAG HEUER|535|145|575|182|w|태그호이어;BREITLING|575|145|612|182|w|브라이틀링;LONGINES|612|145|652|205|w|론진;TISSOT·MIDO·RADO·HAMILTON·G-SHOCK|520|190|575|232|w|티쏘·미도·라도·해밀턴·지샥;CHOPARD|595|205|652|240|w|쇼파드;LE LABO|212|185|245|212|b|르라보;F.MALLE·KILIAN·TOM FORD·BEAUTY PFM|260|185|300|232|b|프레데릭말·킬리안·톰포드 뷰티;JO MALONE|212|215|245|245|b|조말론;DECORTE|130|248|163|278|b|코스메 데코르테;ELIZABETH·ARDEN|165|248|205|278|b|엘리자베스아덴;ATKINSONS PFM·VERSACE PFM|207|248|245|290|b|앳킨슨즈·베르사체 향수;DIOR COS|250|248|292|275|b|디올 코스메틱;GUERLAIN|250|277|292|297|b|겔랑;GUCCI COS|250|298|292|315|b|구찌 뷰티;BOBBI·BROWN|300|245|335|275|b|바비브라운;DIPTYQUE|300|280|335|312|b|딥디크;MAISON·MARGIELA PFM|343|245|383|261|b|메종 마르지엘라 향수;KIEHL'S|343|262|383|290|b|키엘;G.ARMANI·COS|343|292|383|317|b|조르지오 아르마니 뷰티;LA MER|333|320|380|340|b|라메르;CLINIQUE|333|342|380|361|b|크리니크;FRESH|333|363|380|381|b|프레시;HELENA·RUBINSTEIN|333|382|380|398|b|헬레나 루빈스타인;CHANEL COS|407|260|458|292|b|샤넬 코스메틱;TIFFANY&CO|485|243|555|293|w|티파니;TREND ON|485|295|555|341|f|트렌드온;UGG|485|342|555|365|f|어그;OMEGA|578|250|652|315|w|오메가;QEELIN|578|315|652|342|w|기린;IOPE·PRIMERA·LANEIGE·HERA|578|345|652|383|b|아이오페·프리메라·라네즈·헤라;SULWHASOO|578|385|652|410|b|설화수;BELIF·OHUI|578|415|605|455|b|빌리프·오휘;WHOO|605|415|652|455|b|후;HERMES·BEAUTY PFM|130|280|163|308|b|에르메스 뷰티;SERGE LUTENS·AVEDA·LAB SERIES|165|282|205|312|b|세르주루텐·아베다·랩시리즈;MAKEUP·FOREVER|130|310|163|335|b|메이크업포에버;AESOP|180|325|215|342|b|이솝;LA PRAIRIE|215|325|252|342|b|라프레리;BENEFIT|180|344|215|362|b|베네피트;BIOTHERM|215|344|252|362|b|비오템;ESTEE·LAUDER|265|325|310|362|b|에스티로더;SISLEY|130|338|163|362|b|시슬리;MAC|130|365|163|390|b|맥;LA ROCHE·POSAY|180|372|215|392|b|라로슈포제;CLARINS|215|372|252|392|b|클라랑스;KERASTASE|180|394|215|410|b|케라스타즈;SHU·UEMURA|215|394|252|410|b|슈에무라;SK-II|265|372|310|410|b|에스케이투;NARS|130|392|163|418|b|나스;CLE DE·PEAU·BEAUTE|130|422|163|455|b|끌레드뽀 보떼;SHISEIDO|165|425|205|455|b|시세이도;L'OCCITANE|205|425|250|455|b|록시땅;YSL COS|250|425|285|455|b|입생로랑 뷰티;LANCOME|285|425|325|455|b|랑콤;GIVENCHY·COS|325|425|360|455|b|지방시 뷰티;ALBION|360|425|390|455|b|알비온;DRUNK·ELEPHANT|390|415|428|435|b|드렁크엘리펀트;PAULA'S CHOICE|390|435|428|455|b|폴라초이스;VALENTINO·BEAUTY|383|368|420|397|b|발렌티노 뷰티;LOEWE·PFM|420|383|440|397|b|로에베 향수;CHLOE·PFM|440|383|462|397|b|끌로에 향수;CREED|462|383|485|397|b|크리드;PARFUMS DE MARLY|420|368|485|382|b|퍼퓸 드 말리;CHOPARD PFM·TOMMY HILFIGER PFM|428|415|500|435|b|쇼파드·타미힐피거 향수;TRUSSARDI PFM·BVLGARI PFM|428|435|500|455|b|트루사르디·불가리 향수;ACQUA DI PARMA·BALENCIAGA PFM·TRUDON·KINFOLK NOTES|485|368|555|397|b|아쿠아디파르마·발렌시아가 향수·트루동;SEKKISEI|500|415|537|433|b|세키세이;LAURA·MERCIER|500|433|537|455|b|로라메르시에;ABIB·KANEBO|537|415|575|433|b|아비브·가네보;LUNASOL·SUQQU|537|433|575|455|b|루나솔·스쿠`},
+'2MF':{vb:[160,175,480,215],bg:[178,233,622,402],lift:'esc',nodes:{},edges:'',esc:[[385,382,415,398]],fac:[['esc',400,390]],stores:''},
+'3F':{vb:[120,170,570,200],bg:[128,233,670,365],lift:'esc',
+ nodes:{esc:[622,300],c:[560,263]},edges:'esc-c',esc:[[600,345,645,362]],fac:[['esc',622,353],['wc',622,297]],
+ stores:`CAFE LA·ROOFTOP & CAFE|128|233|572|365|x|카페라 루프탑`}
+};
+// brands inside the 2MF perfume zone (searchable, all point to the zone)
+const MF_BRANDS='ATKINSONS PFM|앳킨슨즈 향수;JO VOY|조보이;BURBERRY PFM|버버리 향수;CHLOE PFM|끌로에 향수;CK PFM|캘빈클라인 향수;MONTBLANC PFM|몽블랑 향수;COACH PFM|코치 향수;DAVIDOFF PFM|다비도프 향수;DSQUARED2 PFM|디스퀘어드2 향수;FERRAGAMO PFM|페라가모 향수;G.ARMANI PFM|조르지오 아르마니 향수;GUCCI PFM|구찌 향수;HUGO BOSS PFM|휴고보스 향수;ISSEY MIYAKE PFM|이세이미야케 향수;JIMMY CHOO PFM|지미추 향수;LANVIN PFM|랑방 향수;LOEWE PFM|로에베 향수;MONCLER PFM|몽클레르 향수;MICHAEL KORS PFM|마이클코어스 향수;MARC JACOBS PFM|마크제이콥스 향수;MCM PFM|엠씨엠 향수;MIU MIU PFM|미우미우 향수;MOSCHINO PFM|모스키노 향수;MAISON 21G|메종21G;NARCISO RODRIGUEZ PFM|나르시소 로드리게즈 향수;POLO RALPH LAUREN PFM|랄프로렌 향수;PRADA PFM|프라다 향수;TIFFANY PFM|티파니 향수;VERSACE PFM|베르사체 향수;VAN CLEEF & ARPELS PFM|반클리프 아펠 향수';
+
+// 2MF perfume hall: one counter per brand (alphabetical grid — order inside the hall is not from the official map)
+(function(){const r=RAW['2MF'],list=MF_BRANDS.split(';').map(s=>s.split('|')).sort((a,b)=>a[0].localeCompare(b[0]));
+  const X0=186,X1=614,Yt=256,Yb=352,cols=6,rows=Math.ceil(list.length/cols),g=8,gy=5,cw=(X1-X0-(cols-1)*g)/cols,chh=(Yb-Yt-(rows-1)*gy)/rows;
+  r.stores=list.map(([n,ko],k)=>{const c=k%cols,w=Math.floor(k/cols),x=X0+c*(cw+g),y=Yt+w*(chh+gy);return [n,x.toFixed(1),y.toFixed(1),(x+cw).toFixed(1),(y+chh).toFixed(1),'b',ko].join('|')}).join(';');
+  const N={esc:[400,336]},E=[];const by=323;
+  const ax=[X0-4,...Array.from({length:cols-1},(_,i)=>X0+(i+1)*cw+i*g+g/2),X1+4];
+  ax.forEach((x,i)=>{N['b'+i]=[x,by];if(i)E.push('b'+(i-1)+'-b'+i);
+    for(let w=rows-1;w>=0;w--){const k='v'+i+'_'+w;N[k]=[x,Yt+w*(chh+gy)+chh/2-37];E.push((w===rows-1?'b'+i:'v'+i+'_'+(w+1))+'-'+k)}});
+  let best='b0',bd=1e9;for(let i=0;i<ax.length;i++){const dd=Math.abs(ax[i]-400);if(dd<bd){bd=dd;best='b'+i}}E.push(best+'-esc');
+  r.nodes=N;r.edges=E.join(' ');})();
+
+const ORDER=['B1F','1F','2F','2MF','3F'];
+const COL={f:'#e9eaee',b:'#fce4ec',w:'#e0f2f1',e:'#e8eaf6',d:'#fff3e0',x:'#eceff1',z:'#b0bec5'};
+const MPU=0.18; // metres per map unit (estimated)
+
+/* ===== i18n ===== */
+const T={
+ko:{title:'신라면세점 서울점 매장 안내',fromPh:'출발지 검색',toPh:'도착지 검색',my:'내 위치',corr:'{f} 통로',near:'{s} 근처',start:'출발',stop:'종료',stepsT:'경로 안내',walk:'{b}까지 걷기',ride:'에스컬레이터 {a} → {b}',arrive:'{b} 도착',min:'{n}분',m:'약 {n}m',via:'에스컬레이터 {n}회 이용',same:'같은 층 · 도보',hint:'지도를 탭하면 그 자리로 이동해요',pick:'도착지를 검색하거나 위 버튼을 눌러보세요',chipWc:'화장실',chipInfo:'안내데스크',chipEsc:'에스컬레이터',nearest:'가장 가까운 {p}',fac:{wc:'화장실',awc:'장애인 화장실',elev:'엘리베이터',info:'안내데스크',esc:'에스컬레이터',stroller:'유모차 대여',stairs:'계단'},wcDesc:'남녀 화장실',awcDesc:'휠체어 이용 가능',escHop:'{f}로 이동 중',arrived:'도착했습니다',note:'※ 신라면세점 공식 층별 안내도(2026년 9·11월 판)를 보고 직접 그린 약도입니다. 거리·시간은 추정치이며, 매장 크기·통로·에스컬레이터 연결은 실제와 다를 수 있습니다.',none:'검색 결과 없음',cat:{b:'화장품/향수',f:'패션/가방',w:'시계/주얼리',e:'선글라스',d:'식품/주류/담배',x:'기타',z:'라운지'}},
+zh:{title:'新罗免税店 首尔店 店铺指南',fromPh:'搜索起点',toPh:'搜索终点',my:'我的位置',corr:'{f} 通道',near:'{s}附近',start:'出发',stop:'结束',stepsT:'路线指引',walk:'步行至{b}',ride:'自动扶梯 {a} → {b}',arrive:'到达{b}',min:'{n}分钟',m:'约{n}米',via:'乘自动扶梯{n}次',same:'同楼层 · 步行',hint:'点击地图即可移动到该位置',pick:'搜索终点或点击上方按钮',chipWc:'洗手间',chipInfo:'服务台',chipEsc:'自动扶梯',nearest:'最近的{p}',fac:{wc:'洗手间',awc:'无障碍洗手间',elev:'电梯',info:'服务台',esc:'自动扶梯',stroller:'婴儿车租借',stairs:'楼梯'},wcDesc:'男女洗手间',awcDesc:'可供轮椅使用',escHop:'正在前往{f}',arrived:'已到达',note:'※ 根据新罗免税店官方楼层指南（2026年9·11月版）手绘。距离与时间为估算值，店铺大小、通道及扶梯连接可能与实际不同。',none:'无搜索结果',cat:{b:'化妆品/香水',f:'时装/箱包',w:'手表/珠宝',e:'太阳镜',d:'食品/酒类/烟草',x:'其他',z:'贵宾室'}},
+tw:{title:'新羅免稅店 首爾店 店舖指南',fromPh:'搜尋起點',toPh:'搜尋目的地',my:'我的位置',corr:'{f} 走道',near:'{s}附近',start:'出發',stop:'結束',stepsT:'路線指引',walk:'步行至{b}',ride:'電扶梯 {a} → {b}',arrive:'抵達{b}',min:'{n}分鐘',m:'約{n}公尺',via:'搭電扶梯{n}次',same:'同樓層 · 步行',hint:'點一下地圖就會移動到該處',pick:'搜尋目的地或點選上方按鈕',chipWc:'洗手間',chipInfo:'服務台',chipEsc:'電扶梯',nearest:'最近的{p}',fac:{wc:'洗手間',awc:'無障礙洗手間',elev:'電梯',info:'服務台',esc:'電扶梯',stroller:'嬰兒車租借',stairs:'樓梯'},wcDesc:'男女洗手間',awcDesc:'可供輪椅使用',escHop:'正在前往{f}',arrived:'已抵達',note:'※ 依新羅免稅店官方樓層指南（2026年9·11月版）手繪。距離與時間為估算值，店舖大小、走道及電扶梯連接可能與實際不同。',none:'查無結果',cat:{b:'化妝品/香水',f:'時尚/包款',w:'手錶/珠寶',e:'太陽眼鏡',d:'食品/酒類/菸草',x:'其他',z:'貴賓室'}},
+en:{title:'Shilla Duty Free Seoul · Store Guide',fromPh:'Choose starting point',toPh:'Choose destination',my:'Your location',corr:'{f} aisle',near:'Near {s}',start:'Go',stop:'Exit',stepsT:'Steps',walk:'Walk to {b}',ride:'Escalator {a} → {b}',arrive:'Arrive at {b}',min:'{n} min',m:'~{n} m',via:'{n} escalator ride(s)',same:'Same floor · walk',hint:'Tap the map to move there',pick:'Search a destination or tap a button above',chipWc:'Restrooms',chipInfo:'Information',chipEsc:'Escalators',nearest:'Nearest {p}',fac:{wc:'Restroom',awc:'Accessible restroom',elev:'Elevator',info:'Information desk',esc:'Escalator',stroller:'Stroller rental',stairs:'Stairs'},wcDesc:'Men & women',awcDesc:'Wheelchair accessible',escHop:'Going to {f}',arrived:'You have arrived',note:'※ Hand-drawn from the official Shilla Duty Free floor guide (Sep/Nov 2026). Distances and times are estimates; store sizes, aisles and escalator links may differ from reality.',none:'No results',cat:{b:'Cosmetics/Perfume',f:'Fashion/Bags',w:'Watches/Jewelry',e:'Sunglasses',d:'Food/Liquor/Tobacco',x:'Other',z:'Lounge'}},
+ja:{title:'新羅免税店 ソウル店 店舗案内',fromPh:'出発地を検索',toPh:'目的地を検索',my:'現在地',corr:'{f} 通路',near:'{s}付近',start:'出発',stop:'終了',stepsT:'ルート案内',walk:'{b}まで歩く',ride:'エスカレーター {a} → {b}',arrive:'{b}に到着',min:'{n}分',m:'約{n}m',via:'エスカレーター{n}回',same:'同じフロア · 徒歩',hint:'地図をタップするとその場所へ移動します',pick:'目的地を検索するか、上のボタンを押してください',chipWc:'トイレ',chipInfo:'インフォメーション',chipEsc:'エスカレーター',nearest:'最寄りの{p}',fac:{wc:'トイレ',awc:'多目的トイレ',elev:'エレベーター',info:'インフォメーション',esc:'エスカレーター',stroller:'ベビーカー貸出',stairs:'階段'},wcDesc:'男女トイレ',awcDesc:'車いす対応',escHop:'{f}へ移動中',arrived:'到着しました',note:'※ 新羅免税店公式フロアガイド（2026年9・11月版）をもとに描いた略図です。距離・時間は推定で、店舗の大きさ・通路・エスカレーターの接続は実際と異なる場合があります。',none:'該当なし',cat:{b:'化粧品/香水',f:'ファッション/バッグ',w:'時計/ジュエリー',e:'サングラス',d:'食品/酒/たばこ',x:'その他',z:'ラウンジ'}},
+vi:{title:'Shilla Duty Free Seoul · Hướng dẫn cửa hàng',fromPh:'Chọn điểm xuất phát',toPh:'Chọn điểm đến',my:'Vị trí của bạn',corr:'Lối đi {f}',near:'Gần {s}',start:'Đi',stop:'Thoát',stepsT:'Các bước',walk:'Đi bộ đến {b}',ride:'Thang cuốn {a} → {b}',arrive:'Đến {b}',min:'{n} phút',m:'~{n} m',via:'Đi thang cuốn {n} lần',same:'Cùng tầng · đi bộ',hint:'Chạm vào bản đồ để di chuyển đến đó',pick:'Tìm điểm đến hoặc chạm nút bên trên',chipWc:'Nhà vệ sinh',chipInfo:'Quầy thông tin',chipEsc:'Thang cuốn',nearest:'{p} gần nhất',fac:{wc:'Nhà vệ sinh',awc:'WC cho người khuyết tật',elev:'Thang máy',info:'Quầy thông tin',esc:'Thang cuốn',stroller:'Cho thuê xe đẩy',stairs:'Cầu thang'},wcDesc:'Nam & nữ',awcDesc:'Dành cho xe lăn',escHop:'Đang lên {f}',arrived:'Bạn đã đến nơi',note:'※ Sơ đồ vẽ tay theo sơ đồ tầng chính thức của Shilla Duty Free (bản 9 & 11/2026). Khoảng cách và thời gian là ước tính; kích thước cửa hàng, lối đi và thang cuốn có thể khác thực tế.',none:'Không có kết quả',cat:{b:'Mỹ phẩm/Nước hoa',f:'Thời trang/Túi',w:'Đồng hồ/Trang sức',e:'Kính mát',d:'Thực phẩm/Rượu/Thuốc lá',x:'Khác',z:'Phòng chờ'}}
+,
+th:{title:'ร้านปลอดภาษีชิลล่า สาขาโซล · คู่มือร้านค้า',fromPh:'ค้นหาจุดเริ่มต้น',toPh:'ค้นหาจุดหมาย',my:'ตำแหน่งของคุณ',corr:'ทางเดิน {f}',near:'ใกล้ {s}',start:'ไป',stop:'หยุด',stepsT:'ขั้นตอน',walk:'เดินไปที่ {b}',ride:'บันไดเลื่อน {a} → {b}',arrive:'ถึง {b}',min:'{n} นาที',m:'~{n} ม.',via:'ใช้บันไดเลื่อน {n} ครั้ง',same:'ชั้นเดียวกัน · เดิน',hint:'แตะแผนที่เพื่อไปยังจุดนั้น',pick:'ค้นหาจุดหมายหรือแตะปุ่มด้านบน',chipWc:'ห้องน้ำ',chipInfo:'จุดบริการข้อมูล',chipEsc:'บันไดเลื่อน',nearest:'{p} ที่ใกล้ที่สุด',fac:{wc:'ห้องน้ำ',awc:'ห้องน้ำผู้พิการ',elev:'ลิฟต์',info:'จุดบริการข้อมูล',esc:'บันไดเลื่อน',stroller:'ให้ยืมรถเข็นเด็ก',stairs:'บันได'},wcDesc:'ห้องน้ำชายและหญิง',awcDesc:'รองรับรถเข็น',escHop:'กำลังไป {f}',arrived:'ถึงแล้ว',note:'※ แผนที่วาดจากคู่มือชั้นอย่างเป็นทางการของ Shilla Duty Free (ฉบับ ก.ย./พ.ย. 2026) ระยะทางและเวลาเป็นค่าประมาณ ขนาดร้าน ทางเดิน และบันไดเลื่อนอาจต่างจากของจริง',none:'ไม่พบผลลัพธ์',cat:{b:'เครื่องสำอาง/น้ำหอม',f:'แฟชั่น/กระเป๋า',w:'นาฬิกา/เครื่องประดับ',e:'แว่นกันแดด',d:'อาหาร/สุรา/ยาสูบ',x:'อื่นๆ',z:'เลานจ์'}},
+fil:{title:'Shilla Duty Free Seoul · Gabay sa Tindahan',fromPh:'Pumili ng simula',toPh:'Pumili ng pupuntahan',my:'Lokasyon mo',corr:'Pasilyo ng {f}',near:'Malapit sa {s}',start:'Tara',stop:'Ihinto',stepsT:'Mga hakbang',walk:'Maglakad papunta sa {b}',ride:'Escalator {a} → {b}',arrive:'Nakarating sa {b}',min:'{n} min',m:'~{n} m',via:'{n} beses sa escalator',same:'Parehong palapag · lakad',hint:'I-tap ang mapa para pumunta roon',pick:'Maghanap ng pupuntahan o i-tap ang button sa itaas',chipWc:'CR',chipInfo:'Impormasyon',chipEsc:'Escalator',nearest:'Pinakamalapit na {p}',fac:{wc:'CR',awc:'CR para sa PWD',elev:'Elevator',info:'Information desk',esc:'Escalator',stroller:'Paupahan ng stroller',stairs:'Hagdan'},wcDesc:'Panlalaki at pambabae',awcDesc:'Pang-wheelchair',escHop:'Papunta sa {f}',arrived:'Nakarating ka na',note:'※ Iginuhit batay sa opisyal na floor guide ng Shilla Duty Free (Set/Nob 2026). Tantiya lang ang layo at oras; maaaring iba ang laki ng tindahan, pasilyo at escalator sa totoo.',none:'Walang resulta',cat:{b:'Kosmetiko/Pabango',f:'Fashion/Bag',w:'Relo/Alahas',e:'Sunglasses',d:'Pagkain/Alak/Sigarilyo',x:'Iba pa',z:'Lounge'}}
+};
+let L='ko';
+try{const s=localStorage.getItem('sdf_lang');if(s&&T[s])L=s;else{const n=(navigator.language||'').toLowerCase();L=/^zh-(tw|hk)/.test(n)?'tw':n.startsWith('zh')?'zh':n.startsWith('ja')?'ja':n.startsWith('vi')?'vi':n.startsWith('th')?'th':/^(fil|tl)/.test(n)?'fil':n.startsWith('ko')?'ko':'en'}}catch(e){}
+const t=k=>T[L][k],tf=(k,o)=>t(k).replace(/\{(\w)\}/g,(_,x)=>o[x]);
+
+/* ===== parse ===== */
+const F={},ALL=[],Y=v=>v-37;
+for(const f of ORDER){const r=RAW[f],d=F[f]={vb:r.vb,lift:r.lift,nodes:r.nodes,adj:{},pois:[]};
+  d.bg=[r.bg[0],Y(r.bg[1]),r.bg[2],Y(r.bg[3])];
+  for(const e of r.edges.split(' ')){const [a,b]=e.split('-');(d.adj[a]=d.adj[a]||[]).push(b);(d.adj[b]=d.adj[b]||[]).push(a)}
+  d.esc=r.esc.map(q=>[q[0],Y(q[1]),q[2],Y(q[3])]);
+  d.stores=r.stores.split(';').map(s=>{const [n,x1,y1,x2,y2,c,ko]=s.split('|');const o={floor:f,name:n.replace(/·/g,' · '),raw:n,x1:+x1,y1:Y(+y1),x2:+x2,y2:Y(+y2),cat:c,ko:ko||''};o.x=(o.x1+o.x2)/2;o.y=(o.y1+o.y2)/2;ALL.push(o);return o});
+  for(const [k,x,y,to] of r.fac){const o={floor:f,poi:k,x,y:Y(y),to};d.pois.push(o);ALL.push(o)}
+}
+const dist=(p,q)=>Math.hypot(p[0]-q[0],p[1]-q[1]);
+function nearStore(o){let b=null,bd=1e9;for(const s of F[o.floor].stores){if(s.cat==='z'&&false)continue;const cx=Math.max(s.x1,Math.min(o.x,s.x2)),cy=Math.max(s.y1,Math.min(o.y,s.y2)),d=Math.hypot(cx-o.x,cy-o.y);if(d<bd){bd=d;b=s}}return b}
+const sn=s=>L==='ko'&&s.ko?s.ko:s.name;
+function nm(o){if(!o)return'';if(o.me)return t('my');if(o.poi)return t('fac')[o.poi];if(o.pt)return o.label||t('corr').replace('{f}',o.floor);return sn(o)}
+function desc(o){if(o.poi){const s=nearStore(o);return o.floor+' · '+(o.poi==='wc'?t('wcDesc')+' · ':o.poi==='awc'?t('awcDesc')+' · ':'')+tf('near',{s:s?sn(s):''})}
+  return o.floor+' · '+(t('cat')[o.cat]||'')}
+function whereIs(f,x,y){return F[f].stores.find(s=>x>=s.x1&&x<=s.x2&&y>=s.y1&&y<=s.y2)}
+
+/* ===== routing (escalators only) ===== */
+function nearest(f,pt){let b,bd=1e9;for(const [k,v] of Object.entries(F[f].nodes)){const d=dist(v,pt);if(d<bd){bd=d;b=k}}return b}
+function path(f,A,B){const d=F[f],N=d.nodes,s=nearest(f,A),g=nearest(f,B),D={},P={},Q=new Set(Object.keys(N));
+  for(const k of Q)D[k]=1e9;D[s]=0;
+  while(Q.size){let u=null;for(const k of Q)if(u===null||D[k]<D[u])u=k;Q.delete(u);if(u===g)break;
+    for(const v of d.adj[u]||[]){const x=D[u]+dist(N[u],N[v]);if(x<D[v]){D[v]=x;P[v]=u}}}
+  const seq=[];let c=g;while(c){seq.unshift(N[c]);if(c===s)break;c=P[c]}
+  let pts=[A,...seq,B];
+  if(pts.length>3&&dist(A,pts[2])<dist(A,pts[1])+dist(pts[1],pts[2])-30&&dist(A,pts[1])>25)pts.splice(1,1);
+  return pts.filter((p,i)=>i===0||dist(p,pts[i-1])>1)}
+const plen=p=>p.reduce((a,q,i)=>i?a+dist(q,p[i-1]):0,0);
+function hops(a,b){const i=ORDER.indexOf(a),j=ORDER.indexOf(b),r=[];if(i<j)for(let k=i;k<j;k++)r.push([ORDER[k],ORDER[k+1]]);else for(let k=i;k>j;k--)r.push([ORDER[k],ORDER[k-1]]);return r}
+function plan(S,E){const r=plan0(S,E);r.from=S.floor;r.to=E.floor;return r}
+function plan0(S,E){if(S.floor===E.floor)return{segs:[{floor:S.floor,pts:path(S.floor,[S.x,S.y],[E.x,E.y])}],rides:[]};
+  const a=F[S.floor].nodes[F[S.floor].lift],b=F[E.floor].nodes[F[E.floor].lift];
+  return{segs:[{floor:S.floor,pts:path(S.floor,[S.x,S.y],a)},{floor:E.floor,pts:path(E.floor,b,[E.x,E.y])}],rides:hops(S.floor,E.floor)}}
+function cost(S,E){const p=plan(S,E);return p.segs.reduce((a,s)=>a+plen(s.pts),0)+p.rides.length*150}
+function metrics(p){const m=p.segs.reduce((a,s)=>a+plen(s.pts),0)*MPU;const sec=m/1.1+p.rides.length*35;return{m:Math.max(5,Math.round(m/5)*5),min:Math.max(1,Math.round(sec/60))}}
+
+/* ===== SVG helpers ===== */
+const NS='http://www.w3.org/2000/svg',$=id=>document.getElementById(id),svg=$('map');
+function el(n,a,p){const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e}
+const GLYPH={
+ wc:'<circle cx="-3.2" cy="-4.2" r="1.3"/><path d="M-4.9 -2.4h3.4v3.6h-.9v3.6h-1.6v-3.6h-.9z"/><circle cx="3.2" cy="-4.2" r="1.3"/><path d="M3.2 -2.6l2.3 4.2h-1.3v2.8h-2v-2.8h-1.3z"/><rect x="-.35" y="-5.2" width=".7" height="10" fill-opacity=".6"/>',
+ awc:'<circle cx="-.6" cy="-4.6" r="1.3"/><path d="M-1.6 -2.8h1.9v2.6h2.6l1.4 3.4-1.1.5-1.1-2.6h-2.7z"/><path d="M-2.3 -1.2a3.6 3.6 0 1 0 4.6 4.7" fill="none" stroke="#fff" stroke-width="1.1"/>',
+ esc:'<path d="M-5 3.5h2.4l4.8-6.5h2.8" fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/><path d="M1.6 -5.2l3.4 0 0 3.4" fill="none" stroke="#fff" stroke-width="1.2"/>',
+ info:'<circle cx="0" cy="-3.6" r="1.3"/><rect x="-1.1" y="-1.4" width="2.2" height="6" rx=".6"/>',
+ elev:'<path d="M-3 -1.2l3 -3.6 3 3.6z"/><path d="M-3 1.2l3 3.6 3 -3.6z"/>',
+ stroller:'<path d="M-4.6 -3.2a4.6 4.6 0 0 1 4.6 -2.4v3.6h4.4a4.4 4.4 0 0 1 -4.4 3.4h-1a4.4 4.4 0 0 1 -3.6 -4.6z"/><circle cx="-2.6" cy="3.8" r="1.2"/><circle cx="2.4" cy="3.8" r="1.2"/><path d="M4.4 -1.4l1.4 -2.4" stroke="#fff" stroke-width=".9"/>',
+ stairs:'<path d="M-5 4h3v-3h3v-3h3v-3h2" fill="none" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>'};
+const PCOL={wc:'#5c6bc0',awc:'#1a73e8',esc:'#70757a',info:'#1a73e8',elev:'#70757a',stroller:'#00897b',stairs:'#70757a'};
+function poiIcon(p,type,x,y,r){const g=el('g',{transform:`translate(${x} ${y})`},p);el('circle',{r:r+1.2,fill:'#fff'},g);el('circle',{r,fill:PCOL[type]},g);
+  const gg=el('g',{transform:`scale(${r/7.2})`,fill:'#fff'},g);gg.innerHTML=GLYPH[type];return g}
+function chipSvg(type){return `<svg viewBox="-8 -8 16 16"><circle r="7.5" fill="${PCOL[type]}"/><g fill="#fff">${GLYPH[type]}</g></svg>`}
+function label(g,txt,x1,y1,x2,y2,fill){
+  const groups=txt.split('·').map(x=>x.trim()).filter(Boolean),w=x2-x1-3,h=y2-y1-2;
+  const cw=x=>[...x].reduce((a,c)=>a+(/[A-Z0-9&]/.test(c)?0.66:c===' '?0.3:/[.'\-]/.test(c)?0.32:c.charCodeAt(0)>255?1:0.56),0)*1.04;
+  const TIERS=[7,6.2,5.4,4.7,4.1,3.6,3.1,2.7,2.4];let lines=[],fs=2.4;
+  for(const f of TIERS){const ls=[];let ok=true;
+    for(const gr of groups){let cur='';for(const wd of gr.split(' ')){const tt=cur?cur+' '+wd:wd;if(cw(tt)*f<=w)cur=tt;else{if(cur)ls.push(cur);cur=wd;if(cw(wd)*f>w)ok=false}}ls.push(cur)}
+    lines=ls;fs=f;if(ok&&ls.length*f*1.2<=h)break}
+  const tx=el('text',{x:(x1+x2)/2,y:(y1+y2)/2-(lines.length-1)*fs*0.6,'font-size':fs,'text-anchor':'middle','dominant-baseline':'central',fill,'font-weight':500,'letter-spacing':'.03em','font-family':'Roboto,Arial,sans-serif'},g);
+  lines.forEach((x,k)=>{const sp=el('tspan',{x:(x1+x2)/2,dy:k?fs*1.2:0},tx);sp.textContent=x})}
+
+/* ===== draw floors (Google-indoor style) ===== */
+for(const f of ORDER){const d=F[f],g=el('g',{id:'fl_'+f,style:'display:none'},$('floorsG'));
+  const [a,b,c,e]=d.bg;
+  el('rect',{x:a-5,y:b-5,width:c-a+10,height:e-b+10,rx:6,fill:'#c8ccd2'},g);
+  el('rect',{x:a-4,y:b-4,width:c-a+8,height:e-b+8,rx:5,fill:'#fff'},g);
+  d.storeEls={};
+  for(const s of d.stores){const sg=el('g',{},g);
+    const r=el('rect',{x:s.x1+.7,y:s.y1+.7,width:s.x2-s.x1-1.4,height:s.y2-s.y1-1.4,rx:1.5,fill:COL[s.cat],stroke:'#c9ced6','stroke-width':.6},sg);
+    label(sg,f==='2MF'?s.raw.replace(/ PFM$/,''):s.raw,s.x1+1,s.y1+1,s.x2-1,s.y2-1,s.cat==='z'?'#fff':'#5f6368');d.storeEls[s.raw+s.x1]=r}
+  if(f==='2MF'){const tx=el('text',{x:400,y:209,'font-size':8,'text-anchor':'middle','font-weight':700,fill:'#c2185b','letter-spacing':'.2em'},g);tx.textContent='PERFUMES'}
+  for(const q of d.esc){el('rect',{x:q[0],y:q[1],width:q[2]-q[0],height:q[3]-q[1],rx:1.5,fill:'#e3e5e8',stroke:'#c9ced6','stroke-width':.6},g);
+    for(let yy=q[1]+2;yy<q[3]-1;yy+=2.2)el('line',{x1:q[0]+1.5,y1:yy,x2:q[2]-1.5,y2:yy,stroke:'#c4c8ce','stroke-width':.5},g)}
+}
+function drawPois(){const g=$('poiG');g.innerHTML='';for(const o of F[viewFloor].pois){const ic=poiIcon(g,o.poi,o.x,o.y,o.poi==='esc'?4.2:(o.poi==='wc'||o.poi==='awc')?6:5.4);
+  if(o.poi==='wc'||o.poi==='awc'){const nb=F[viewFloor].pois.find(q=>q!==o&&q.poi!=='esc'&&dist([q.x,q.y],[o.x,o.y])<30);
+    const side=nb?(nb.x>o.x?'end':'start'):'middle',lx=side==='end'?o.x-8:side==='start'?o.x+8:o.x,ly=side==='middle'?o.y+11:o.y+.3;
+    const tx=el('text',{x:lx,y:ly,'font-size':4.6,'text-anchor':side,'dominant-baseline':'middle','font-weight':700,fill:PCOL[o.poi],stroke:'#fff','stroke-width':1.8,'paint-order':'stroke'},g);tx.textContent=t('fac')[o.poi]}
+  if(o.poi==='stairs'||o.poi==='stroller'){const tx=el('text',{x:o.x,y:o.y+10,'font-size':4,'text-anchor':'middle','font-weight':700,fill:PCOL[o.poi],stroke:'#fff','stroke-width':1.6,'paint-order':'stroke'},g);tx.textContent=t('fac')[o.poi]+(o.to?' '+o.to:'')}
+  ic.style.cursor='pointer';ic.addEventListener('click',ev=>{ev.stopPropagation();setDest(o)})}}
+
+/* ===== character / blue dot ===== */
+const ch=el('g',{},$('charG'));
+const halo=el('circle',{r:11,fill:'#1a73e8','fill-opacity':.15,stroke:'#1a73e8','stroke-opacity':.3,'stroke-width':.6},ch);
+el('circle',{r:3.6,fill:'#1a73e8',stroke:'#fff','stroke-width':1.4},ch);
+const body=el('g',{},ch);
+// --- child in hanbok: saekdong sleeves, yellow jeogori, pink chima, braid with red daenggi, holding a bokjumeoni ---
+const footL=el('ellipse',{cx:-1.8,cy:-.6,rx:1.8,ry:1,fill:'#c2185b'},body);
+const footR=el('ellipse',{cx:1.8,cy:-.6,rx:1.8,ry:1,fill:'#c2185b'},body);
+const braid=el('g',{},body);
+el('path',{d:'M4.6 -24 q2.6 3 1.6 8',fill:'none',stroke:'#2a1d17','stroke-width':1.9,'stroke-linecap':'round'},braid);
+el('path',{d:'M5.2 -16.8 l2.2 3.4 l-1.2 .3 z M6.2 -16.8 l-.4 3.9 l1.3 -.6 z',fill:'#d32f2f'},braid);
+const skirt=el('g',{},body);
+el('path',{d:'M-3.6 -15.2 L3.6 -15.2 L8 -2.4 Q0 .2 -8 -2.4 Z',fill:'#ec407a'},skirt);
+el('path',{d:'M-8 -2.4 Q0 .2 8 -2.4 L7.6 -3.6 Q0 -1.2 -7.6 -3.6Z',fill:'#ad1457','fill-opacity':.55},skirt);
+el('path',{d:'M-2 -14 L-4.4 -3.4 M2 -14 L4.4 -3.4',stroke:'#d81b60','stroke-width':.45,fill:'none'},skirt);
+const SAEK=['#e53935','#fdd835','#1e88e5','#43a047','#ffffff','#e53935'];
+function sleeve(px){const a=el('g',{},body);SAEK.forEach((c,i)=>el('rect',{x:px-1.25,y:-18.4+i*1.25,width:2.5,height:1.3,fill:c},a));el('circle',{cx:px,cy:-10.6,r:1.1,fill:'#ffe1c6'},a);return a}
+const armB=sleeve(-5);
+el('path',{d:'M-4.6 -19.6 h9.2 l.6 5 h-10.4z',fill:'#fdd835'},body);
+el('path',{d:'M-2.6 -19.6 L.6 -15.4 M2.6 -19.6 L-.4 -16.6',stroke:'#fff','stroke-width':1.1,fill:'none'},body);
+el('path',{d:'M.3 -15.9 q1.6 1.4 .6 4.4 M.5 -15.9 q2.4 .4 2.9 3.6',stroke:'#d32f2f','stroke-width':.95,fill:'none','stroke-linecap':'round'},body);
+const armF=sleeve(5);
+const pouch=el('g',{},armF);el('path',{d:'M3.6 -9.6 q1.4 -1.2 2.8 0 l.9 3.2 q-2.3 1.4 -4.6 0z',fill:'#e91e63',stroke:'#880e4f','stroke-width':.35},pouch);el('rect',{x:3.7,y:-9.9,width:2.6,height:.7,fill:'#fdd835'},pouch);
+el('circle',{cx:0,cy:-24.2,r:6.2,fill:'#ffe1c6',stroke:'#3e2723','stroke-width':.45},body);
+el('path',{d:'M-6.3 -24.4 q.2 -6.8 6.3 -6.8 q6.1 0 6.3 6.8 q-1.8 -3.8 -5.8 -4.4 l-.5 1.2 l-.5 -1.2 q-4 .6 -5.8 4.4z',fill:'#2a1d17'},body);
+el('circle',{cx:-2.2,cy:-23.6,r:.85,fill:'#202124'},body);el('circle',{cx:2.2,cy:-23.6,r:.85,fill:'#202124'},body);
+el('ellipse',{cx:-3.7,cy:-21.8,rx:1.15,ry:.65,fill:'#f48fb1'},body);el('ellipse',{cx:3.7,cy:-21.8,rx:1.15,ry:.65,fill:'#f48fb1'},body);
+el('path',{d:'M-1 -21.2 q1 .9 2 0',fill:'none',stroke:'#202124','stroke-width':.5},body);
+
+const C={floor:'1F',x:450,y:278,face:1,walk:0,scale:1,op:1};
+let viewFloor='1F',mode='follow',zoomW=240,FREE=null,DEST=null,PLAN=null,job=0,navigating=false,origin=null;
+function drawChar(ts){const ph=ts/1000,sw=C.walk?Math.sin(ph*14)*28:0,bob=C.walk?Math.abs(Math.sin(ph*14))*1.1:Math.sin(ph*2.2)*.3;
+  const st=sw/28;footL.setAttribute('transform',`translate(${st*1.6} 0)`);footR.setAttribute('transform',`translate(${-st*1.6} 0)`);
+  skirt.setAttribute('transform',`rotate(${st*3} 0 -15)`);braid.setAttribute('transform',`rotate(${-st*6} 4.6 -24)`);
+  armB.setAttribute('transform',`rotate(${-sw*.7} -5 -18.4)`);armF.setAttribute('transform',`rotate(${sw*.7} 5 -18.4)`);
+  body.setAttribute('transform',`translate(0 ${-bob}) scale(${C.face} 1)`);halo.setAttribute('r',10+Math.sin(ph*3)*1.5);
+  ch.setAttribute('transform',`translate(${C.x} ${C.y}) scale(${C.scale*0.82})`);ch.style.opacity=C.op;
+  ch.style.display=viewFloor===C.floor?'':'none'}
+
+/* ===== camera with pan / pinch ===== */
+let cam=null;
+function aspect(){const st=$('stage');return st.clientHeight/Math.max(1,st.clientWidth)}
+function fitBox(x,y,w,h,pad){const ar=aspect();x-=pad;y-=pad;w+=pad*2;h+=pad*2;if(h/w<ar){const nh=w*ar;y-=(nh-h)/2;h=nh}else{const nw=h/ar;x-=(nw-w)/2;w=nw}return[x,y,w,h]}
+function bounds(){const b=F[viewFloor].bg;return[b[0]-3,b[1]-3,b[2]+3,b[3]+3]}
+function maxW(){const [a,b,c,d]=bounds();return Math.min(c-a,(d-b)/aspect()*1.45)}
+function clampCam(v){if(!v)return v;const ar=aspect(),[a,b,c,d]=bounds();let [x,y,w,h]=v;const cx=x+w/2,cy=y+h/2,mw=maxW();
+  w=Math.max(Math.min(85,mw),Math.min(mw,w));h=w*ar;x=Math.max(a,Math.min(c-w,cx-w/2));y=h>d-b?(b+d)/2-h/2:Math.max(b,Math.min(d-h,cy-h/2));return[x,y,w,h]}
+function targetCam(){const ar=aspect();
+  if(mode==='follow'&&viewFloor===C.floor){const w=zoomW,h=w*ar;return[C.x-w/2,C.y-h*0.55,w,h]}
+  if(mode==='free'&&FREE)return FREE;
+  if(mode==='fit'&&PLAN){const seg=PLAN.segs.find(s=>s.floor===viewFloor);if(seg){const xs=seg.pts.map(p=>p[0]),ys=seg.pts.map(p=>p[1]);
+      const x=Math.min(...xs),y=Math.min(...ys);return fitBox(x,y-18,Math.max(60,Math.max(...xs)-x),Math.max(60,Math.max(...ys)-y+18),28)}}
+  const [x,y,w,h]=F[viewFloor].vb;return fitBox(x,y,w,h,0)}
+function loop(ts){const tc=clampCam(targetCam());if(!cam)cam=tc;cam=cam.map((v,i)=>v+(tc[i]-v)*(mode==='free'?1:0.14));svg.setAttribute('viewBox',cam.map(v=>v.toFixed(2)).join(' '));drawChar(ts);requestAnimationFrame(loop)}
+const ptrs=new Map();let drag=null,moved=false;
+svg.addEventListener('pointerdown',e=>{svg.setPointerCapture(e.pointerId);ptrs.set(e.pointerId,[e.clientX,e.clientY]);moved=false;drag={cam:cam.slice(),pts:new Map(ptrs)}});
+svg.addEventListener('pointermove',e=>{if(!ptrs.has(e.pointerId)||!drag)return;ptrs.set(e.pointerId,[e.clientX,e.clientY]);
+  const r=svg.getBoundingClientRect(),k=drag.cam[2]/r.width;
+  if(ptrs.size===1){const [sx,sy]=drag.pts.get(e.pointerId)||[e.clientX,e.clientY];const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.hypot(dx,dy)>6)moved=true;
+    if(moved){mode='free';FREE=clampCam([drag.cam[0]-dx*k,drag.cam[1]-dy*k,drag.cam[2],drag.cam[3]])}}
+  else if(ptrs.size===2){const a=[...ptrs.values()],b=[...drag.pts.values()];if(b.length<2)return;moved=true;
+    const d1=Math.hypot(a[0][0]-a[1][0],a[0][1]-a[1][1]),d0=Math.hypot(b[0][0]-b[1][0],b[0][1]-b[1][1]);zoomFree(d0/d1,drag.cam)}});
+function endPtr(e){ptrs.delete(e.pointerId);if(ptrs.size===0)drag=null;else drag={cam:cam.slice(),pts:new Map(ptrs)}}
+svg.addEventListener('pointerup',endPtr);svg.addEventListener('pointercancel',endPtr);
+svg.addEventListener('wheel',e=>{e.preventDefault();zoomFree(e.deltaY>0?1.15:1/1.15,cam)},{passive:false});
+function zoomFree(f,base){const [x,y,w,h]=base,nw=Math.max(90,Math.min(900,w*f)),nh=nw*h/w;mode='free';FREE=clampCam([x+(w-nw)/2,y+(h-nh)/2,nw,nh]);zoomW=FREE[2]}
+svg.addEventListener('click',ev=>{if(moved)return;const p=svg.createSVGPoint();p.x=ev.clientX;p.y=ev.clientY;const q=p.matrixTransform(svg.getScreenCTM().inverse());
+  const b=F[viewFloor].bg;if(q.x<b[0]-8||q.x>b[2]+8||q.y<b[1]-8||q.y>b[3]+8)return;if(navigating)return;
+  const s=whereIs(viewFloor,q.x,q.y);walkTo({floor:viewFloor,x:q.x,y:q.y,pt:1,label:s?sn(s):''})});
+
+/* ===== route drawing ===== */
+function drawRoute(livePts){const g=$('routeG');g.innerHTML='';$('pinG').innerHTML='';
+  if(PLAN){for(const s of PLAN.segs){if(s.floor!==viewFloor)continue;const pts=(livePts&&s===curSeg)?livePts:s.pts;if(pts.length<2)continue;
+      const d='M'+pts.map(p=>p.map(v=>v.toFixed(1)).join(' ')).join(' L');
+      el('path',{d,fill:'none',stroke:'#1a73e8','stroke-width':4.2,'stroke-linecap':'round','stroke-linejoin':'round','stroke-dasharray':'0 7.5'},g);
+      el('path',{d,fill:'none',stroke:'#fff','stroke-width':1.4,'stroke-linecap':'round','stroke-dasharray':'0 7.5','stroke-opacity':.0},g)}
+    // escalator transfer bubbles
+    if(PLAN.rides.length){for(const s of PLAN.segs){if(s.floor!==viewFloor)continue;const isFirst=s===PLAN.segs[0];const n=F[s.floor].nodes[F[s.floor].lift];
+      const other=isFirst?PLAN.segs[1].floor:PLAN.segs[0].floor;const txt=(isFirst?'↗ ':'↙ ')+other;
+      const bg=el('g',{transform:`translate(${n[0]} ${n[1]-14})`},g);el('rect',{x:-15,y:-6.5,width:30,height:13,rx:6.5,fill:'#fff',stroke:'#1a73e8','stroke-width':.8},bg);
+      poiIcon(bg,'esc',-8.5,0,4.2);const tx=el('text',{x:3.5,y:.3,'font-size':5.8,'font-weight':700,fill:'#1a73e8','text-anchor':'middle','dominant-baseline':'middle'},bg);tx.textContent=txt.replace(/^. /,'');}}}
+  // highlight destination
+  for(const f of ORDER)for(const r of Object.values(F[f].storeEls)){r.setAttribute('stroke','#c9ced6');r.setAttribute('stroke-width',.6)}
+  if(DEST&&DEST.floor===viewFloor){const z=DEST.zone||DEST;if(z.x1!==undefined){const r=F[z.floor].storeEls[z.raw+z.x1];if(r){r.setAttribute('stroke','#ea4335');r.setAttribute('stroke-width',1.6)}}
+    const p=el('g',{transform:`translate(${DEST.x} ${DEST.y})`},$('pinG'));
+    el('path',{d:'M0 0 C-1.5 -5 -7 -8 -7 -13.5 a7 7 0 0 1 14 0 C7 -8 1.5 -5 0 0z',fill:'#ea4335',stroke:'#b31412','stroke-width':.6},p);el('circle',{cx:0,cy:-13.5,r:2.6,fill:'#b31412'},p);
+    el('ellipse',{cx:0,cy:.3,rx:2.6,ry:1,fill:'#0004'},p)}}
+let curSeg=null;
+
+/* ===== movement ===== */
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+function walk(seg,my,onProg){return new Promise(res=>{const pts=seg.pts;let i=1,last=null;C.walk=1;curSeg=seg;
+  function st(ts){if(my!==job){C.walk=0;return res(false)}if(last===null)last=ts;const dt=Math.min(.05,(ts-last)/1000);last=ts;let mv=72*dt;
+    while(mv>0&&i<pts.length){const [tx,ty]=pts[i],dx=tx-C.x,dy=ty-C.y,dd=Math.hypot(dx,dy);if(Math.abs(dx)>.3)C.face=dx<0?-1:1;
+      if(dd<=mv){C.x=tx;C.y=ty;mv-=dd;i++}else{C.x+=dx/dd*mv;C.y+=dy/dd*mv;mv=0}}
+    drawRoute([[C.x,C.y],...pts.slice(i)]);if(onProg)onProg(plen([[C.x,C.y],...pts.slice(i)]));
+    if(i>=pts.length){C.walk=0;curSeg=null;return res(true)}requestAnimationFrame(st)}
+  requestAnimationFrame(st)})}
+async function ride(a,b,my){$('trBig').innerHTML=`${a} <span style="background:none;color:#70757a;padding:0">→</span> <span>${b}</span>`;$('trSm').textContent=t('fac').esc+' · '+tf('escHop',{f:b});
+  $('transfer').style.display='flex';for(let k=0;k<=10;k++){C.scale=1-k*.04;C.op=1-k*.08;await sleep(25)}await sleep(850);
+  const n=F[b].nodes[F[b].lift];C.floor=b;C.x=n[0];C.y=n[1];setView(b,true);cam=null;
+  $('transfer').style.display='none';C.scale=1;C.op=1;return my===job}
+async function walkTo(T){const my=++job;setView(C.floor,true);mode='follow';const p=plan(C,T);
+  for(const s of p.segs){if(s.floor!==C.floor)break;if(!(await walk(s,my)))return;}
+  if(p.rides.length){for(const [a,b] of p.rides)if(!(await ride(a,b,my)))return;await walk(p.segs[1],my)}
+  if(my!==job)return;origin=null;afterMove()}
+function afterMove(){C.face=1;refreshFrom();if(DEST&&!navigating){PLAN=plan(C,DEST);renderSheet();if(PLAN)drawRoute()}}
+
+/* ===== navigation ===== */
+function stepList(p){const S=[];const st=origin||{me:1};
+  const a0=whereIs(C.floor,C.x,C.y);
+  if(p.rides.length){S.push({ic:'walk',tx:tf('walk',{b:t('fac').esc}),sub:plen(p.segs[0].pts)*MPU<5?'':tf('m',{n:Math.round(plen(p.segs[0].pts)*MPU)}),seg:0});
+    p.rides.forEach(([a,b])=>S.push({ic:'esc',tx:tf('ride',{a,b}),sub:''}));
+    S.push({ic:'walk',tx:tf('walk',{b:nm(DEST)}),sub:tf('m',{n:Math.round(plen(p.segs[1].pts)*MPU)}),seg:1})}
+  else S.push({ic:'walk',tx:tf('walk',{b:nm(DEST)}),sub:tf('m',{n:Math.round(plen(p.segs[0].pts)*MPU)}),seg:0});
+  S.push({ic:'pin',tx:tf('arrive',{b:nm(DEST)}),sub:desc(DEST)});return S}
+const SI={walk:'<svg viewBox="0 0 24 24" fill="#5f6368"><circle cx="13.5" cy="4.5" r="2"/><path d="M9.8 8.9 7 23h2.1l1.8-8 2.1 2v6h2v-7.5l-2.1-2 .6-3A7.3 7.3 0 0 0 19 13v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L6 8.3V13h2V9.6z"/></svg>',
+ esc:chipSvg('esc'),pin:'<svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7z" fill="#ea4335"/><circle cx="12" cy="9" r="2.6" fill="#b31412"/></svg>'};
+function setGo(on){const g=$('goTop');g.disabled=!on;g.textContent=navigating?t('stop'):t('start');g.classList.toggle('stop',navigating)}
+function renderSheet(active){const box=$('sumBox'),stp=$('steps');setGo(!!DEST);
+  if(!DEST){box.innerHTML=`<div class="empty">${t('pick')}</div>`;stp.innerHTML='';return}
+  if(!navigating&&C.floor===DEST.floor&&dist([C.x,C.y],[DEST.x,DEST.y])<15){PLAN=null;drawRoute();box.innerHTML=`<div class="sum"><div class="tm">📍 ${t('arrived')}</div></div><div class="via" style="color:#5f6368;font-size:13px;margin-top:4px">${nm(DEST)} · ${desc(DEST)}</div>`;stp.innerHTML='';setGo(false);return}
+  if(!PLAN)PLAN=plan(C,DEST);const m=metrics(PLAN);
+  box.innerHTML=`<div class="sum"><div style="flex:1"><div class="tm">${tf('min',{n:m.min})}<small>(${tf('m',{n:m.m})})</small></div><div class="via">${PLAN.rides.length?PLAN.from+' → '+PLAN.to+' · '+tf('via',{n:PLAN.rides.length}):t('same')}</div></div></div>
+`;
+  const S=stepList(PLAN);stp.innerHTML='';S.forEach((s,i)=>{const d=document.createElement('div');d.className='st'+(i===active?' cur':'');
+    d.innerHTML=`<div class="si">${SI[s.ic]}</div><div class="sx"></div>`;d.lastChild.textContent=s.tx;if(s.sub){const sm=document.createElement('small');sm.textContent=s.sub;d.lastChild.appendChild(sm)}stp.appendChild(d)})}
+function navShow(ic,txt,sub){$('navbar').style.display='flex';$('navI').textContent=ic;$('navT').textContent=txt;$('navS').textContent=sub||''}
+async function startNav(){if(!DEST)return;const my=++job;navigating=true;mode='follow';setView(C.floor,true);PLAN=plan(C,DEST);const p=PLAN,S=stepList(p);renderSheet(0);
+  let si=0;const nav=(i,rem)=>{const s=S[i];navShow(s.ic==='esc'?'⇅':s.ic==='pin'?'📍':'↑',s.tx,rem!=null?tf('m',{n:Math.round(rem*MPU)}):s.sub)};
+  nav(0);if(!(await walk(p.segs[0],my,r=>nav(0,r))))return;si=1;
+  for(const [a,b] of p.rides){renderSheet(si);nav(si);if(!(await ride(a,b,my)))return;si++}
+  if(p.rides.length){renderSheet(si);nav(si);if(!(await walk(p.segs[1],my,r=>nav(si,r))))return;si++}
+  renderSheet(si);navShow('🏁',t('arrived'),nm(DEST));C.face=1;refreshFrom();celebrate();
+  await sleep(2600);if(my!==job)return;navigating=false;$('navbar').style.display='none';PLAN=plan(C,DEST);renderSheet();if(PLAN)drawRoute()}
+function stopNav(){job++;navigating=false;C.walk=0;$('navbar').style.display='none';$('transfer').style.display='none';C.scale=1;C.op=1;afterMove()}
+function celebrate(){const g=el('g',{},$('pinG'));const cs=['#ea4335','#fbbc04','#34a853','#1a73e8'];
+  for(let k=0;k<20;k++){const a=Math.random()*Math.PI*2,r=8+Math.random()*16;const c=el('circle',{cx:C.x,cy:C.y-14,r:1.3,fill:cs[k%4]},g);
+    c.animate([{transform:'translate(0,0)',opacity:1},{transform:`translate(${Math.cos(a)*r}px,${Math.sin(a)*r-6}px)`,opacity:0}],{duration:1100,easing:'cubic-bezier(.2,.7,.3,1)',fill:'forwards'})}
+  setTimeout(()=>g.remove(),1300)}
+
+/* ===== UI ===== */
+function setView(f,keep){viewFloor=f;ORDER.forEach(x=>$('fl_'+x).style.display=x===f?'':'none');if(!keep&&!navigating)mode=(PLAN&&PLAN.segs.some(s=>s.floor===f))?'fit':'overview';drawFloorSw();drawPois();drawRoute()}
+function drawFloorSw(){const w=$('floorSw');w.innerHTML='';[...ORDER].reverse().forEach(f=>{const b=document.createElement('button');b.textContent=f;if(f===viewFloor)b.className='on';
+  if(C.floor===f)b.innerHTML+='<i style="background:#1a73e8"></i>';else if(DEST&&DEST.floor===f)b.innerHTML+='<i style="background:#ea4335"></i>';
+  b.onclick=()=>setView(f);w.appendChild(b)})}
+function refreshFrom(){const s=whereIs(C.floor,C.x,C.y);$('inFrom').value=t('my')+' · '+(origin?nm(origin):s?sn(s):t('corr').replace('{f}',C.floor))+' ('+C.floor+')'}
+function setDest(o){DEST=o;$('inTo').value=nm(o)+' · '+o.floor;PLAN=plan(C,DEST);renderSheet();setView(C.floor===o.floor?o.floor:C.floor);mode='fit';drawFloorSw();drawRoute()}
+function nearestOf(types){let b=null,bc=1e9;for(const o of ALL)if(o.poi&&types.includes(o.poi)){const c=cost(C,o);if(c<bc){bc=c;b=o}}return b}
+function search(q){q=q.trim().toLowerCase().replace(/\s+/g,' ');if(!q)return[];
+  return ALL.filter(o=>((o.name||'')+' '+(o.ko||'')+' '+(o.poi?Object.values(T).map(x=>x.fac[o.poi]+' toilet wc restroom 화장실').join(' '):'')).toLowerCase().includes(q)).slice(0,30)}
+function icFor(o){if(o.poi)return chipSvg(o.poi).replace('<svg','<svg width="22" height="22"');return'<svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7z" fill="#9aa0a6"/></svg>'}
+function bindSearch(inp,ls,set,restore){inp.onfocus=()=>{inp.value='';show()};inp.oninput=show;
+  function show(){const r=search(inp.value);ls.innerHTML='';if(!inp.value.trim()){ls.style.display='none';return}
+    if(!r.length)ls.innerHTML=`<div>${t('none')}</div>`;
+    for(const o of r){const d=document.createElement('div');d.innerHTML=`<span class="ic">${icFor(o)}</span><span class="tx"><b></b><span></span></span>`;
+      d.querySelector('b').textContent=nm(o)+(L==='ko'&&o.ko&&!o.poi?'  '+o.name:'');d.querySelector('.tx span').textContent=desc(o);
+      d.onmousedown=ev=>ev.preventDefault();d.onclick=()=>{set(o);ls.style.display='none';inp.blur()};ls.appendChild(d)}
+    ls.style.display='block'}
+  inp.onblur=()=>setTimeout(()=>{ls.style.display='none';restore()},200)}
+bindSearch($('inFrom'),$('lsFrom'),o=>{job++;navigating=false;$('navbar').style.display='none';C.walk=0;C.floor=o.floor;C.x=o.x;C.y=o.poi?o.y+8:o.y+3;origin=o;mode='follow';cam=null;setView(o.floor,true);afterMove()},refreshFrom);
+bindSearch($('inTo'),$('lsTo'),setDest,()=>{$('inTo').value=DEST?nm(DEST)+' · '+DEST.floor:''});
+$('swap').onclick=()=>{if(!DEST||navigating)return;const prev={floor:C.floor,x:C.x,y:C.y,pt:1,label:origin?nm(origin):(whereIs(C.floor,C.x,C.y)?sn(whereIs(C.floor,C.x,C.y)):'')};
+  const o=DEST;C.floor=o.floor;C.x=o.x;C.y=o.poi?o.y+8:o.y+3;origin=o;DEST=prev;$('inTo').value=nm(prev)+' · '+prev.floor;cam=null;mode='follow';setView(C.floor,true);afterMove()};
+$('recenter').onclick=()=>{mode='follow';setView(C.floor,true)};
+$('zin').onclick=()=>{if(mode==='follow')zoomW=Math.max(90,zoomW/1.4);else zoomFree(1/1.4,cam)};
+$('zout').onclick=()=>{if(mode==='follow')zoomW=Math.min(maxW(),zoomW*1.4);else zoomFree(1.4,cam)};
+function applyLang(){document.documentElement.lang={ko:'ko',zh:'zh-CN',tw:'zh-TW',en:'en',ja:'ja',vi:'vi',th:'th',fil:'fil'}[L];document.title=t('title');$('brandbar').textContent=t('title');
+  $('inFrom').placeholder=t('fromPh');$('inTo').placeholder=t('toPh');$('note').textContent=t('note');$('toast').textContent=t('hint');
+  $('chips').innerHTML=`<button class="chip" data-k="wc">${chipSvg('wc')}${t('chipWc')}</button><button class="chip" data-k="awc">${chipSvg('awc')}${t('fac').awc}</button><button class="chip" data-k="esc">${chipSvg('esc')}${t('chipEsc')}</button><button class="chip" data-k="info">${chipSvg('info')}${t('chipInfo')}</button>`;
+  $('lang').value=L;if(!window._langBound){window._langBound=1;$('lang').onchange=e=>{L=e.target.value;try{localStorage.setItem('sdf_lang',L)}catch(_){};applyLang()}};
+  document.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{const k=b.dataset.k;const o=nearestOf([k]);if(o)setDest(o)});
+  $('legend').innerHTML=Object.entries(t('cat')).filter(([k])=>k!=='z').map(([k,v])=>`<span><b style="background:${COL[k]}"></b>${v}</span>`).join('');
+  refreshFrom();if(DEST)$('inTo').value=nm(DEST)+' · '+DEST.floor;renderSheet();drawPois();drawRoute()}
+
+$('goTop').onclick=()=>navigating?stopNav():startNav();
+// Kiosk / QR start point: #loc-1F-450-278
+function fromHash(){const m=/^#loc-(B1F|1F|2F|2MF|3F)-(\d+)-(\d+)$/i.exec(location.hash);if(!m)return;C.floor=m[1].toUpperCase();C.x=+m[2];C.y=+m[3];origin=null;setView(C.floor,true);cam=null;afterMove()}
+window.addEventListener('hashchange',fromHash);
+setView('1F',true);fromHash();applyLang();requestAnimationFrame(loop);
+setTimeout(()=>$('toast').style.opacity=0,5000);
+</script>
+</body>
+</html>
