@@ -47,9 +47,10 @@ body{font-family:Roboto,"Noto Sans KR","Noto Sans Thai","PingFang SC","Hiragino 
 /* map stage */
 .stage{flex:1;position:relative;background:#fff;overflow:hidden;min-height:200px}
 #map{width:100%;height:100%;display:block;touch-action:none;cursor:grab}
-.navbar{position:absolute;left:10px;right:10px;top:10px;background:var(--green);color:#fff;border-radius:12px;padding:12px 14px;display:none;align-items:center;gap:12px;z-index:10;box-shadow:0 2px 8px #0004}
-.navbar .ni{font-size:26px;width:34px;text-align:center}
-.navbar .nt{font-size:17px;font-weight:500;line-height:1.3}
+.navbar{background:var(--green);color:#fff;border-radius:10px;padding:8px 12px;display:none;align-items:center;gap:10px;margin-top:8px}
+.top.nav .chips{display:none}
+.navbar .ni{font-size:20px;width:26px;text-align:center}
+.navbar .nt{font-size:15px;font-weight:500;line-height:1.3}
 .navbar .ns{font-size:13px;opacity:.85}
 .floors{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:#fff;border-radius:8px;box-shadow:0 1px 4px #0004;display:flex;flex-direction:column;overflow:hidden;z-index:8}
 .floors button{width:44px;height:38px;border:0;border-bottom:1px solid var(--g4);background:#fff;font:inherit;font-size:13px;font-weight:500;color:var(--g2);position:relative;cursor:pointer}
@@ -93,7 +94,7 @@ body{font-family:Roboto,"Noto Sans KR","Noto Sans Thai","PingFang SC","Hiragino 
 </head>
 <body>
 <div class="app">
- <div class="top">
+ <div class="top" id="top">
   <div class="brandbar"><span id="brandbar"></span><label class="langw">🌐<select class="lang" id="lang"><option value="ko">한국어</option><option value="zh">简体中文</option><option value="tw">繁體中文</option><option value="en">English</option><option value="ja">日本語</option><option value="vi">Tiếng Việt</option><option value="th">ภาษาไทย</option><option value="fil">Filipino</option></select></label></div>
   <div class="dir">
    <div class="pts"><span class="o"></span><span class="dots"></span><span class="d"></span></div>
@@ -104,12 +105,12 @@ body{font-family:Roboto,"Noto Sans KR","Noto Sans Thai","PingFang SC","Hiragino 
    <div class="side"><button class="swap" id="swap" aria-label="swap">⇅</button><button class="gobtn" id="goTop" disabled></button></div>
   </div>
   <div class="chips" id="chips"></div>
+  <div class="navbar" id="navbar"><div class="ni" id="navI">↑</div><div><div class="nt" id="navT"></div><div class="ns" id="navS"></div></div></div>
  </div>
  <div class="stage" id="stage">
   <svg id="map" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 526">
    <g id="floorsG"></g><g id="routeG"></g><g id="poiG"></g><g id="pinG"></g><g id="charG"></g>
   </svg>
-  <div class="navbar" id="navbar"><div class="ni" id="navI">↑</div><div><div class="nt" id="navT"></div><div class="ns" id="navS"></div></div></div>
   <div class="floors" id="floorSw"></div>
   <div class="zoom"><button id="zin">+</button><button id="zout">−</button></div>
   <div class="fab"><button id="recenter" title="My location">◎</button></div>
@@ -130,7 +131,7 @@ B1F:{vb:[120,80,560,360],bg:[128,127,655,472],lift:'esc',
  nodes:{t1:[242,138],t2:[330,135],t3:[420,135],t4:[500,135],esc:[530,122],t5:[570,148],r1:[572,263],r2:[565,388],b1:[480,391],b2:[380,391],b3:[300,391],b4:[246,383],l1:[240,263]},
  edges:'t1-t2 t2-t3 t3-t4 t4-esc t4-t5 esc-t5 t5-r1 r1-r2 r2-b1 b1-b2 b2-b3 b3-b4 b4-l1 l1-t1',
  esc:[[512,128,550,146]],fac:[['esc',521,137],['esc',540,137],['wc',139,296],['wc',660,247],['stairs',662,372,'B2F']],
- stores:`CAFE LA|128|127|188|305|x|카페라;PRESTIGE LOUNGE|128|305|188|425|z|프레스티지 라운지;正官庄|188|127|236|212|d|정관장;HEALTH CARE|248|127|312|165|d|건강기능식품;DUALSONIC|312|127|362|165|x|듀얼소닉;AHC|362|127|390|165|b;COSMETICS·& PERFUMES|390|127|465|165|b|화장품·향수;HYPE·STREET|465|127|515|165|b|하이프스트리트;SUNGLASSES|583|127|655|180|e|선글라스;GENTLE MONSTER|583|185|655|240|e|젠틀몬스터;CARIN EYE|583|253|655|280|e|카린;WHO.A.U|583|280|655|308|f|후아유;HEALTH CARE|583|308|655|335|d|건강기능식품;MALTESE|583|335|655|365|d|말티즈;ADLV|583|385|655|412|f|아크메드라비;KEEK|575|415|655|472|f|키크;TOBACCO|188|215|230|258|d|담배;NATIONAL·GEOGRAPHIC|188|258|230|292|f|내셔널지오그래픽;MLB|188|305|230|370|f|엠엘비;FILA|188|370|230|425|f|휠라;KODAK|232|425|268|450|f|코닥;NORTH FACE|268|440|325|472|f|노스페이스;EIDER|325|440|390|472|f|아이더;SATUR|390|440|455|472|f|세터;DISCOVERY|455|440|520|472|f|디스커버리;MLB KIDS|520|440|570|472|f|엠엘비 키즈;COVERNAT|385|398|440|420|f|커버낫;SNOW PEAK|440|398|500|420|f|스노우피크;CALVIN KLEIN|500|398|555|420|f|캘빈클라인;CILOCALA|320|408|360|422|f|실로칼라;EVISU|268|365|305|397|f|에비수;MARITHE|305|365|380|397|f|마리떼;M.DUCK|248|308|312|325|f|엠덕;WACKY·WILLY|248|325|290|360|f|와키윌리;FOOD·SOUVENIR·ELECTRONICS|250|235|322|290|d|식품·기념품·전자;LIQUOR·TOBACCO|322|235|400|290|d|주류·담배;MEME BOX·KAHI·REFA·DR.G·GOONGBE|255|185|320|215|b|미미박스·가히·리파·닥터지·궁중비책;NUMBUZIN·FWEE·LUVUM·PIXELPURE·RENODERM|320|185|385|215|b|넘버즈인·퓌·러븀·레노덤;CELL·FUSION C|385|185|425|215|b|셀퓨전씨;REJURAN|425|185|460|212|b|리쥬란;JUNG SAEM·MOOL|490|185|545|212|b|정샘물;BANILA CO·MEDIHEAL|460|215|515|238|b|바닐라코·메디힐;3CE|520|212|560|238|b;CNP·IT'S SKIN|490|240|535|262|b|차앤박·잇츠스킨;VT·TOO COOL FOR SCHOOL·OLIVE YOUNG|405|240|488|268|b|브이티·투쿨포스쿨·올리브영;CLIO|465|268|500|290|b|클리오;YUNGO·PAPA RECIPE|400|270|462|292|b|윤고·파파레서피;THE SAEM·LAVIEN·BIBIANG|365|292|420|315|b|더샘·라비앙·비비앙;TIRTIR·ROM&ND|425|292|488|312|b|티르티르·롬앤;JM SOLUTION|330|317|390|342|b|제이엠솔루션;THE FACE SHOP·THE ORCHID|398|315|458|338|b|더페이스샵·디오키드;GLUTANEX·ATOPALM·TONYMOLY|365|342|425|365|b|글루타넥스·아토팜·토니모리;CHOW·TAI FOOK|430|345|488|375|w|주대복;SWAROVSKI|500|290|553|320|w|스와로브스키;APM MONACO·DIDIER DUBOT·J.ESTINA·PANDORA|490|320|553|353|w|아페쎄모나코·디디에두보·제이에스티나·판도라;STONE HENGE·ROSEMONT·LLOYD·HAESOO|490|353|553|383|w|스톤헨지·로즈몽·로이드·해수`},
+ stores:`CAFE LA|128|127|188|285|x|카페라;PRESTIGE LOUNGE|128|305|188|425|z|프레스티지 라운지;正官庄|188|127|236|212|d|정관장;HEALTH CARE|248|127|312|165|d|건강기능식품;DUALSONIC|312|127|362|165|x|듀얼소닉;AHC|362|127|390|165|b;COSMETICS·& PERFUMES|390|127|465|165|b|화장품·향수;HYPE·STREET|465|127|515|165|b|하이프스트리트;SUNGLASSES|583|127|655|180|e|선글라스;GENTLE MONSTER|583|185|655|240|e|젠틀몬스터;CARIN EYE|583|253|655|280|e|카린;WHO.A.U|583|280|655|308|f|후아유;HEALTH CARE|583|308|655|335|d|건강기능식품;MALTESE|583|335|655|365|d|말티즈;ADLV|583|385|655|412|f|아크메드라비;KEEK|575|415|655|472|f|키크;TOBACCO|188|215|230|258|d|담배;NATIONAL·GEOGRAPHIC|188|258|230|292|f|내셔널지오그래픽;MLB|188|305|230|370|f|엠엘비;FILA|188|370|230|425|f|휠라;KODAK|232|425|268|450|f|코닥;NORTH FACE|268|440|325|472|f|노스페이스;EIDER|325|440|390|472|f|아이더;SATUR|390|440|455|472|f|세터;DISCOVERY|455|440|520|472|f|디스커버리;MLB KIDS|520|440|570|472|f|엠엘비 키즈;COVERNAT|385|398|440|420|f|커버낫;SNOW PEAK|440|398|500|420|f|스노우피크;CALVIN KLEIN|500|398|555|420|f|캘빈클라인;CILOCALA|320|408|360|422|f|실로칼라;EVISU|268|365|305|397|f|에비수;MARITHE|305|365|380|397|f|마리떼;M.DUCK|248|308|312|325|f|엠덕;WACKY·WILLY|248|325|290|360|f|와키윌리;FOOD·SOUVENIR·ELECTRONICS|250|235|322|290|d|식품·기념품·전자;LIQUOR·TOBACCO|322|235|400|290|d|주류·담배;MEME BOX·KAHI·REFA·DR.G·GOONGBE|255|185|320|215|b|미미박스·가히·리파·닥터지·궁중비책;NUMBUZIN·FWEE·LUVUM·PIXELPURE·RENODERM|320|185|385|215|b|넘버즈인·퓌·러븀·레노덤;CELL·FUSION C|385|185|425|215|b|셀퓨전씨;REJURAN|425|185|460|212|b|리쥬란;JUNG SAEM·MOOL|490|185|545|212|b|정샘물;BANILA CO·MEDIHEAL|460|215|515|238|b|바닐라코·메디힐;3CE|520|212|560|238|b;CNP·IT'S SKIN|490|240|535|262|b|차앤박·잇츠스킨;VT·TOO COOL FOR SCHOOL·OLIVE YOUNG|405|240|488|268|b|브이티·투쿨포스쿨·올리브영;CLIO|465|268|500|290|b|클리오;YUNGO·PAPA RECIPE|400|270|462|292|b|윤고·파파레서피;THE SAEM·LAVIEN·BIBIANG|365|292|420|315|b|더샘·라비앙·비비앙;TIRTIR·ROM&ND|425|292|488|312|b|티르티르·롬앤;JM SOLUTION|330|317|390|342|b|제이엠솔루션;THE FACE SHOP·THE ORCHID|398|315|458|338|b|더페이스샵·디오키드;GLUTANEX·ATOPALM·TONYMOLY|365|342|425|365|b|글루타넥스·아토팜·토니모리;CHOW·TAI FOOK|430|345|488|375|w|주대복;SWAROVSKI|500|290|553|320|w|스와로브스키;APM MONACO·DIDIER DUBOT·J.ESTINA·PANDORA|490|320|553|353|w|아페쎄모나코·디디에두보·제이에스티나·판도라;STONE HENGE·ROSEMONT·LLOYD·HAESOO|490|353|553|383|w|스톤헨지·로즈몽·로이드·해수`},
 '1F':{vb:[118,95,562,340],bg:[128,142,672,458],lift:'n',
  nodes:{a:[188,188],b:[268,188],c:[345,188],d:[420,188],e:[420,135],f:[500,135],g:[597,135],h:[597,223],i:[597,293],j:[597,348],k:[540,348],m:[470,348],n:[450,278],o:[420,253],p:[395,323],q:[268,318],r:[188,318],s:[268,263],t:[188,253]},
  edges:'a-b b-c c-d d-e e-f f-g g-h h-i i-j j-k k-m m-n n-o o-d m-p p-n p-q q-r r-t t-a q-s s-b',
@@ -197,22 +198,47 @@ function desc(o){if(o.poi){const s=nearStore(o);return o.floor+' · '+(o.poi==='
   return o.floor+' · '+(t('cat')[o.cat]||'')}
 function whereIs(f,x,y){return F[f].stores.find(s=>x>=s.x1&&x<=s.x2&&y>=s.y1&&y<=s.y2)}
 
-/* ===== routing (escalators only) ===== */
-function nearest(f,pt){let b,bd=1e9;for(const [k,v] of Object.entries(F[f].nodes)){const d=dist(v,pt);if(d<bd){bd=d;b=k}}return b}
-function path(f,A,B){const d=F[f],N=d.nodes,s=nearest(f,A),g=nearest(f,B),D={},P={},Q=new Set(Object.keys(N));
-  for(const k of Q)D[k]=1e9;D[s]=0;
-  while(Q.size){let u=null;for(const k of Q)if(u===null||D[k]<D[u])u=k;Q.delete(u);if(u===g)break;
-    for(const v of d.adj[u]||[]){const x=D[u]+dist(N[u],N[v]);if(x<D[v]){D[v]=x;P[v]=u}}}
-  const seq=[];let c=g;while(c){seq.unshift(N[c]);if(c===s)break;c=P[c]}
-  let pts=[A,...seq,B];
-  if(pts.length>3&&dist(A,pts[2])<dist(A,pts[1])+dist(pts[1],pts[2])-30&&dist(A,pts[1])>25)pts.splice(1,1);
-  return pts.filter((p,i)=>i===0||dist(p,pts[i-1])>1)}
+/* ===== routing on a walkable grid (aisles only, escalators only) ===== */
+const GS=2,MARGIN=1.6;
+const LIFT={B1F:[531,113],'1F':[437,276],'2F':[391,231],'2MF':[400,338],'3F':[622,303]};
+for(const f of ORDER){const d=F[f],[x0,y0,x1,y1]=d.bg,cols=Math.ceil((x1-x0)/GS),rows=Math.ceil((y1-y0)/GS),w=new Uint8Array(cols*rows);
+  const obs=[...d.stores.map(s=>[s.x1,s.y1,s.x2,s.y2]),...d.esc];
+  for(let j=0;j<rows;j++)for(let i=0;i<cols;i++){const x=x0+i*GS+GS/2,y=y0+j*GS+GS/2;let ok=1;
+    for(const o of obs)if(x>o[0]-MARGIN&&x<o[2]+MARGIN&&y>o[1]-MARGIN&&y<o[3]+MARGIN){ok=0;break}w[j*cols+i]=ok}
+  d.G={x0,y0,cols,rows,w};}
+function cellOf(f,p){const g=F[f].G;return[Math.max(0,Math.min(g.cols-1,Math.floor((p[0]-g.x0)/GS))),Math.max(0,Math.min(g.rows-1,Math.floor((p[1]-g.y0)/GS)))]}
+function cpt(f,i,j){const g=F[f].G;return[g.x0+i*GS+GS/2,g.y0+j*GS+GS/2]}
+function walk_(f,i,j){const g=F[f].G;return i>=0&&j>=0&&i<g.cols&&j<g.rows&&g.w[j*g.cols+i]===1}
+function snap(f,p){const [ci,cj]=cellOf(f,p);if(walk_(f,ci,cj))return cpt(f,ci,cj);let best=null,bd=1e9;
+  for(let r=1;r<80&&!best;r++)for(let dj=-r;dj<=r;dj++)for(let di=-r;di<=r;di++){if(Math.max(Math.abs(di),Math.abs(dj))!==r)continue;const i=ci+di,j=cj+dj;if(walk_(f,i,j)){const q=cpt(f,i,j),dd=dist(q,p);if(dd<bd){bd=dd;best=q}}}
+  if(!best){const g=F[f].G;for(let j=0;j<g.rows;j++)for(let i=0;i<g.cols;i++)if(g.w[j*g.cols+i]){const q=cpt(f,i,j),dd=dist(q,p);if(dd<bd){bd=dd;best=q}}}
+  return best||p}
+for(const f of ORDER){const g=F[f].G;F[f].liftPt=snap(f,[LIFT[f][0],LIFT[f][1]]);
+  // keep only the aisle network connected to the escalator (drop sealed pockets)
+  const [li,lj]=cellOf(f,F[f].liftPt),seen=new Uint8Array(g.cols*g.rows),q=[lj*g.cols+li];seen[q[0]]=1;
+  while(q.length){const k=q.pop(),i=k%g.cols,j=(k/g.cols)|0;for(const [di,dj] of [[1,0],[-1,0],[0,1],[0,-1]]){const ni=i+di,nj=j+dj;if(walk_(f,ni,nj)){const nk=nj*g.cols+ni;if(!seen[nk]){seen[nk]=1;q.push(nk)}}}}
+  for(let k=0;k<g.w.length;k++)if(!seen[k])g.w[k]=0;
+  for(const s of F[f].stores)s.door=snap(f,[s.x,s.y])}
+function tgt(o){if(o.door)return o.door;if(o.zone)return o.zone.door;return snap(o.floor,[o.x,o.y])}
+function los(f,a,b){const n=Math.ceil(dist(a,b)/1);for(let k=0;k<=n;k++){const x=a[0]+(b[0]-a[0])*k/n,y=a[1]+(b[1]-a[1])*k/n,[i,j]=cellOf(f,[x,y]);if(!walk_(f,i,j))return false}return true}
+function path(f,A,B){const g=F[f].G,sa=snap(f,A),sb=snap(f,B),[si,sj]=cellOf(f,sa),[ti,tj]=cellOf(f,sb),N=g.cols*g.rows;
+  const gs=new Float32Array(N).fill(1e9),from=new Int32Array(N).fill(-1),closed=new Uint8Array(N);const st=sj*g.cols+si,goal=tj*g.cols+ti;gs[st]=0;
+  const h=k=>{const i=k%g.cols,j=(k/g.cols)|0,dx=Math.abs(i-ti),dy=Math.abs(j-tj);return Math.max(dx,dy)+0.414*Math.min(dx,dy)};
+  const heap=[[h(st),st]];const push=(v)=>{heap.push(v);let i=heap.length-1;while(i>0){const p=(i-1)>>1;if(heap[p][0]<=heap[i][0])break;[heap[p],heap[i]]=[heap[i],heap[p]];i=p}};
+  const pop=()=>{const top=heap[0],last=heap.pop();if(heap.length){heap[0]=last;let i=0;for(;;){const l=2*i+1,r=l+1;let m=i;if(l<heap.length&&heap[l][0]<heap[m][0])m=l;if(r<heap.length&&heap[r][0]<heap[m][0])m=r;if(m===i)break;[heap[m],heap[i]]=[heap[i],heap[m]];i=m}}return top};
+  const D8=[[1,0,1],[-1,0,1],[0,1,1],[0,-1,1],[1,1,1.414],[1,-1,1.414],[-1,1,1.414],[-1,-1,1.414]];let found=false;
+  while(heap.length){const [,k]=pop();if(closed[k])continue;closed[k]=1;if(k===goal){found=true;break}const i=k%g.cols,j=(k/g.cols)|0;
+    for(const [di,dj,c] of D8){const ni=i+di,nj=j+dj;if(!walk_(f,ni,nj))continue;if(di&&dj&&(!walk_(f,i+di,j)||!walk_(f,i,j+dj)))continue;const nk=nj*g.cols+ni;if(closed[nk])continue;const ng=gs[k]+c;if(ng<gs[nk]){gs[nk]=ng;from[nk]=k;push([ng+h(nk),nk])}}}
+  if(!found)return[sa,sb];
+  const cells=[];for(let k=goal;k!==-1;k=from[k]){cells.push(cpt(f,k%g.cols,(k/g.cols)|0));if(k===st)break}cells.reverse();cells[0]=sa;cells[cells.length-1]=sb;
+  const out=[cells[0]];let i=0;while(i<cells.length-1){let j=cells.length-1;while(j>i+1&&!los(f,cells[i],cells[j]))j--;out.push(cells[j]);i=j}
+  return out}
 const plen=p=>p.reduce((a,q,i)=>i?a+dist(q,p[i-1]):0,0);
 function hops(a,b){const i=ORDER.indexOf(a),j=ORDER.indexOf(b),r=[];if(i<j)for(let k=i;k<j;k++)r.push([ORDER[k],ORDER[k+1]]);else for(let k=i;k>j;k--)r.push([ORDER[k],ORDER[k-1]]);return r}
 function plan(S,E){const r=plan0(S,E);r.from=S.floor;r.to=E.floor;return r}
-function plan0(S,E){if(S.floor===E.floor)return{segs:[{floor:S.floor,pts:path(S.floor,[S.x,S.y],[E.x,E.y])}],rides:[]};
-  const a=F[S.floor].nodes[F[S.floor].lift],b=F[E.floor].nodes[F[E.floor].lift];
-  return{segs:[{floor:S.floor,pts:path(S.floor,[S.x,S.y],a)},{floor:E.floor,pts:path(E.floor,b,[E.x,E.y])}],rides:hops(S.floor,E.floor)}}
+function plan0(S,E){const e=tgt(E);if(S.floor===E.floor)return{segs:[{floor:S.floor,pts:path(S.floor,[S.x,S.y],e)}],rides:[]};
+  const a=F[S.floor].liftPt,b=F[E.floor].liftPt;
+  return{segs:[{floor:S.floor,pts:path(S.floor,[S.x,S.y],a)},{floor:E.floor,pts:path(E.floor,b,e)}],rides:hops(S.floor,E.floor)}}
 function cost(S,E){const p=plan(S,E);return p.segs.reduce((a,s)=>a+plen(s.pts),0)+p.rides.length*150}
 function metrics(p){const m=p.segs.reduce((a,s)=>a+plen(s.pts),0)*MPU;const sec=m/1.1+p.rides.length*35;return{m:Math.max(5,Math.round(m/5)*5),min:Math.max(1,Math.round(sec/60))}}
 
@@ -290,7 +316,7 @@ el('circle',{cx:-2.2,cy:-23.6,r:.85,fill:'#202124'},body);el('circle',{cx:2.2,cy
 el('ellipse',{cx:-3.7,cy:-21.8,rx:1.15,ry:.65,fill:'#f48fb1'},body);el('ellipse',{cx:3.7,cy:-21.8,rx:1.15,ry:.65,fill:'#f48fb1'},body);
 el('path',{d:'M-1 -21.2 q1 .9 2 0',fill:'none',stroke:'#202124','stroke-width':.5},body);
 
-const C={floor:'1F',x:450,y:278,face:1,walk:0,scale:1,op:1};
+const C={floor:'1F',x:0,y:0,face:1,walk:0,scale:1,op:1};
 let viewFloor='1F',mode='follow',zoomW=240,FREE=null,DEST=null,PLAN=null,job=0,navigating=false,origin=null;
 function drawChar(ts){const ph=ts/1000,sw=C.walk?Math.sin(ph*14)*28:0,bob=C.walk?Math.abs(Math.sin(ph*14))*1.1:Math.sin(ph*2.2)*.3;
   const st=sw/28;footL.setAttribute('transform',`translate(${st*1.6} 0)`);footR.setAttribute('transform',`translate(${-st*1.6} 0)`);
@@ -338,7 +364,7 @@ function drawRoute(livePts){const g=$('routeG');g.innerHTML='';$('pinG').innerHT
       el('path',{d,fill:'none',stroke:'#1a73e8','stroke-width':4.2,'stroke-linecap':'round','stroke-linejoin':'round','stroke-dasharray':'0 7.5'},g);
       el('path',{d,fill:'none',stroke:'#fff','stroke-width':1.4,'stroke-linecap':'round','stroke-dasharray':'0 7.5','stroke-opacity':.0},g)}
     // escalator transfer bubbles
-    if(PLAN.rides.length){for(const s of PLAN.segs){if(s.floor!==viewFloor)continue;const isFirst=s===PLAN.segs[0];const n=F[s.floor].nodes[F[s.floor].lift];
+    if(PLAN.rides.length){for(const s of PLAN.segs){if(s.floor!==viewFloor)continue;const isFirst=s===PLAN.segs[0];const n=F[s.floor].liftPt;
       const other=isFirst?PLAN.segs[1].floor:PLAN.segs[0].floor;const txt=(isFirst?'↗ ':'↙ ')+other;
       const bg=el('g',{transform:`translate(${n[0]} ${n[1]-14})`},g);el('rect',{x:-15,y:-6.5,width:30,height:13,rx:6.5,fill:'#fff',stroke:'#1a73e8','stroke-width':.8},bg);
       poiIcon(bg,'esc',-8.5,0,4.2);const tx=el('text',{x:3.5,y:.3,'font-size':5.8,'font-weight':700,fill:'#1a73e8','text-anchor':'middle','dominant-baseline':'middle'},bg);tx.textContent=txt.replace(/^. /,'');}}}
@@ -361,7 +387,7 @@ function walk(seg,my,onProg){return new Promise(res=>{const pts=seg.pts;let i=1,
   requestAnimationFrame(st)})}
 async function ride(a,b,my){$('trBig').innerHTML=`${a} <span style="background:none;color:#70757a;padding:0">→</span> <span>${b}</span>`;$('trSm').textContent=t('fac').esc+' · '+tf('escHop',{f:b});
   $('transfer').style.display='flex';for(let k=0;k<=10;k++){C.scale=1-k*.04;C.op=1-k*.08;await sleep(25)}await sleep(850);
-  const n=F[b].nodes[F[b].lift];C.floor=b;C.x=n[0];C.y=n[1];setView(b,true);cam=null;
+  const n=F[b].liftPt;C.floor=b;C.x=n[0];C.y=n[1];setView(b,true);cam=null;
   $('transfer').style.display='none';C.scale=1;C.op=1;return my===job}
 async function walkTo(T){const my=++job;setView(C.floor,true);mode='follow';const p=plan(C,T);
   for(const s of p.segs){if(s.floor!==C.floor)break;if(!(await walk(s,my)))return;}
@@ -382,21 +408,21 @@ const SI={walk:'<svg viewBox="0 0 24 24" fill="#5f6368"><circle cx="13.5" cy="4.
 function setGo(on){const g=$('goTop');g.disabled=!on;g.textContent=navigating?t('stop'):t('start');g.classList.toggle('stop',navigating)}
 function renderSheet(active){const box=$('sumBox'),stp=$('steps');setGo(!!DEST);
   if(!DEST){box.innerHTML=`<div class="empty">${t('pick')}</div>`;stp.innerHTML='';return}
-  if(!navigating&&C.floor===DEST.floor&&dist([C.x,C.y],[DEST.x,DEST.y])<15){PLAN=null;drawRoute();box.innerHTML=`<div class="sum"><div class="tm">📍 ${t('arrived')}</div></div><div class="via" style="color:#5f6368;font-size:13px;margin-top:4px">${nm(DEST)} · ${desc(DEST)}</div>`;stp.innerHTML='';setGo(false);return}
+  if(!navigating&&C.floor===DEST.floor&&dist([C.x,C.y],tgt(DEST))<6){PLAN=null;drawRoute();box.innerHTML=`<div class="sum"><div class="tm">📍 ${t('arrived')}</div></div><div class="via" style="color:#5f6368;font-size:13px;margin-top:4px">${nm(DEST)} · ${desc(DEST)}</div>`;stp.innerHTML='';setGo(false);return}
   if(!PLAN)PLAN=plan(C,DEST);const m=metrics(PLAN);
   box.innerHTML=`<div class="sum"><div style="flex:1"><div class="tm">${tf('min',{n:m.min})}<small>(${tf('m',{n:m.m})})</small></div><div class="via">${PLAN.rides.length?PLAN.from+' → '+PLAN.to+' · '+tf('via',{n:PLAN.rides.length}):t('same')}</div></div></div>
 `;
   const S=stepList(PLAN);stp.innerHTML='';S.forEach((s,i)=>{const d=document.createElement('div');d.className='st'+(i===active?' cur':'');
     d.innerHTML=`<div class="si">${SI[s.ic]}</div><div class="sx"></div>`;d.lastChild.textContent=s.tx;if(s.sub){const sm=document.createElement('small');sm.textContent=s.sub;d.lastChild.appendChild(sm)}stp.appendChild(d)})}
-function navShow(ic,txt,sub){$('navbar').style.display='flex';$('navI').textContent=ic;$('navT').textContent=txt;$('navS').textContent=sub||''}
+function navShow(ic,txt,sub){$('navbar').style.display='flex';$('top').classList.add('nav');$('navI').textContent=ic;$('navT').textContent=txt;$('navS').textContent=sub||''}
 async function startNav(){if(!DEST)return;const my=++job;navigating=true;mode='follow';setView(C.floor,true);PLAN=plan(C,DEST);const p=PLAN,S=stepList(p);renderSheet(0);
   let si=0;const nav=(i,rem)=>{const s=S[i];navShow(s.ic==='esc'?'⇅':s.ic==='pin'?'📍':'↑',s.tx,rem!=null?tf('m',{n:Math.round(rem*MPU)}):s.sub)};
   nav(0);if(!(await walk(p.segs[0],my,r=>nav(0,r))))return;si=1;
   for(const [a,b] of p.rides){renderSheet(si);nav(si);if(!(await ride(a,b,my)))return;si++}
   if(p.rides.length){renderSheet(si);nav(si);if(!(await walk(p.segs[1],my,r=>nav(si,r))))return;si++}
   renderSheet(si);navShow('🏁',t('arrived'),nm(DEST));C.face=1;refreshFrom();celebrate();
-  await sleep(2600);if(my!==job)return;navigating=false;$('navbar').style.display='none';PLAN=plan(C,DEST);renderSheet();if(PLAN)drawRoute()}
-function stopNav(){job++;navigating=false;C.walk=0;$('navbar').style.display='none';$('transfer').style.display='none';C.scale=1;C.op=1;afterMove()}
+  await sleep(2600);if(my!==job)return;navigating=false;$('navbar').style.display='none';$('top').classList.remove('nav');PLAN=plan(C,DEST);renderSheet();if(PLAN)drawRoute()}
+function stopNav(){job++;navigating=false;C.walk=0;$('navbar').style.display='none';$('top').classList.remove('nav');$('transfer').style.display='none';C.scale=1;C.op=1;afterMove()}
 function celebrate(){const g=el('g',{},$('pinG'));const cs=['#ea4335','#fbbc04','#34a853','#1a73e8'];
   for(let k=0;k<20;k++){const a=Math.random()*Math.PI*2,r=8+Math.random()*16;const c=el('circle',{cx:C.x,cy:C.y-14,r:1.3,fill:cs[k%4]},g);
     c.animate([{transform:'translate(0,0)',opacity:1},{transform:`translate(${Math.cos(a)*r}px,${Math.sin(a)*r-6}px)`,opacity:0}],{duration:1100,easing:'cubic-bezier(.2,.7,.3,1)',fill:'forwards'})}
@@ -421,10 +447,10 @@ function bindSearch(inp,ls,set,restore){inp.onfocus=()=>{inp.value='';show()};in
       d.onmousedown=ev=>ev.preventDefault();d.onclick=()=>{set(o);ls.style.display='none';inp.blur()};ls.appendChild(d)}
     ls.style.display='block'}
   inp.onblur=()=>setTimeout(()=>{ls.style.display='none';restore()},200)}
-bindSearch($('inFrom'),$('lsFrom'),o=>{job++;navigating=false;$('navbar').style.display='none';C.walk=0;C.floor=o.floor;C.x=o.x;C.y=o.poi?o.y+8:o.y+3;origin=o;mode='follow';cam=null;setView(o.floor,true);afterMove()},refreshFrom);
+bindSearch($('inFrom'),$('lsFrom'),o=>{job++;navigating=false;$('navbar').style.display='none';$('top').classList.remove('nav');C.walk=0;C.floor=o.floor;[C.x,C.y]=tgt(o);origin=o;mode='follow';cam=null;setView(o.floor,true);afterMove()},refreshFrom);
 bindSearch($('inTo'),$('lsTo'),setDest,()=>{$('inTo').value=DEST?nm(DEST)+' · '+DEST.floor:''});
 $('swap').onclick=()=>{if(!DEST||navigating)return;const prev={floor:C.floor,x:C.x,y:C.y,pt:1,label:origin?nm(origin):(whereIs(C.floor,C.x,C.y)?sn(whereIs(C.floor,C.x,C.y)):'')};
-  const o=DEST;C.floor=o.floor;C.x=o.x;C.y=o.poi?o.y+8:o.y+3;origin=o;DEST=prev;$('inTo').value=nm(prev)+' · '+prev.floor;cam=null;mode='follow';setView(C.floor,true);afterMove()};
+  const o=DEST;C.floor=o.floor;[C.x,C.y]=tgt(o);origin=o;DEST=prev;$('inTo').value=nm(prev)+' · '+prev.floor;cam=null;mode='follow';setView(C.floor,true);afterMove()};
 $('recenter').onclick=()=>{mode='follow';setView(C.floor,true)};
 $('zin').onclick=()=>{if(mode==='follow')zoomW=Math.max(90,zoomW/1.4);else zoomFree(1/1.4,cam)};
 $('zout').onclick=()=>{if(mode==='follow')zoomW=Math.min(maxW(),zoomW*1.4);else zoomFree(1.4,cam)};
@@ -438,9 +464,9 @@ function applyLang(){document.documentElement.lang={ko:'ko',zh:'zh-CN',tw:'zh-TW
 
 $('goTop').onclick=()=>navigating?stopNav():startNav();
 // Kiosk / QR start point: #loc-1F-450-278
-function fromHash(){const m=/^#loc-(B1F|1F|2F|2MF|3F)-(\d+)-(\d+)$/i.exec(location.hash);if(!m)return;C.floor=m[1].toUpperCase();C.x=+m[2];C.y=+m[3];origin=null;setView(C.floor,true);cam=null;afterMove()}
+function fromHash(){const m=/^#loc-(B1F|1F|2F|2MF|3F)-(\d+)-(\d+)$/i.exec(location.hash);if(!m)return;C.floor=m[1].toUpperCase();[C.x,C.y]=snap(C.floor,[+m[2],+m[3]]);origin=null;setView(C.floor,true);cam=null;afterMove()}
 window.addEventListener('hashchange',fromHash);
-setView('1F',true);fromHash();applyLang();requestAnimationFrame(loop);
+[C.x,C.y]=F['1F'].liftPt;setView('1F',true);fromHash();applyLang();requestAnimationFrame(loop);
 setTimeout(()=>$('toast').style.opacity=0,5000);
 </script>
 </body>
