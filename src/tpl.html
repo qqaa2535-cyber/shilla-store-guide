@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>신라면세점 서울점 매장 안내</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Sans+Thai:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#1a73e8;--blue2:#1967d2;--red:#ea4335;--g1:#202124;--g2:#5f6368;--g3:#dadce0;--g4:#f1f3f4;--green:#188038}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{font-family:Roboto,"Noto Sans KR","Noto Sans Thai","PingFang SC","Hiragino Sans","Microsoft JhengHei",sans-serif;color:var(--g1);background:#fff;-webkit-tap-highlight-color:transparent}
+.app{display:flex;flex-direction:column;height:100dvh;max-width:820px;margin:0 auto;position:relative;overflow:hidden}
+/* top directions card */
+.top{position:relative;z-index:20;background:#fff;box-shadow:0 1px 4px #0003;padding:10px 10px 8px}
+.brandbar{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:15px;font-weight:700;letter-spacing:-.01em;padding:0 2px 9px 4px;color:#202124}
+.langw{display:flex;align-items:center;gap:4px;border:1px solid var(--g3);border-radius:999px;padding:3px 4px 3px 10px;font-size:14px;flex:0 0 auto;cursor:pointer}
+.langw .lang{border:0;padding:3px 2px;margin:0;font-weight:500;color:var(--blue);background:transparent;outline:none}
+.dir{display:flex;align-items:stretch;gap:8px}
+.pts{width:22px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:15px 0}
+.pts .o{width:12px;height:12px;border-radius:50%;border:3px solid var(--blue);background:#fff}
+.pts .dots{flex:1;width:2px;margin:4px 0;background:repeating-linear-gradient(var(--g2) 0 2px,transparent 2px 6px)}
+.pts .d{width:12px;height:16px;position:relative}
+.pts .d:before{content:"";position:absolute;left:0;top:0;width:12px;height:12px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--red)}
+.ins{flex:1;display:grid;gap:6px;min-width:0}
+.inp{position:relative}
+.inp input{width:100%;font:inherit;font-size:15px;padding:10px 12px;border:1px solid var(--g3);border-radius:8px;background:var(--g4);outline:none;color:var(--g1)}
+.inp input:focus{background:#fff;border-color:var(--blue);box-shadow:0 0 0 1px var(--blue)}
+.side{display:flex;flex-direction:column;justify-content:space-between;align-items:center;gap:6px;width:64px}
+.swap{width:40px;height:36px;border:0;background:none;font-size:20px;color:var(--g2);cursor:pointer}
+.gobtn{width:64px;height:42px;border:0;border-radius:21px;background:var(--blue);color:#fff;font:inherit;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 1px 3px #0003;padding:0 4px;line-height:1.1}
+.gobtn:disabled{background:#dadce0;color:#80868b;box-shadow:none;cursor:default}
+.gobtn.stop{background:#d93025}
+.list{position:absolute;left:0;right:0;top:100%;margin-top:4px;background:#fff;border-radius:8px;max-height:46vh;overflow:auto;z-index:30;box-shadow:0 4px 16px #0003;display:none}
+.list div{padding:11px 12px;border-bottom:1px solid var(--g4);font-size:14px;display:flex;align-items:center;gap:10px;cursor:pointer}
+.list div:hover{background:var(--g4)}
+.list .ic{width:28px;height:28px;border-radius:50%;background:var(--g4);display:flex;align-items:center;justify-content:center;flex:0 0 auto;font-size:13px}
+.list .tx{flex:1;min-width:0}
+.list .tx b{display:block;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.list .tx span{font-size:12px;color:var(--g2)}
+.chips{display:flex;gap:6px;margin-top:8px;overflow-x:auto;padding-bottom:2px;align-items:center}
+.chip{flex:0 0 auto;font:inherit;font-size:13px;padding:6px 12px;border-radius:999px;border:1px solid var(--g3);background:#fff;color:var(--g1);display:flex;align-items:center;gap:6px;cursor:pointer}
+.chip svg{width:16px;height:16px}
+.chip:active{background:var(--g4)}
+.lang{margin-left:auto;font:inherit;font-size:13px;padding:6px 8px;border:1px solid var(--g3);border-radius:999px;background:#fff}
+/* map stage */
+.stage{flex:1;position:relative;background:#fff;overflow:hidden;min-height:200px}
+#map{width:100%;height:100%;display:block;touch-action:none;cursor:grab}
+.navbar{background:var(--green);color:#fff;border-radius:10px;padding:8px 12px;display:none;align-items:center;gap:10px;margin-top:8px}
+.top.nav .chips{display:none}
+.spd{flex:0 0 auto;border:1px solid #ffffff80;background:#ffffff22;color:#fff;font:inherit;font-size:13px;font-weight:700;border-radius:999px;padding:6px 10px;cursor:pointer}
+.navbar .ni{font-size:20px;width:26px;text-align:center}
+.navbar .nt{font-size:15px;font-weight:500;line-height:1.3}
+.navbar .ns{white-space:pre-line;font-size:13px;opacity:.85}
+.floors{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:#fff;border-radius:8px;box-shadow:0 1px 4px #0004;display:flex;flex-direction:column;overflow:hidden;z-index:8}
+.floors button{width:44px;height:38px;border:0;border-bottom:1px solid var(--g4);background:#fff;font:inherit;font-size:13px;font-weight:500;color:var(--g2);position:relative;cursor:pointer}
+.floors button:last-child{border-bottom:0}
+.floors button.on{background:#e8f0fe;color:var(--blue)}
+.floors button i{position:absolute;right:4px;top:4px;width:6px;height:6px;border-radius:50%}
+.fab{position:absolute;right:10px;bottom:12px;display:flex;flex-direction:column;gap:8px;z-index:8}
+.fab button{width:44px;height:44px;border-radius:50%;border:0;background:#fff;box-shadow:0 1px 4px #0004;font-size:18px;color:var(--g2);cursor:pointer;display:flex;align-items:center;justify-content:center}
+.fab button.on{color:var(--blue)}
+.zoom{position:absolute;left:10px;bottom:12px;display:flex;flex-direction:column;background:#fff;border-radius:8px;box-shadow:0 1px 4px #0004;z-index:8;overflow:hidden}
+.zoom button{width:40px;height:40px;border:0;background:#fff;font-size:20px;color:var(--g2);cursor:pointer}
+.zoom button+button{border-top:1px solid var(--g4)}
+.toast{position:absolute;left:50%;top:10px;transform:translateX(-50%);background:#323232;color:#fff;padding:8px 14px;border-radius:6px;font-size:13px;white-space:nowrap;z-index:9;transition:opacity .5s}
+.transfer{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:#20212455;z-index:12}
+.trcard{height:auto;background:#fff;border-radius:16px;box-shadow:0 6px 24px #0004;padding:10px 14px 14px;width:min(92%,360px);display:flex;flex-direction:column;align-items:center;gap:4px}
+#escSvg{width:100%;height:clamp(100px,calc(100% - 70px),210px);display:block}
+.trcard{max-height:94%}
+.transfer .big{font-size:20px;font-weight:700;color:var(--g1);display:flex;align-items:center;gap:8px}
+.transfer .big .dir{color:#fff;border-radius:8px;padding:3px 10px;font-size:15px}
+.transfer .big .dir.up{background:#1a73e8}.transfer .big .dir.down{background:#e8710a}
+.transfer .sm{font-size:14px;color:var(--g2)}
+/* bottom sheet */
+.sheet{background:#fff;border-radius:14px 14px 0 0;box-shadow:0 -2px 10px #0002;z-index:15;max-height:40vh;overflow:auto;padding:4px 16px 16px;margin-top:-12px;position:relative}
+.grab{width:36px;height:4px;border-radius:2px;background:var(--g3);margin:4px auto 10px}
+.sum{display:flex;align-items:center;gap:12px}
+.sum .tm{font-size:22px;font-weight:500}
+.sum .tm small{font-size:15px;color:var(--g2);font-weight:400;margin-left:6px}
+.sum .via{font-size:13px;color:var(--g2);margin-top:2px}
+.btns{display:flex;gap:8px;margin-top:12px}
+.btns button{font:inherit;font-size:14px;font-weight:500;padding:9px 18px;border-radius:999px;border:1px solid var(--g3);background:#fff;color:var(--blue);cursor:pointer;display:flex;align-items:center;gap:6px}
+.btns button.pri{background:var(--blue);color:#fff;border-color:var(--blue)}
+.btns button:disabled{opacity:.45}
+.steps{margin-top:12px;border-top:1px solid var(--g4)}
+.st{display:flex;gap:14px;padding:11px 0;border-bottom:1px solid var(--g4);align-items:flex-start}
+.st .si{width:28px;height:28px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;color:var(--g2)}
+.st .si svg{width:24px;height:24px}
+.st .sx{font-size:16px;line-height:1.45;flex:1}
+.st .no{width:22px;flex:0 0 auto;font-size:13px;font-weight:700;color:#1a73e8;padding-top:4px;text-align:center}
+.arr{width:28px;height:28px;border-radius:50%;background:#e8f0fe;color:#1a73e8;font-size:16px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.st .sx small{display:block;color:var(--g2);font-size:13px;margin-top:2px;white-space:pre-line}
+.st.cur .sx{color:var(--blue);font-weight:500}
+.empty{color:var(--g2);font-size:14px;padding:4px 0 2px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:11px;color:var(--g2);margin-top:12px}
+.legend b{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:-1px;border:1px solid #0001}
+.note{font-size:11px;color:#80868b;line-height:1.5;margin-top:8px}
+
+/* ---------- polish ---------- */
+.chips{scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,#000 92%,transparent);mask-image:linear-gradient(90deg,#000 92%,transparent)}
+.chips::-webkit-scrollbar{display:none}
+.brandbar .bt{display:flex;align-items:center;gap:8px;min-width:0}
+.brandbar .bt i{width:26px;height:26px;border-radius:8px;background:var(--blue);display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.brandbar .bt span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.grab{cursor:pointer;padding:6px 0;margin:0 auto 6px;width:60px;height:auto;background:none;display:flex;justify-content:center}
+.grab:before{content:"";width:36px;height:4px;border-radius:2px;background:var(--g3)}
+.sheet{transition:max-height .25s ease}
+.sheet.peek{max-height:118px;overflow:hidden}
+.sheet.full{max-height:72vh}
+.st{border-radius:10px;padding:11px 6px}
+.st.cur{background:#e8f0fe}
+.sum .tm{color:#188038}
+.legend{padding-top:10px;border-top:1px solid var(--g4)}
+/* ---------- tablet / PC: side panel + full map ---------- */
+@media (min-width:760px){
+ .app{max-width:none;display:grid;grid-template-columns:360px 1fr;grid-template-rows:auto 1fr;height:100dvh}
+ .top{grid-column:1;grid-row:1;box-shadow:none;border-right:1px solid var(--g3);padding:16px 16px 12px;z-index:21}
+ .sheet{grid-column:1;grid-row:2;margin-top:0;border-radius:0;box-shadow:none;max-height:none!important;overflow:auto!important;border-right:1px solid var(--g3);border-top:1px solid var(--g4);padding:14px 16px 24px}
+ .grab{display:none}
+ .stage{grid-column:2;grid-row:1/3}
+ .brandbar{font-size:17px}
+ .chips{flex-wrap:wrap;overflow:visible;-webkit-mask-image:none;mask-image:none}
+ .trcard{width:min(60%,460px)}
+ .floors button{width:48px;height:42px;font-size:14px}
+ .fab button{width:48px;height:48px}
+}
+@media (min-width:1200px){.app{grid-template-columns:420px 1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+ <div class="top" id="top">
+  <div class="brandbar"><div class="bt"><i><svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7z" fill="#fff"/><circle cx="12" cy="9" r="2.6" fill="#1a73e8"/></svg></i><span id="brandbar"></span></div><label class="langw">🌐<select class="lang" id="lang"><option value="ko">한국어</option><option value="zh">简体中文</option><option value="tw">繁體中文</option><option value="en">English</option><option value="ja">日本語</option><option value="vi">Tiếng Việt</option><option value="th">ภาษาไทย</option><option value="fil">Filipino</option></select></label></div>
+  <div class="dir">
+   <div class="pts"><span class="o"></span><span class="dots"></span><span class="d"></span></div>
+   <div class="ins">
+     <div class="inp"><input id="inFrom" autocomplete="off"><div class="list" id="lsFrom"></div></div>
+     <div class="inp"><input id="inTo" autocomplete="off"><div class="list" id="lsTo"></div></div>
+   </div>
+   <div class="side"><button class="swap" id="swap" aria-label="swap">⇅</button><button class="gobtn" id="goTop" disabled></button></div>
+  </div>
+  <div class="chips" id="chips"></div>
+  <div class="navbar" id="navbar"><div class="ni" id="navI">↑</div><div style="flex:1;min-width:0"><div class="nt" id="navT"></div><div class="ns" id="navS"></div></div><button class="spd" id="spdBtn"></button></div>
+ </div>
+ <div class="stage" id="stage">
+  <svg id="map" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 526">
+   <g id="floorsG"></g><g id="routeG"></g><g id="poiG"></g><g id="pinG"></g><g id="charG"></g>
+  </svg>
+  <div class="floors" id="floorSw"></div>
+  <div class="zoom"><button id="zin">+</button><button id="zout">−</button></div>
+  <div class="fab"><button id="recenter" title="My location">◎</button></div>
+  <div class="toast" id="toast"></div>
+  <div class="transfer" id="transfer"><div class="trcard"><svg id="escSvg" viewBox="0 0 300 200"></svg><div class="big" id="trBig"></div><div class="sm" id="trSm"></div></div></div>
+ </div>
+ <div class="sheet" id="sheet">
+  <div class="grab" id="grab" title="Expand/collapse"></div>
+  <div id="sumBox"></div>
+  <div class="steps" id="steps"></div>
+  <div class="legend" id="legend"></div>
+  <div class="note" id="note"></div>
+ </div>
+</div>
+<script>
+/*DATA*/
+const ORDER=['B1F','1F','2F','2MF','3F'];
+const COL={f:'#e9eaee',b:'#fce4ec',w:'#e0f2f1',e:'#e8eaf6',d:'#fff3e0',x:'#eceff1',z:'#b0bec5'};
+const MPU=0.18; // metres per map unit (estimated)
+
+/* ===== i18n ===== */
+const T={
+ko:{title:'신라면세점 서울점 매장 안내',fromPh:'출발지 검색',toPh:'도착지 검색',my:'내 위치',corr:'{f} 통로',near:'{s} 근처',start:'출발',stop:'종료',stepsT:'경로 안내',walk:'{b}까지 걷기',ride:'에스컬레이터 {a} → {b}',arrive:'{b} 도착',min:'{n}분',m:'약 {n}m',via:'에스컬레이터 {n}회 이용',same:'같은 층 · 도보',hint:'지도를 탭하면 그 자리로 이동해요',pick:'도착지를 검색하거나 위 버튼을 눌러보세요',chipWc:'화장실',chipInfo:'안내데스크',chipEsc:'에스컬레이터',nearest:'가장 가까운 {p}',fac:{wc:'화장실',awc:'장애인 화장실',elev:'엘리베이터',info:'안내데스크',esc:'에스컬레이터',stroller:'유모차 대여',stairs:'계단'},wcDesc:'남녀 화장실',awcDesc:'휠체어 이용 가능',escHop:'{f}로 이동 중',up:'상행',down:'하행',speed:'속도',iStart:'{s} 쪽으로 약 {m}m 직진하세요',iTurn:'{s} 앞에서 {d}으로 돌아 약 {m}m 가세요',iArrive:'{b}은(는) {d}에 있어요',L:'왼쪽',R:'오른쪽',sL:'살짝 왼쪽',sR:'살짝 오른쪽',dL:'왼쪽',dR:'오른쪽',dF:'바로 앞',stepsN:'약 {n}걸음',rEscUp:'상행 에스컬레이터를 타고 {b}로 올라가세요',rEscDown:'하행 에스컬레이터를 타고 {b}로 내려가세요',rStUp:'계단을 걸어서 {b}까지 올라가세요',rStDown:'계단을 걸어서 {b}까지 내려가세요',viaE:'에스컬레이터 {n}회',viaS:'계단 {n}회',pass:'지나는 곳: {s}',xfer:'{f}에 도착하면 {x}까지 약 {m}m 걸어가서 갈아타세요',xEscUp:'상행 에스컬레이터',xEscDown:'하행 에스컬레이터',xStUp:'올라가는 계단',xStDown:'내려가는 계단',xferAt:'{f}에서 갈아타기',contPre:'{f}에서 이어서 ',xferTag:'갈아타기',arrived:'도착했습니다',note:'※ 신라면세점 공식 층별 안내도(2026년 9·11월 판)를 보고 직접 그린 약도입니다. 거리·시간은 추정치이며, 매장 크기·통로·에스컬레이터 연결은 실제와 다를 수 있습니다.',none:'검색 결과 없음',cat:{b:'화장품/향수',f:'패션/가방',w:'시계/주얼리',e:'선글라스',d:'식품/주류/담배',x:'기타',z:'라운지'}},
+zh:{title:'新罗免税店 首尔店 店铺指南',fromPh:'搜索起点',toPh:'搜索终点',my:'我的位置',corr:'{f} 通道',near:'{s}附近',start:'出发',stop:'结束',stepsT:'路线指引',walk:'步行至{b}',ride:'自动扶梯 {a} → {b}',arrive:'到达{b}',min:'{n}分钟',m:'约{n}米',via:'乘自动扶梯{n}次',same:'同楼层 · 步行',hint:'点击地图即可移动到该位置',pick:'搜索终点或点击上方按钮',chipWc:'洗手间',chipInfo:'服务台',chipEsc:'自动扶梯',nearest:'最近的{p}',fac:{wc:'洗手间',awc:'无障碍洗手间',elev:'电梯',info:'服务台',esc:'自动扶梯',stroller:'婴儿车租借',stairs:'楼梯'},wcDesc:'男女洗手间',awcDesc:'可供轮椅使用',escHop:'正在前往{f}',up:'上行',down:'下行',speed:'速度',iStart:'朝{s}方向直行约{m}米',iTurn:'在{s}前{d}，再走约{m}米',iArrive:'{b}在您的{d}',L:'左转',R:'右转',sL:'稍向左转',sR:'稍向右转',dL:'左边',dR:'右边',dF:'正前方',stepsN:'约{n}步',rEscUp:'乘上行自动扶梯到{b}',rEscDown:'乘下行自动扶梯到{b}',rStUp:'走楼梯上到{b}',rStDown:'走楼梯下到{b}',viaE:'自动扶梯{n}次',viaS:'楼梯{n}次',pass:'途经：{s}',xfer:'到达{f}后，步行约{m}米到{x}换乘',xEscUp:'上行扶梯',xEscDown:'下行扶梯',xStUp:'上行楼梯',xStDown:'下行楼梯',xferAt:'在{f}换乘',contPre:'在{f}继续，',xferTag:'换乘',arrived:'已到达',note:'※ 根据新罗免税店官方楼层指南（2026年9·11月版）手绘。距离与时间为估算值，店铺大小、通道及扶梯连接可能与实际不同。',none:'无搜索结果',cat:{b:'化妆品/香水',f:'时装/箱包',w:'手表/珠宝',e:'太阳镜',d:'食品/酒类/烟草',x:'其他',z:'贵宾室'}},
+tw:{title:'新羅免稅店 首爾店 店舖指南',fromPh:'搜尋起點',toPh:'搜尋目的地',my:'我的位置',corr:'{f} 走道',near:'{s}附近',start:'出發',stop:'結束',stepsT:'路線指引',walk:'步行至{b}',ride:'電扶梯 {a} → {b}',arrive:'抵達{b}',min:'{n}分鐘',m:'約{n}公尺',via:'搭電扶梯{n}次',same:'同樓層 · 步行',hint:'點一下地圖就會移動到該處',pick:'搜尋目的地或點選上方按鈕',chipWc:'洗手間',chipInfo:'服務台',chipEsc:'電扶梯',nearest:'最近的{p}',fac:{wc:'洗手間',awc:'無障礙洗手間',elev:'電梯',info:'服務台',esc:'電扶梯',stroller:'嬰兒車租借',stairs:'樓梯'},wcDesc:'男女洗手間',awcDesc:'可供輪椅使用',escHop:'正在前往{f}',up:'上行',down:'下行',speed:'速度',iStart:'朝{s}方向直走約{m}公尺',iTurn:'在{s}前{d}，再走約{m}公尺',iArrive:'{b}在您的{d}',L:'左轉',R:'右轉',sL:'稍微左轉',sR:'稍微右轉',dL:'左邊',dR:'右邊',dF:'正前方',stepsN:'約{n}步',rEscUp:'搭上行電扶梯到{b}',rEscDown:'搭下行電扶梯到{b}',rStUp:'走樓梯上到{b}',rStDown:'走樓梯下到{b}',viaE:'電扶梯{n}次',viaS:'樓梯{n}次',pass:'途經：{s}',xfer:'到達{f}後，步行約{m}公尺到{x}轉乘',xEscUp:'上行電扶梯',xEscDown:'下行電扶梯',xStUp:'往上的樓梯',xStDown:'往下的樓梯',xferAt:'在{f}轉乘',contPre:'在{f}繼續，',xferTag:'轉乘',arrived:'已抵達',note:'※ 依新羅免稅店官方樓層指南（2026年9·11月版）手繪。距離與時間為估算值，店舖大小、走道及電扶梯連接可能與實際不同。',none:'查無結果',cat:{b:'化妝品/香水',f:'時尚/包款',w:'手錶/珠寶',e:'太陽眼鏡',d:'食品/酒類/菸草',x:'其他',z:'貴賓室'}},
+en:{title:'Shilla Duty Free Seoul · Store Guide',fromPh:'Choose starting point',toPh:'Choose destination',my:'Your location',corr:'{f} aisle',near:'Near {s}',start:'Go',stop:'Exit',stepsT:'Steps',walk:'Walk to {b}',ride:'Escalator {a} → {b}',arrive:'Arrive at {b}',min:'{n} min',m:'~{n} m',via:'{n} escalator ride(s)',same:'Same floor · walk',hint:'Tap the map to move there',pick:'Search a destination or tap a button above',chipWc:'Restrooms',chipInfo:'Information',chipEsc:'Escalators',nearest:'Nearest {p}',fac:{wc:'Restroom',awc:'Accessible restroom',elev:'Elevator',info:'Information desk',esc:'Escalator',stroller:'Stroller rental',stairs:'Stairs'},wcDesc:'Men & women',awcDesc:'Wheelchair accessible',escHop:'Going to {f}',up:'Up',down:'Down',speed:'Speed',iStart:'Walk straight toward {s} for about {m} m',iTurn:'At {s}, turn {d} and walk about {m} m',iArrive:'{b} is {d}',L:'left',R:'right',sL:'slightly left',sR:'slightly right',dL:'on your left',dR:'on your right',dF:'straight ahead',stepsN:'~{n} steps',rEscUp:'Take the up escalator to {b}',rEscDown:'Take the down escalator to {b}',rStUp:'Walk up the stairs to {b}',rStDown:'Walk down the stairs to {b}',viaE:'{n} escalator ride(s)',viaS:'{n} flight(s) of stairs',pass:"You'll pass: {s}",xfer:'At {f}, walk about {m} m to the {x} and transfer',xEscUp:'up escalator',xEscDown:'down escalator',xStUp:'stairs going up',xStDown:'stairs going down',xferAt:'transfer at {f}',contPre:'At {f}, continue: ',xferTag:'Transfer',arrived:'You have arrived',note:'※ Hand-drawn from the official Shilla Duty Free floor guide (Sep/Nov 2026). Distances and times are estimates; store sizes, aisles and escalator links may differ from reality.',none:'No results',cat:{b:'Cosmetics/Perfume',f:'Fashion/Bags',w:'Watches/Jewelry',e:'Sunglasses',d:'Food/Liquor/Tobacco',x:'Other',z:'Lounge'}},
+ja:{title:'新羅免税店 ソウル店 店舗案内',fromPh:'出発地を検索',toPh:'目的地を検索',my:'現在地',corr:'{f} 通路',near:'{s}付近',start:'出発',stop:'終了',stepsT:'ルート案内',walk:'{b}まで歩く',ride:'エスカレーター {a} → {b}',arrive:'{b}に到着',min:'{n}分',m:'約{n}m',via:'エスカレーター{n}回',same:'同じフロア · 徒歩',hint:'地図をタップするとその場所へ移動します',pick:'目的地を検索するか、上のボタンを押してください',chipWc:'トイレ',chipInfo:'インフォメーション',chipEsc:'エスカレーター',nearest:'最寄りの{p}',fac:{wc:'トイレ',awc:'多目的トイレ',elev:'エレベーター',info:'インフォメーション',esc:'エスカレーター',stroller:'ベビーカー貸出',stairs:'階段'},wcDesc:'男女トイレ',awcDesc:'車いす対応',escHop:'{f}へ移動中',up:'上り',down:'下り',speed:'速度',iStart:'{s}の方へ約{m}mまっすぐ進んでください',iTurn:'{s}の前で{d}、約{m}m進んでください',iArrive:'{b}は{d}にあります',L:'左に曲がり',R:'右に曲がり',sL:'やや左に曲がり',sR:'やや右に曲がり',dL:'左手',dR:'右手',dF:'目の前',stepsN:'約{n}歩',rEscUp:'上りエスカレーターで{b}へ',rEscDown:'下りエスカレーターで{b}へ',rStUp:'階段で{b}へ上がってください',rStDown:'階段で{b}へ下りてください',viaE:'エスカレーター{n}回',viaS:'階段{n}回',pass:'途中: {s}',xfer:'{f}に着いたら約{m}m歩いて{x}に乗り換えてください',xEscUp:'上りエスカレーター',xEscDown:'下りエスカレーター',xStUp:'上りの階段',xStDown:'下りの階段',xferAt:'{f}で乗り換え',contPre:'{f}からそのまま',xferTag:'乗り換え',arrived:'到着しました',note:'※ 新羅免税店公式フロアガイド（2026年9・11月版）をもとに描いた略図です。距離・時間は推定で、店舗の大きさ・通路・エスカレーターの接続は実際と異なる場合があります。',none:'該当なし',cat:{b:'化粧品/香水',f:'ファッション/バッグ',w:'時計/ジュエリー',e:'サングラス',d:'食品/酒/たばこ',x:'その他',z:'ラウンジ'}},
+vi:{title:'Shilla Duty Free Seoul · Hướng dẫn cửa hàng',fromPh:'Chọn điểm xuất phát',toPh:'Chọn điểm đến',my:'Vị trí của bạn',corr:'Lối đi {f}',near:'Gần {s}',start:'Đi',stop:'Thoát',stepsT:'Các bước',walk:'Đi bộ đến {b}',ride:'Thang cuốn {a} → {b}',arrive:'Đến {b}',min:'{n} phút',m:'~{n} m',via:'Đi thang cuốn {n} lần',same:'Cùng tầng · đi bộ',hint:'Chạm vào bản đồ để di chuyển đến đó',pick:'Tìm điểm đến hoặc chạm nút bên trên',chipWc:'Nhà vệ sinh',chipInfo:'Quầy thông tin',chipEsc:'Thang cuốn',nearest:'{p} gần nhất',fac:{wc:'Nhà vệ sinh',awc:'WC cho người khuyết tật',elev:'Thang máy',info:'Quầy thông tin',esc:'Thang cuốn',stroller:'Cho thuê xe đẩy',stairs:'Cầu thang'},wcDesc:'Nam & nữ',awcDesc:'Dành cho xe lăn',escHop:'Đang lên {f}',up:'Lên',down:'Xuống',speed:'Tốc độ',iStart:'Đi thẳng về phía {s} khoảng {m} m',iTurn:'Tại {s}, {d} rồi đi khoảng {m} m',iArrive:'{b} ở {d}',L:'rẽ trái',R:'rẽ phải',sL:'chếch sang trái',sR:'chếch sang phải',dL:'bên trái bạn',dR:'bên phải bạn',dF:'ngay phía trước',stepsN:'khoảng {n} bước',rEscUp:'Đi thang cuốn lên {b}',rEscDown:'Đi thang cuốn xuống {b}',rStUp:'Đi bộ cầu thang lên {b}',rStDown:'Đi bộ cầu thang xuống {b}',viaE:'Thang cuốn {n} lần',viaS:'Cầu thang {n} lần',pass:'Đi qua: {s}',xfer:'Đến {f}, đi bộ khoảng {m} m tới {x} để chuyển tiếp',xEscUp:'thang cuốn đi lên',xEscDown:'thang cuốn đi xuống',xStUp:'cầu thang đi lên',xStDown:'cầu thang đi xuống',xferAt:'chuyển tại {f}',contPre:'Tại {f}, tiếp tục: ',xferTag:'Chuyển tiếp',arrived:'Bạn đã đến nơi',note:'※ Sơ đồ vẽ tay theo sơ đồ tầng chính thức của Shilla Duty Free (bản 9 & 11/2026). Khoảng cách và thời gian là ước tính; kích thước cửa hàng, lối đi và thang cuốn có thể khác thực tế.',none:'Không có kết quả',cat:{b:'Mỹ phẩm/Nước hoa',f:'Thời trang/Túi',w:'Đồng hồ/Trang sức',e:'Kính mát',d:'Thực phẩm/Rượu/Thuốc lá',x:'Khác',z:'Phòng chờ'}}
+,
+th:{title:'ร้านปลอดภาษีชิลล่า สาขาโซล · คู่มือร้านค้า',fromPh:'ค้นหาจุดเริ่มต้น',toPh:'ค้นหาจุดหมาย',my:'ตำแหน่งของคุณ',corr:'ทางเดิน {f}',near:'ใกล้ {s}',start:'ไป',stop:'หยุด',stepsT:'ขั้นตอน',walk:'เดินไปที่ {b}',ride:'บันไดเลื่อน {a} → {b}',arrive:'ถึง {b}',min:'{n} นาที',m:'~{n} ม.',via:'ใช้บันไดเลื่อน {n} ครั้ง',same:'ชั้นเดียวกัน · เดิน',hint:'แตะแผนที่เพื่อไปยังจุดนั้น',pick:'ค้นหาจุดหมายหรือแตะปุ่มด้านบน',chipWc:'ห้องน้ำ',chipInfo:'จุดบริการข้อมูล',chipEsc:'บันไดเลื่อน',nearest:'{p} ที่ใกล้ที่สุด',fac:{wc:'ห้องน้ำ',awc:'ห้องน้ำผู้พิการ',elev:'ลิฟต์',info:'จุดบริการข้อมูล',esc:'บันไดเลื่อน',stroller:'ให้ยืมรถเข็นเด็ก',stairs:'บันได'},wcDesc:'ห้องน้ำชายและหญิง',awcDesc:'รองรับรถเข็น',escHop:'กำลังไป {f}',up:'ขึ้น',down:'ลง',speed:'ความเร็ว',iStart:'เดินตรงไปทาง {s} ประมาณ {m} ม.',iTurn:'ที่ {s} ให้{d} แล้วเดินประมาณ {m} ม.',iArrive:'{b} อยู่{d}',L:'เลี้ยวซ้าย',R:'เลี้ยวขวา',sL:'เบี่ยงซ้าย',sR:'เบี่ยงขวา',dL:'ทางซ้ายมือ',dR:'ทางขวามือ',dF:'ตรงหน้า',stepsN:'ประมาณ {n} ก้าว',rEscUp:'ขึ้นบันไดเลื่อนไปชั้น {b}',rEscDown:'ลงบันไดเลื่อนไปชั้น {b}',rStUp:'เดินขึ้นบันไดไปชั้น {b}',rStDown:'เดินลงบันไดไปชั้น {b}',viaE:'บันไดเลื่อน {n} ครั้ง',viaS:'บันได {n} ครั้ง',pass:'ผ่าน: {s}',xfer:'ถึงชั้น {f} แล้ว เดินประมาณ {m} ม. ไปที่{x}เพื่อต่อ',xEscUp:'บันไดเลื่อนขาขึ้น',xEscDown:'บันไดเลื่อนขาลง',xStUp:'บันไดขึ้น',xStDown:'บันไดลง',xferAt:'ต่อที่ชั้น {f}',contPre:'ที่ชั้น {f} ต่อเลย: ',xferTag:'จุดต่อ',arrived:'ถึงแล้ว',note:'※ แผนที่วาดจากคู่มือชั้นอย่างเป็นทางการของ Shilla Duty Free (ฉบับ ก.ย./พ.ย. 2026) ระยะทางและเวลาเป็นค่าประมาณ ขนาดร้าน ทางเดิน และบันไดเลื่อนอาจต่างจากของจริง',none:'ไม่พบผลลัพธ์',cat:{b:'เครื่องสำอาง/น้ำหอม',f:'แฟชั่น/กระเป๋า',w:'นาฬิกา/เครื่องประดับ',e:'แว่นกันแดด',d:'อาหาร/สุรา/ยาสูบ',x:'อื่นๆ',z:'เลานจ์'}},
+fil:{title:'Shilla Duty Free Seoul · Gabay sa Tindahan',fromPh:'Pumili ng simula',toPh:'Pumili ng pupuntahan',my:'Lokasyon mo',corr:'Pasilyo ng {f}',near:'Malapit sa {s}',start:'Tara',stop:'Ihinto',stepsT:'Mga hakbang',walk:'Maglakad papunta sa {b}',ride:'Escalator {a} → {b}',arrive:'Nakarating sa {b}',min:'{n} min',m:'~{n} m',via:'{n} beses sa escalator',same:'Parehong palapag · lakad',hint:'I-tap ang mapa para pumunta roon',pick:'Maghanap ng pupuntahan o i-tap ang button sa itaas',chipWc:'CR',chipInfo:'Impormasyon',chipEsc:'Escalator',nearest:'Pinakamalapit na {p}',fac:{wc:'CR',awc:'CR para sa PWD',elev:'Elevator',info:'Information desk',esc:'Escalator',stroller:'Paupahan ng stroller',stairs:'Hagdan'},wcDesc:'Panlalaki at pambabae',awcDesc:'Pang-wheelchair',escHop:'Papunta sa {f}',up:'Pataas',down:'Pababa',speed:'Bilis',iStart:'Dumiretso papunta sa {s}, mga {m} m',iTurn:'Sa {s}, {d} at maglakad nang mga {m} m',iArrive:'Ang {b} ay nasa {d}',L:'kumaliwa',R:'kumanan',sL:'bahagyang kumaliwa',sR:'bahagyang kumanan',dL:'kaliwa mo',dR:'kanan mo',dF:'harap mo',stepsN:'mga {n} hakbang',rEscUp:'Sumakay sa paakyat na escalator papuntang {b}',rEscDown:'Sumakay sa pababang escalator papuntang {b}',rStUp:'Umakyat sa hagdan papuntang {b}',rStDown:'Bumaba sa hagdan papuntang {b}',viaE:'{n} beses sa escalator',viaS:'{n} beses sa hagdan',pass:'Madadaanan: {s}',xfer:'Pagdating sa {f}, maglakad nang mga {m} m papunta sa {x} para lumipat',xEscUp:'paakyat na escalator',xEscDown:'pababang escalator',xStUp:'hagdang paakyat',xStDown:'hagdang pababa',xferAt:'lilipat sa {f}',contPre:'Sa {f}, ituloy: ',xferTag:'Lipat',arrived:'Nakarating ka na',note:'※ Iginuhit batay sa opisyal na floor guide ng Shilla Duty Free (Set/Nob 2026). Tantiya lang ang layo at oras; maaaring iba ang laki ng tindahan, pasilyo at escalator sa totoo.',none:'Walang resulta',cat:{b:'Kosmetiko/Pabango',f:'Fashion/Bag',w:'Relo/Alahas',e:'Sunglasses',d:'Pagkain/Alak/Sigarilyo',x:'Iba pa',z:'Lounge'}}
+};
+let L='ko';
+try{const s=localStorage.getItem('sdf_lang');if(s&&T[s])L=s;else{const n=(navigator.language||'').toLowerCase();L=/^zh-(tw|hk)/.test(n)?'tw':n.startsWith('zh')?'zh':n.startsWith('ja')?'ja':n.startsWith('vi')?'vi':n.startsWith('th')?'th':/^(fil|tl)/.test(n)?'fil':n.startsWith('ko')?'ko':'en'}}catch(e){}
+function batchim(w){w=(w||'').trim();const c=w.charCodeAt(w.length-1);if(c>=0xAC00&&c<=0xD7A3)return (c-0xAC00)%28!==0;const ch=w.slice(-1).toLowerCase();if(/[0-9]/.test(ch))return '013678'.includes(ch);return 'bcdgklmnpt'.includes(ch)}
+const t=k=>T[L][k],tf=(k,o)=>t(k).replace(/\{(\w)\}(은\(는\))?/g,(_,x,j)=>o[x]+(j?(batchim(o[x])?'은':'는'):''));
+
+/* ===== parse ===== */
+const F={},ALL=[],Y=v=>v-37;
+for(const f of ORDER){const r=RAW[f],d=F[f]={vb:r.vb,lift:r.lift,nodes:r.nodes,adj:{},pois:[]};
+  d.bg=[r.bg[0],Y(r.bg[1]),r.bg[2],Y(r.bg[3])];
+  for(const e of r.edges.split(' ')){const [a,b]=e.split('-');(d.adj[a]=d.adj[a]||[]).push(b);(d.adj[b]=d.adj[b]||[]).push(a)}
+  d.esc=r.esc.map(q=>[q[0],Y(q[1]),q[2],Y(q[3])]);
+  d.stores=r.stores.split(';').map(s=>{const [n,x1,y1,x2,y2,c,ko]=s.split('|');const o={floor:f,name:n.replace(/·/g,' · '),raw:n,x1:+x1,y1:Y(+y1),x2:+x2,y2:Y(+y2),cat:c,ko:ko||''};o.x=(o.x1+o.x2)/2;o.y=(o.y1+o.y2)/2;ALL.push(o);return o});
+  for(const [k,x,y,to] of r.fac){const o={floor:f,poi:k,x,y:Y(y),to};d.pois.push(o);ALL.push(o)}
+}
+const dist=(p,q)=>Math.hypot(p[0]-q[0],p[1]-q[1]);
+function nearStore(o){let b=null,bd=1e9;for(const s of F[o.floor].stores){if(s.cat==='z'&&false)continue;const cx=Math.max(s.x1,Math.min(o.x,s.x2)),cy=Math.max(s.y1,Math.min(o.y,s.y2)),d=Math.hypot(cx-o.x,cy-o.y);if(d<bd){bd=d;b=s}}return b}
+const sn=s=>L==='ko'&&s.ko?s.ko:s.name;
+function nm(o){if(!o)return'';if(o.me)return t('my');if(o.poi)return t('fac')[o.poi];if(o.pt)return o.label||t('corr').replace('{f}',o.floor);return sn(o)}
+function desc(o){if(o.poi){const s=nearStore(o);return o.floor+' · '+(o.poi==='wc'?t('wcDesc')+' · ':o.poi==='awc'?t('awcDesc')+' · ':'')+tf('near',{s:s?sn(s):''})}
+  return o.floor+' · '+(t('cat')[o.cat]||'')}
+function whereIs(f,x,y){return F[f].stores.find(s=>x>=s.x1&&x<=s.x2&&y>=s.y1&&y<=s.y2)}
+
+/* ===== routing on a walkable grid (aisles only, escalators only) ===== */
+const GS=2,MARGIN=1.6;
+const LIFT={B1F:[531,113],'1F':[437,276],'2F':[391,231],'2MF':[400,338],'3F':[622,303]};
+for(const f of ORDER){const d=F[f],[x0,y0,x1,y1]=d.bg,cols=Math.ceil((x1-x0)/GS),rows=Math.ceil((y1-y0)/GS),w=new Uint8Array(cols*rows);
+  const obs=[...d.stores.map(s=>[s.x1,s.y1,s.x2,s.y2]),...d.esc];
+  for(let j=0;j<rows;j++)for(let i=0;i<cols;i++){const x=x0+i*GS+GS/2,y=y0+j*GS+GS/2;let ok=1;
+    for(const o of obs)if(x>o[0]-MARGIN&&x<o[2]+MARGIN&&y>o[1]-MARGIN&&y<o[3]+MARGIN){ok=0;break}w[j*cols+i]=ok}
+  d.G={x0,y0,cols,rows,w};}
+function cellOf(f,p){const g=F[f].G;return[Math.max(0,Math.min(g.cols-1,Math.floor((p[0]-g.x0)/GS))),Math.max(0,Math.min(g.rows-1,Math.floor((p[1]-g.y0)/GS)))]}
+function cpt(f,i,j){const g=F[f].G;return[g.x0+i*GS+GS/2,g.y0+j*GS+GS/2]}
+function walk_(f,i,j){const g=F[f].G;return i>=0&&j>=0&&i<g.cols&&j<g.rows&&g.w[j*g.cols+i]===1}
+function snap(f,p){const [ci,cj]=cellOf(f,p);if(walk_(f,ci,cj))return cpt(f,ci,cj);let best=null,bd=1e9;
+  for(let r=1;r<80&&!best;r++)for(let dj=-r;dj<=r;dj++)for(let di=-r;di<=r;di++){if(Math.max(Math.abs(di),Math.abs(dj))!==r)continue;const i=ci+di,j=cj+dj;if(walk_(f,i,j)){const q=cpt(f,i,j),dd=dist(q,p);if(dd<bd){bd=dd;best=q}}}
+  if(!best){const g=F[f].G;for(let j=0;j<g.rows;j++)for(let i=0;i<g.cols;i++)if(g.w[j*g.cols+i]){const q=cpt(f,i,j),dd=dist(q,p);if(dd<bd){bd=dd;best=q}}}
+  return best||p}
+for(const f of ORDER){const g=F[f].G;F[f].liftPt=snap(f,[LIFT[f][0],LIFT[f][1]]);
+  // keep only the aisle network connected to the escalator (drop sealed pockets)
+  const [li,lj]=cellOf(f,F[f].liftPt),seen=new Uint8Array(g.cols*g.rows),q=[lj*g.cols+li];seen[q[0]]=1;
+  while(q.length){const k=q.pop(),i=k%g.cols,j=(k/g.cols)|0;for(const [di,dj] of [[1,0],[-1,0],[0,1],[0,-1]]){const ni=i+di,nj=j+dj;if(walk_(f,ni,nj)){const nk=nj*g.cols+ni;if(!seen[nk]){seen[nk]=1;q.push(nk)}}}}
+  for(let k=0;k<g.w.length;k++)if(!seen[k])g.w[k]=0;
+  for(const s of F[f].stores)s.door=snap(f,[s.x,s.y])}
+function tgt(o){if(o.door)return o.door;if(o.zone)return o.zone.door;return snap(o.floor,[o.x,o.y])}
+function los(f,a,b){const n=Math.ceil(dist(a,b)/1);for(let k=0;k<=n;k++){const x=a[0]+(b[0]-a[0])*k/n,y=a[1]+(b[1]-a[1])*k/n,[i,j]=cellOf(f,[x,y]);if(!walk_(f,i,j))return false}return true}
+function path(f,A,B){const g=F[f].G,sa=snap(f,A),sb=snap(f,B),[si,sj]=cellOf(f,sa),[ti,tj]=cellOf(f,sb),N=g.cols*g.rows;
+  const gs=new Float32Array(N).fill(1e9),from=new Int32Array(N).fill(-1),closed=new Uint8Array(N);const st=sj*g.cols+si,goal=tj*g.cols+ti;gs[st]=0;
+  const h=k=>{const i=k%g.cols,j=(k/g.cols)|0,dx=Math.abs(i-ti),dy=Math.abs(j-tj);return Math.max(dx,dy)+0.414*Math.min(dx,dy)};
+  const heap=[[h(st),st]];const push=(v)=>{heap.push(v);let i=heap.length-1;while(i>0){const p=(i-1)>>1;if(heap[p][0]<=heap[i][0])break;[heap[p],heap[i]]=[heap[i],heap[p]];i=p}};
+  const pop=()=>{const top=heap[0],last=heap.pop();if(heap.length){heap[0]=last;let i=0;for(;;){const l=2*i+1,r=l+1;let m=i;if(l<heap.length&&heap[l][0]<heap[m][0])m=l;if(r<heap.length&&heap[r][0]<heap[m][0])m=r;if(m===i)break;[heap[m],heap[i]]=[heap[i],heap[m]];i=m}}return top};
+  const D8=[[1,0,1],[-1,0,1],[0,1,1],[0,-1,1],[1,1,1.414],[1,-1,1.414],[-1,1,1.414],[-1,-1,1.414]];let found=false;
+  while(heap.length){const [,k]=pop();if(closed[k])continue;closed[k]=1;if(k===goal){found=true;break}const i=k%g.cols,j=(k/g.cols)|0;
+    for(const [di,dj,c] of D8){const ni=i+di,nj=j+dj;if(!walk_(f,ni,nj))continue;if(di&&dj&&(!walk_(f,i+di,j)||!walk_(f,i,j+dj)))continue;const nk=nj*g.cols+ni;if(closed[nk])continue;const ng=gs[k]+c;if(ng<gs[nk]){gs[nk]=ng;from[nk]=k;push([ng+h(nk),nk])}}}
+  if(!found)return[sa,sb];
+  const cells=[];for(let k=goal;k!==-1;k=from[k]){cells.push(cpt(f,k%g.cols,(k/g.cols)|0));if(k===st)break}cells.reverse();cells[0]=sa;cells[cells.length-1]=sb;
+  const out=[cells[0]];let i=0;while(i<cells.length-1){let j=cells.length-1;while(j>i+1&&!los(f,cells[i],cells[j]))j--;out.push(cells[j]);i=j}
+  return out}
+const plen=p=>p.reduce((a,q,i)=>i?a+dist(q,p[i-1]):0,0);
+// B1F–1F–2F are linked by escalators; 2F–2MF–3F by stairs.
+// Each link: where you board (from) and where you get off (to), raw map coords.
+const LINKRAW={'B1F>1F':[[540,137],[493,325]],'1F>B1F':[[403,323],[521,137]],'1F>2F':[[447,330],[467,268]],'2F>1F':[[391,268],[432,330]],
+ '2F>2MF':[[656,247],[400,390]],'2MF>2F':[[400,390],[656,247]],'2MF>3F':[[400,390],[622,353]],'3F>2MF':[[622,353],[400,390]]};
+const LK={};for(const k in LINKRAW){const [a,b]=k.split('>'),[p,q]=LINKRAW[k];LK[k]={from:snap(a,[p[0],p[1]-37]),to:snap(b,[q[0],q[1]-37]),fromRaw:[p[0],p[1]-37],toRaw:[q[0],q[1]-37]}}
+const ESCF=['B1F','1F','2F'];
+const hopType=(a,b)=>ESCF.includes(a)&&ESCF.includes(b)?'esc':'st';
+function chain(a,b){const i=ORDER.indexOf(a),j=ORDER.indexOf(b),r=[];if(i<=j)for(let k=i;k<=j;k++)r.push(ORDER[k]);else for(let k=i;k>=j;k--)r.push(ORDER[k]);return r}
+function plan(S,E){const ch=chain(S.floor,E.floor),legs=[];let cur=[S.x,S.y],arrived=false;
+  for(let k=0;k<ch.length-1;k++){const a=ch[k],b=ch[k+1],ty=hopType(a,b),lk=LK[a+'>'+b],up=ORDER.indexOf(b)>ORDER.indexOf(a);
+    if(dist(cur,lk.from)>2)legs.push({k:'walk',floor:a,pts:path(a,cur,lk.from),end:ty,next:b,up,xfer:arrived,board:lk.fromRaw});
+    legs.push({k:'ride',type:ty,a,b,up,cont:arrived&&dist(cur,lk.from)<=2});cur=lk.to;arrived=true}
+  legs.push({k:'walk',floor:E.floor,pts:path(E.floor,cur,tgt(E)),end:'dest'});
+  const r={legs,from:S.floor,to:E.floor,mid:ch.slice(1,-1)};r.segs=legs.filter(l=>l.k==='walk');r.rides=legs.filter(l=>l.k==='ride');return r}
+function cost(S,E){const p=plan(S,E);return p.segs.reduce((a,s)=>a+plen(s.pts),0)+p.rides.length*150}
+function metrics(p){const m=p.segs.reduce((a,s)=>a+plen(s.pts),0)*MPU;const sec=m/1.1+p.rides.reduce((a,r)=>a+(r.type==='st'?45:35),0);return{m:Math.max(5,Math.round(m/5)*5),min:Math.max(1,Math.round(sec/60))}}
+// turn-by-turn: keep vertices where the walker really turns
+function turns(pts){const K=[0];const n=pts.length-1;const ang=(a,b,c)=>{const u=[b[0]-a[0],b[1]-a[1]],v=[c[0]-b[0],c[1]-b[1]];return Math.atan2(u[0]*v[1]-u[1]*v[0],u[0]*v[0]+u[1]*v[1])*180/Math.PI};
+  for(let i=1;i<n;i++){const last=pts[K[K.length-1]];if(dist(last,pts[i])<20)continue;const th=ang(last,pts[i],pts[i+1]);if(Math.abs(th)>=40)K.push(i)}
+  while(K.length>1&&plen(pts.slice(K[K.length-1],n+1))<14&&K[K.length-1]!==0)K.pop();
+  K.push(n);return{K,ang}}
+function landmark2(f,p,ex){let b=null,bd=1e9;for(const s of F[f].stores){if(ex.includes(s))continue;const cx=Math.max(s.x1,Math.min(p[0],s.x2)),cy=Math.max(s.y1,Math.min(p[1],s.y2)),d=Math.hypot(cx-p[0],cy-p[1]);if(d<bd){bd=d;b=s}}return b}
+function landmark(f,p,excl){let b=null,bd=1e9;for(const s of F[f].stores){if(excl&&s===excl)continue;const cx=Math.max(s.x1,Math.min(p[0],s.x2)),cy=Math.max(s.y1,Math.min(p[1],s.y2)),d=Math.hypot(cx-p[0],cy-p[1]);if(d<bd){bd=d;b=s}}return b}
+/* ===== SVG helpers ===== */
+const NS='http://www.w3.org/2000/svg',$=id=>document.getElementById(id),svg=$('map');
+function el(n,a,p){const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e}
+const GLYPH={
+ wc:'<circle cx="-3.2" cy="-4.2" r="1.3"/><path d="M-4.9 -2.4h3.4v3.6h-.9v3.6h-1.6v-3.6h-.9z"/><circle cx="3.2" cy="-4.2" r="1.3"/><path d="M3.2 -2.6l2.3 4.2h-1.3v2.8h-2v-2.8h-1.3z"/><rect x="-.35" y="-5.2" width=".7" height="10" fill-opacity=".6"/>',
+ awc:'<circle cx="-.6" cy="-4.6" r="1.3"/><path d="M-1.6 -2.8h1.9v2.6h2.6l1.4 3.4-1.1.5-1.1-2.6h-2.7z"/><path d="M-2.3 -1.2a3.6 3.6 0 1 0 4.6 4.7" fill="none" stroke="#fff" stroke-width="1.1"/>',
+ esc:'<path d="M-5 3.5h2.4l4.8-6.5h2.8" fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/><path d="M1.6 -5.2l3.4 0 0 3.4" fill="none" stroke="#fff" stroke-width="1.2"/>',
+ info:'<circle cx="0" cy="-3.6" r="1.3"/><rect x="-1.1" y="-1.4" width="2.2" height="6" rx=".6"/>',
+ elev:'<path d="M-3 -1.2l3 -3.6 3 3.6z"/><path d="M-3 1.2l3 3.6 3 -3.6z"/>',
+ stroller:'<path d="M-4.6 -3.2a4.6 4.6 0 0 1 4.6 -2.4v3.6h4.4a4.4 4.4 0 0 1 -4.4 3.4h-1a4.4 4.4 0 0 1 -3.6 -4.6z"/><circle cx="-2.6" cy="3.8" r="1.2"/><circle cx="2.4" cy="3.8" r="1.2"/><path d="M4.4 -1.4l1.4 -2.4" stroke="#fff" stroke-width=".9"/>',
+ stairs:'<path d="M-5 4h3v-3h3v-3h3v-3h2" fill="none" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>'};
+const PCOL={wc:'#5c6bc0',awc:'#1a73e8',esc:'#70757a',info:'#1a73e8',elev:'#70757a',stroller:'#00897b',stairs:'#70757a'};
+function poiIcon(p,type,x,y,r){const g=el('g',{transform:`translate(${x} ${y})`},p);el('circle',{r:r+1.2,fill:'#fff'},g);el('circle',{r,fill:PCOL[type]},g);
+  const gg=el('g',{transform:`scale(${r/7.2})`,fill:'#fff'},g);gg.innerHTML=GLYPH[type];return g}
+function chipSvg(type){return `<svg viewBox="-8 -8 16 16"><circle r="7.5" fill="${PCOL[type]}"/><g fill="#fff">${GLYPH[type]}</g></svg>`}
+function label(g,txt,x1,y1,x2,y2,fill){
+  const groups=txt.split('·').map(x=>x.trim()).filter(Boolean),w=x2-x1-3,h=y2-y1-2;
+  const cw=x=>[...x].reduce((a,c)=>a+(/[A-Z0-9&]/.test(c)?0.66:c===' '?0.3:/[.'\-]/.test(c)?0.32:c.charCodeAt(0)>255?1:0.56),0)*1.04;
+  const TIERS=[7,6.2,5.4,4.7,4.1,3.6,3.1,2.7,2.4];let lines=[],fs=2.4;
+  for(const f of TIERS){const ls=[];let ok=true;
+    for(const gr of groups){let cur='';for(const wd of gr.split(' ')){const tt=cur?cur+' '+wd:wd;if(cw(tt)*f<=w)cur=tt;else{if(cur)ls.push(cur);cur=wd;if(cw(wd)*f>w)ok=false}}ls.push(cur)}
+    lines=ls;fs=f;if(ok&&ls.length*f*1.2<=h)break}
+  const tx=el('text',{x:(x1+x2)/2,y:(y1+y2)/2-(lines.length-1)*fs*0.6,'font-size':fs,'text-anchor':'middle','dominant-baseline':'central',fill,'font-weight':500,'letter-spacing':'.03em','font-family':'Roboto,Arial,sans-serif'},g);
+  lines.forEach((x,k)=>{const sp=el('tspan',{x:(x1+x2)/2,dy:k?fs*1.2:0},tx);sp.textContent=x})}
+
+/* ===== draw floors (Google-indoor style) ===== */
+for(const f of ORDER){const d=F[f],g=el('g',{id:'fl_'+f,style:'display:none'},$('floorsG'));
+  const [a,b,c,e]=d.bg;
+  el('rect',{x:a-5,y:b-5,width:c-a+10,height:e-b+10,rx:6,fill:'#c8ccd2'},g);
+  el('rect',{x:a-4,y:b-4,width:c-a+8,height:e-b+8,rx:5,fill:'#fff'},g);
+  d.storeEls={};
+  for(const s of d.stores){const sg=el('g',{},g);
+    const r=el('rect',{x:s.x1+.7,y:s.y1+.7,width:s.x2-s.x1-1.4,height:s.y2-s.y1-1.4,rx:1.5,fill:COL[s.cat],stroke:'#c9ced6','stroke-width':.6},sg);
+    label(sg,f==='2MF'?s.raw.replace(/ PFM$/,''):s.raw,s.x1+1,s.y1+1,s.x2-1,s.y2-1,s.cat==='z'?'#fff':'#5f6368');d.storeEls[s.raw+s.x1]=r}
+  if(f==='2MF'){const tx=el('text',{x:400,y:209,'font-size':8,'text-anchor':'middle','font-weight':700,fill:'#c2185b','letter-spacing':'.2em'},g);tx.textContent='PERFUMES'}
+  for(const q of d.esc){el('rect',{x:q[0],y:q[1],width:q[2]-q[0],height:q[3]-q[1],rx:1.5,fill:'#e3e5e8',stroke:'#c9ced6','stroke-width':.6},g);
+    for(let yy=q[1]+2;yy<q[3]-1;yy+=2.2)el('line',{x1:q[0]+1.5,y1:yy,x2:q[2]-1.5,y2:yy,stroke:'#c4c8ce','stroke-width':.5},g)}
+}
+function drawPois(){const g=$('poiG');g.innerHTML='';for(const o of F[viewFloor].pois){const ic=poiIcon(g,o.poi,o.x,o.y,o.poi==='esc'?4.2:(o.poi==='wc'||o.poi==='awc')?6:5.4);
+  if(o.poi==='wc'||o.poi==='awc'){const nb=F[viewFloor].pois.find(q=>q!==o&&q.poi!=='esc'&&dist([q.x,q.y],[o.x,o.y])<30);
+    const side=nb?(nb.x>o.x?'end':'start'):'middle',lx=side==='end'?o.x-8:side==='start'?o.x+8:o.x,ly=side==='middle'?o.y+11:o.y+.3;
+    const tx=el('text',{x:lx,y:ly,'font-size':4.6,'text-anchor':side,'dominant-baseline':'middle','font-weight':700,fill:PCOL[o.poi],stroke:'#fff','stroke-width':1.8,'paint-order':'stroke'},g);tx.textContent=t('fac')[o.poi]}
+  if(o.poi==='stairs'||o.poi==='stroller'){const tx=el('text',{x:o.x,y:o.y+10,'font-size':4,'text-anchor':'middle','font-weight':700,fill:PCOL[o.poi],stroke:'#fff','stroke-width':1.6,'paint-order':'stroke'},g);tx.textContent=t('fac')[o.poi]+(o.to?' '+o.to:'')}
+  ic.style.cursor='pointer';ic.addEventListener('click',ev=>{ev.stopPropagation();setDest(o)})}}
+
+/* ===== character / blue dot ===== */
+const ch=el('g',{},$('charG'));
+const halo=el('circle',{r:11,fill:'#1a73e8','fill-opacity':.15,stroke:'#1a73e8','stroke-opacity':.3,'stroke-width':.6},ch);
+el('circle',{r:3.6,fill:'#1a73e8',stroke:'#fff','stroke-width':1.4},ch);
+const body=el('g',{},ch);
+// --- child in hanbok: saekdong sleeves, yellow jeogori, pink chima, braid with red daenggi, holding a bokjumeoni ---
+const footL=el('ellipse',{cx:-1.8,cy:-.6,rx:1.8,ry:1,fill:'#c2185b'},body);
+const footR=el('ellipse',{cx:1.8,cy:-.6,rx:1.8,ry:1,fill:'#c2185b'},body);
+const braid=el('g',{},body);
+el('path',{d:'M4.6 -24 q2.6 3 1.6 8',fill:'none',stroke:'#2a1d17','stroke-width':1.9,'stroke-linecap':'round'},braid);
+el('path',{d:'M5.2 -16.8 l2.2 3.4 l-1.2 .3 z M6.2 -16.8 l-.4 3.9 l1.3 -.6 z',fill:'#d32f2f'},braid);
+const skirt=el('g',{},body);
+el('path',{d:'M-3.6 -15.2 L3.6 -15.2 L8 -2.4 Q0 .2 -8 -2.4 Z',fill:'#ec407a'},skirt);
+el('path',{d:'M-8 -2.4 Q0 .2 8 -2.4 L7.6 -3.6 Q0 -1.2 -7.6 -3.6Z',fill:'#ad1457','fill-opacity':.55},skirt);
+el('path',{d:'M-2 -14 L-4.4 -3.4 M2 -14 L4.4 -3.4',stroke:'#d81b60','stroke-width':.45,fill:'none'},skirt);
+const SAEK=['#e53935','#fdd835','#1e88e5','#43a047','#ffffff','#e53935'];
+function sleeve(px){const a=el('g',{},body);SAEK.forEach((c,i)=>el('rect',{x:px-1.25,y:-18.4+i*1.25,width:2.5,height:1.3,fill:c},a));el('circle',{cx:px,cy:-10.6,r:1.1,fill:'#ffe1c6'},a);return a}
+const armB=sleeve(-5);
+el('path',{d:'M-4.6 -19.6 h9.2 l.6 5 h-10.4z',fill:'#fdd835'},body);
+el('path',{d:'M-2.6 -19.6 L.6 -15.4 M2.6 -19.6 L-.4 -16.6',stroke:'#fff','stroke-width':1.1,fill:'none'},body);
+el('path',{d:'M.3 -15.9 q1.6 1.4 .6 4.4 M.5 -15.9 q2.4 .4 2.9 3.6',stroke:'#d32f2f','stroke-width':.95,fill:'none','stroke-linecap':'round'},body);
+const armF=sleeve(5);
+const pouch=el('g',{},armF);el('path',{d:'M3.6 -9.6 q1.4 -1.2 2.8 0 l.9 3.2 q-2.3 1.4 -4.6 0z',fill:'#e91e63',stroke:'#880e4f','stroke-width':.35},pouch);el('rect',{x:3.7,y:-9.9,width:2.6,height:.7,fill:'#fdd835'},pouch);
+el('circle',{cx:0,cy:-24.2,r:6.2,fill:'#ffe1c6',stroke:'#3e2723','stroke-width':.45},body);
+el('path',{d:'M-6.3 -24.4 q.2 -6.8 6.3 -6.8 q6.1 0 6.3 6.8 q-1.8 -3.8 -5.8 -4.4 l-.5 1.2 l-.5 -1.2 q-4 .6 -5.8 4.4z',fill:'#2a1d17'},body);
+el('circle',{cx:-2.2,cy:-23.6,r:.85,fill:'#202124'},body);el('circle',{cx:2.2,cy:-23.6,r:.85,fill:'#202124'},body);
+el('ellipse',{cx:-3.7,cy:-21.8,rx:1.15,ry:.65,fill:'#f48fb1'},body);el('ellipse',{cx:3.7,cy:-21.8,rx:1.15,ry:.65,fill:'#f48fb1'},body);
+el('path',{d:'M-1 -21.2 q1 .9 2 0',fill:'none',stroke:'#202124','stroke-width':.5},body);
+
+let SPD=1;try{SPD=+localStorage.getItem('sdf_spd')||1}catch(e){}
+const C={floor:'1F',x:0,y:0,face:1,walk:0,scale:1,op:1};
+let viewFloor='1F',mode='follow',zoomW=240,FREE=null,DEST=null,PLAN=null,job=0,navigating=false,origin=null;
+function drawChar(ts){const ph=ts/1000,sw=C.walk?Math.sin(ph*14)*28:0,bob=C.walk?Math.abs(Math.sin(ph*14))*1.1:Math.sin(ph*2.2)*.3;
+  const st=sw/28;footL.setAttribute('transform',`translate(${st*1.6} 0)`);footR.setAttribute('transform',`translate(${-st*1.6} 0)`);
+  skirt.setAttribute('transform',`rotate(${st*3} 0 -15)`);braid.setAttribute('transform',`rotate(${-st*6} 4.6 -24)`);
+  armB.setAttribute('transform',`rotate(${-sw*.7} -5 -18.4)`);armF.setAttribute('transform',`rotate(${sw*.7} 5 -18.4)`);
+  body.setAttribute('transform',`translate(0 ${-bob}) scale(${C.face} 1)`);halo.setAttribute('r',10+Math.sin(ph*3)*1.5);
+  ch.setAttribute('transform',`translate(${C.x} ${C.y}) scale(${C.scale*0.82})`);ch.style.opacity=C.op;
+  ch.style.display=viewFloor===C.floor?'':'none'}
+
+/* ===== camera with pan / pinch ===== */
+let cam=null;
+function aspect(){const st=$('stage');return st.clientHeight/Math.max(1,st.clientWidth)}
+function fitBox(x,y,w,h,pad){const ar=aspect();x-=pad;y-=pad;w+=pad*2;h+=pad*2;if(h/w<ar){const nh=w*ar;y-=(nh-h)/2;h=nh}else{const nw=h/ar;x-=(nw-w)/2;w=nw}return[x,y,w,h]}
+function bounds(){const b=F[viewFloor].bg;return[b[0]-3,b[1]-3,b[2]+3,b[3]+3]}
+function maxW(){const [a,b,c,d]=bounds();return Math.min(c-a,(d-b)/aspect()*1.45)}
+function clampCam(v){if(!v)return v;const ar=aspect(),[a,b,c,d]=bounds();let [x,y,w,h]=v;const cx=x+w/2,cy=y+h/2,mw=maxW();
+  w=Math.max(Math.min(85,mw),Math.min(mw,w));h=w*ar;x=Math.max(a,Math.min(c-w,cx-w/2));y=h>d-b?(b+d)/2-h/2:Math.max(b,Math.min(d-h,cy-h/2));return[x,y,w,h]}
+function targetCam(){const ar=aspect();
+  if(mode==='follow'&&viewFloor===C.floor){const w=zoomW,h=w*ar;return[C.x-w/2,C.y-h*0.55,w,h]}
+  if(mode==='free'&&FREE)return FREE;
+  if(mode==='fit'&&PLAN){const seg=PLAN.segs.find(s=>s.floor===viewFloor);if(seg){const xs=seg.pts.map(p=>p[0]),ys=seg.pts.map(p=>p[1]);
+      const x=Math.min(...xs),y=Math.min(...ys);return fitBox(x,y-18,Math.max(60,Math.max(...xs)-x),Math.max(60,Math.max(...ys)-y+18),28)}}
+  const [x,y,w,h]=F[viewFloor].vb;return fitBox(x,y,w,h,0)}
+function loop(ts){const tc=clampCam(targetCam());if(!cam)cam=tc;cam=cam.map((v,i)=>v+(tc[i]-v)*(mode==='free'?1:0.14));svg.setAttribute('viewBox',cam.map(v=>v.toFixed(2)).join(' '));drawChar(ts);requestAnimationFrame(loop)}
+const ptrs=new Map();let drag=null,moved=false;
+svg.addEventListener('pointerdown',e=>{svg.setPointerCapture(e.pointerId);ptrs.set(e.pointerId,[e.clientX,e.clientY]);moved=false;drag={cam:cam.slice(),pts:new Map(ptrs)}});
+svg.addEventListener('pointermove',e=>{if(!ptrs.has(e.pointerId)||!drag)return;ptrs.set(e.pointerId,[e.clientX,e.clientY]);
+  const r=svg.getBoundingClientRect(),k=drag.cam[2]/r.width;
+  if(ptrs.size===1){const [sx,sy]=drag.pts.get(e.pointerId)||[e.clientX,e.clientY];const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.hypot(dx,dy)>6)moved=true;
+    if(moved){mode='free';FREE=clampCam([drag.cam[0]-dx*k,drag.cam[1]-dy*k,drag.cam[2],drag.cam[3]])}}
+  else if(ptrs.size===2){const a=[...ptrs.values()],b=[...drag.pts.values()];if(b.length<2)return;moved=true;
+    const d1=Math.hypot(a[0][0]-a[1][0],a[0][1]-a[1][1]),d0=Math.hypot(b[0][0]-b[1][0],b[0][1]-b[1][1]);zoomFree(d0/d1,drag.cam)}});
+function endPtr(e){ptrs.delete(e.pointerId);if(ptrs.size===0)drag=null;else drag={cam:cam.slice(),pts:new Map(ptrs)}}
+svg.addEventListener('pointerup',endPtr);svg.addEventListener('pointercancel',endPtr);
+svg.addEventListener('wheel',e=>{e.preventDefault();zoomFree(e.deltaY>0?1.15:1/1.15,cam)},{passive:false});
+function zoomFree(f,base){const [x,y,w,h]=base,nw=Math.max(90,Math.min(900,w*f)),nh=nw*h/w;mode='free';FREE=clampCam([x+(w-nw)/2,y+(h-nh)/2,nw,nh]);zoomW=FREE[2]}
+svg.addEventListener('click',ev=>{if(moved)return;const p=svg.createSVGPoint();p.x=ev.clientX;p.y=ev.clientY;const q=p.matrixTransform(svg.getScreenCTM().inverse());
+  const b=F[viewFloor].bg;if(q.x<b[0]-8||q.x>b[2]+8||q.y<b[1]-8||q.y>b[3]+8)return;if(navigating)return;
+  const s=whereIs(viewFloor,q.x,q.y);walkTo({floor:viewFloor,x:q.x,y:q.y,pt:1,label:s?sn(s):''})});
+
+/* ===== route drawing ===== */
+let curSeg=null,STEPS=null;
+function drawRoute(livePts){const g=$('routeG');g.innerHTML='';$('pinG').innerHTML='';
+  if(PLAN){for(const s of PLAN.segs){if(s.floor!==viewFloor)continue;const pts=(livePts&&s===curSeg)?livePts:s.pts;if(pts.length<2)continue;
+      const d='M'+pts.map(p=>p.map(v=>v.toFixed(1)).join(' ')).join(' L');
+      el('path',{d,fill:'none',stroke:'#1a73e8','stroke-width':4.2,'stroke-linecap':'round','stroke-linejoin':'round','stroke-dasharray':'0 7.5'},g)}
+    // numbered turn markers that match the step list
+    if(STEPS)for(const it of STEPS){if(it.num==null||!it.at||it.floor!==viewFloor)continue;const m=el('g',{transform:`translate(${it.at[0]} ${it.at[1]})`},g);
+      el('circle',{r:4.6,fill:'#fff',stroke:'#1a73e8','stroke-width':1.2},m);const tx=el('text',{y:.3,'font-size':5.4,'font-weight':700,fill:'#1a73e8','text-anchor':'middle','dominant-baseline':'middle'},m);tx.textContent=it.num}
+    // transfer tag where you get off and change
+    for(const s of PLAN.segs){if(s.floor!==viewFloor||!s.xfer)continue;const p0=s.pts[0],tg=el('g',{transform:`translate(${p0[0]} ${p0[1]+12})`},g);const w=Math.max(30,[...t('xferTag')].length*5.4+14);
+      el('rect',{x:-w/2,y:-6.5,width:w,height:13,rx:6.5,fill:'#e8710a'},tg);const tx=el('text',{y:.4,'font-size':5.8,'font-weight':700,fill:'#fff','text-anchor':'middle','dominant-baseline':'middle'},tg);tx.textContent='⇄ '+t('xferTag')}
+    if(PLAN.mid.includes(viewFloor)&&!PLAN.segs.some(s=>s.floor===viewFloor)){const r=PLAN.rides.find(r=>r.a===viewFloor);if(r){const p0=LK[r.a+'>'+r.b].from,tg=el('g',{transform:`translate(${p0[0]} ${p0[1]+12})`},g);el('rect',{x:-24,y:-6.5,width:48,height:13,rx:6.5,fill:'#e8710a'},tg);const tx=el('text',{y:.4,'font-size':5.8,'font-weight':700,fill:'#fff','text-anchor':'middle','dominant-baseline':'middle'},tg);tx.textContent='⇄ '+t('xferTag')+' '+r.b}}
+    // transfer bubbles (escalator / stairs)
+    for(const s of PLAN.segs){if(s.floor!==viewFloor||s.end==='dest')continue;const n=s.pts[s.pts.length-1],up=ORDER.indexOf(s.next)>ORDER.indexOf(s.floor);
+      const bg=el('g',{transform:`translate(${n[0]} ${n[1]-14})`},g);el('rect',{x:-17,y:-6.5,width:34,height:13,rx:6.5,fill:'#fff',stroke:'#1a73e8','stroke-width':.8},bg);
+      poiIcon(bg,s.end==='esc'?'esc':'stairs',-10.5,0,4.2);const tx=el('text',{x:3.5,y:.3,'font-size':5.6,'font-weight':700,fill:'#1a73e8','text-anchor':'middle','dominant-baseline':'middle'},bg);tx.textContent=(up?'▲':'▼')+s.next}}
+  for(const f of ORDER)for(const r of Object.values(F[f].storeEls)){r.setAttribute('stroke','#c9ced6');r.setAttribute('stroke-width',.6)}
+  if(DEST&&DEST.floor===viewFloor){const z=DEST.zone||DEST;if(z.x1!==undefined){const r=F[z.floor].storeEls[z.raw+z.x1];if(r){r.setAttribute('stroke','#ea4335');r.setAttribute('stroke-width',1.6)}}
+    const p=el('g',{transform:`translate(${DEST.x} ${DEST.y})`},$('pinG'));
+    el('path',{d:'M0 0 C-1.5 -5 -7 -8 -7 -13.5 a7 7 0 0 1 14 0 C7 -8 1.5 -5 0 0z',fill:'#ea4335',stroke:'#b31412','stroke-width':.6},p);el('circle',{cx:0,cy:-13.5,r:2.6,fill:'#b31412'},p);
+    el('ellipse',{cx:0,cy:.3,rx:2.6,ry:1,fill:'#0004'},p)}}
+
+/* ===== movement ===== */
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+function walk(seg,my,onProg){return new Promise(res=>{const pts=seg.pts;let i=1,last=null;C.walk=1;curSeg=seg;
+  function st(ts){if(my!==job){C.walk=0;return res(false)}if(last===null)last=ts;const dt=Math.min(.05,(ts-last)/1000);last=ts;let mv=(navigating?30*SPD:50)*dt;
+    while(mv>0&&i<pts.length){const [tx,ty]=pts[i],dx=tx-C.x,dy=ty-C.y,dd=Math.hypot(dx,dy);if(Math.abs(dx)>.3)C.face=dx<0?-1:1;
+      if(dd<=mv){C.x=tx;C.y=ty;mv-=dd;i++}else{C.x+=dx/dd*mv;C.y+=dy/dd*mv;mv=0}}
+    drawRoute([[C.x,C.y],...pts.slice(i)]);if(onProg)onProg(i);
+    if(i>=pts.length){C.walk=0;curSeg=null;return res(true)}requestAnimationFrame(st)}
+  requestAnimationFrame(st)})}
+async function ride(a,b,my,ty){if(ty==='st')return climb(a,b,my);const up=ORDER.indexOf(b)>ORDER.indexOf(a),es=$('escSvg');es.innerHTML='';
+  $('trBig').innerHTML=`<span class="dir ${up?'up':'down'}">${up?'▲ '+t('up'):'▼ '+t('down')}</span> ${a} → ${b}`;$('trSm').textContent=t('fac').esc+' · '+tf('escHop',{f:b})+(PLAN&&PLAN.mid.includes(b)&&navigating?' · ⇄ '+tf('xferAt',{f:b}):'');
+  const P0=[62,168],P1=[238,58],lo=up?a:b,hi=up?b:a;
+  // floors
+  el('rect',{x:6,y:168,width:64,height:9,rx:2,fill:'#dadce0'},es);el('rect',{x:230,y:58,width:64,height:9,rx:2,fill:'#dadce0'},es);
+  const tl=el('text',{x:36,y:192,'font-size':13,'font-weight':700,'text-anchor':'middle',fill:'#5f6368'},es);tl.textContent=lo;
+  const th=el('text',{x:262,y:84,'font-size':13,'font-weight':700,'text-anchor':'middle',fill:'#5f6368'},es);th.textContent=hi;
+  // truss + glass + handrail
+  const ang=Math.atan2(P1[1]-P0[1],P1[0]-P0[0]),nx=Math.sin(ang),ny=-Math.cos(ang);
+  const off=(p,d)=>[p[0]+nx*d,p[1]+ny*d];const poly=(pts,at)=>el('polygon',Object.assign({points:pts.map(p=>p.join(',')).join(' ')},at),es);
+  poly([off(P0,-2),off(P1,-2),[P1[0],P1[1]+16],[P0[0],P0[1]+16]],{fill:'#9aa0a6'});
+  poly([P0,P1,off(P1,26),off(P0,26)],{fill:'#e8f0fe','fill-opacity':.7,stroke:'#aecbfa','stroke-width':1});
+  el('line',{x1:off(P0,26)[0],y1:off(P0,26)[1],x2:off(P1,26)[0],y2:off(P1,26)[1],stroke:'#202124','stroke-width':3,'stroke-linecap':'round'},es);
+  const stepsG=el('g',{},es),N=16,steps=[];for(let k=0;k<N;k++)steps.push(el('path',{d:'',fill:'#5f6368'},stepsG));
+  const arrow=el('text',{'font-size':16,'font-weight':700,fill:up?'#1a73e8':'#e8710a','text-anchor':'middle'},es);arrow.textContent=up?'▲':'▼';
+  const kid=body.cloneNode(true);const kg=el('g',{},es);kg.appendChild(kid);kid.setAttribute('transform',`scale(${up?1:-1} 1)`);
+  $('transfer').style.display='flex';for(let k=0;k<=8;k++){C.op=1-k*.12;await sleep(25)}
+  const dur=2800/SPD;let t0=null;await new Promise(res=>{function fr(ts){if(t0===null)t0=ts;const k=Math.min(1,(ts-t0)/dur);
+      const ph=((ts-t0)/1000*0.35*(up?1:-1))%1;
+      steps.forEach((p,i)=>{let u=((i/N+ph)%1+1)%1;const x=P0[0]+(P1[0]-P0[0])*u,y=P0[1]+(P1[1]-P0[1])*u,w=(P1[0]-P0[0])/N,h=(P0[1]-P1[1])/N;p.setAttribute('d',`M${x} ${y} h${w*0.95} v${h*0.25} h${-w*0.95}z M${x} ${y} v${-h} h1.3 v${h}z`)});
+      const ease=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2,u=0.06+0.88*(up?ease:1-ease);const px=P0[0]+(P1[0]-P0[0])*u,py=P0[1]+(P1[1]-P0[1])*u;
+      kg.setAttribute('transform',`translate(${px.toFixed(1)} ${(py+Math.sin(ts/180)*0.4).toFixed(1)}) scale(2.3)`);
+      const am=off([(P0[0]+P1[0])/2,(P0[1]+P1[1])/2],44);arrow.setAttribute('x',am[0]);arrow.setAttribute('y',am[1]+((ts/300)%1)*(up?-6:6));
+      if(k<1&&my===job)requestAnimationFrame(fr);else res()}requestAnimationFrame(fr)});
+  if(my!==job){$('transfer').style.display='none';C.op=1;return false}
+  await sleep(250);const n=LK[a+'>'+b].to;C.floor=b;C.x=n[0];C.y=n[1];setView(b,true);cam=null;
+  $('transfer').style.display='none';C.scale=1;C.op=1;return my===job}
+
+async function climb(a,b,my){const up=ORDER.indexOf(b)>ORDER.indexOf(a),es=$('escSvg');es.innerHTML='';
+  $('trBig').innerHTML=`<span class="dir ${up?'up':'down'}">${up?'▲ '+t('up'):'▼ '+t('down')}</span> ${a} → ${b}`;$('trSm').textContent=t('fac').stairs+' · '+tf('escHop',{f:b})+(PLAN&&PLAN.mid.includes(b)&&navigating?' · ⇄ '+tf('xferAt',{f:b}):'');
+  const P0=[56,170],P1=[244,60],N=9,lo=up?a:b,hi=up?b:a,w=(P1[0]-P0[0])/N,h=(P0[1]-P1[1])/N;
+  el('rect',{x:6,y:170,width:52,height:9,rx:2,fill:'#dadce0'},es);el('rect',{x:242,y:51,width:52,height:9,rx:2,fill:'#dadce0'},es);
+  const tl=el('text',{x:32,y:194,'font-size':13,'font-weight':700,'text-anchor':'middle',fill:'#5f6368'},es);tl.textContent=lo;
+  const th=el('text',{x:268,y:44,'font-size':13,'font-weight':700,'text-anchor':'middle',fill:'#5f6368'},es);th.textContent=hi;
+  let d=`M${P0[0]} ${P0[1]+10} L${P0[0]} ${P0[1]}`;for(let k=0;k<N;k++){d+=` h${w} v${-h}`}d+=` L${P1[0]} ${P0[1]+10} Z`;
+  el('path',{d,fill:'#bdc1c6',stroke:'#9aa0a6','stroke-width':1},es);
+  let tr=`M${P0[0]} ${P0[1]-24}`;for(let k=0;k<=N;k++)tr+=` L${P0[0]+k*w} ${P0[1]-k*h-24}`;el('path',{d:tr,fill:'none',stroke:'#5f6368','stroke-width':2.4,'stroke-linecap':'round'},es);
+  for(let k=0;k<=N;k+=3)el('line',{x1:P0[0]+k*w,y1:P0[1]-k*h-24,x2:P0[0]+k*w,y2:P0[1]-k*h,stroke:'#9aa0a6','stroke-width':1.2},es);
+  const arrow=el('text',{'font-size':16,'font-weight':700,fill:up?'#1a73e8':'#e8710a','text-anchor':'middle',x:120,y:70},es);arrow.textContent=up?'▲':'▼';
+  const kid=body.cloneNode(true);const kg=el('g',{},es);kg.appendChild(kid);kid.setAttribute('transform',`scale(${up?1:-1} 1)`);
+  $('transfer').style.display='flex';for(let k=0;k<=8;k++){C.op=1-k*.12;await sleep(25)}
+  const dur=3400/SPD;let t0=null;await new Promise(res=>{function fr(ts){if(t0===null)t0=ts;const k=Math.min(1,(ts-t0)/dur);
+      const u=up?k:1-k,stepF=u*N,si=Math.min(N-1,Math.floor(stepF)),fr2=stepF-si;
+      const px=P0[0]+Math.min(stepF,N-0.5)*w+w*0.25,py=P0[1]-si*h-Math.sin(fr2*Math.PI)*h*0.9-(fr2>0.5?0:0);
+      kg.setAttribute('transform',`translate(${px.toFixed(1)} ${py.toFixed(1)}) scale(2.2)`);arrow.setAttribute('y',70+((ts/300)%1)*(up?-6:6));
+      if(k<1&&my===job)requestAnimationFrame(fr);else res()}requestAnimationFrame(fr)});
+  if(my!==job){$('transfer').style.display='none';C.op=1;return false}
+  await sleep(250);const n=LK[a+'>'+b].to;C.floor=b;C.x=n[0];C.y=n[1];setView(b,true);cam=null;
+  $('transfer').style.display='none';C.scale=1;C.op=1;return my===job}
+async function walkTo(T){const my=++job;setView(C.floor,true);mode='follow';const p=plan(C,T);
+  for(const l of p.legs){if(l.k==='walk'){if(!(await walk(l,my)))return}else if(!(await ride(l.a,l.b,my,l.type)))return}
+  if(my!==job)return;origin=null;afterMove()}
+function afterMove(){C.face=1;refreshFrom();if(DEST&&!navigating){PLAN=plan(C,DEST);renderSheet();if(PLAN)drawRoute()}}
+
+/* ===== navigation: detailed, landmark-based steps ===== */
+const ARW={xfer:'⇄',start:'⬆',L:'⬅',R:'➡',sL:'↖',sR:'↗'};
+function sideOf(f,from,at,target){const u=[at[0]-from[0],at[1]-from[1]],v=[target[0]-at[0],target[1]-at[1]];if(Math.hypot(...v)<3)return'dF';
+  const a=Math.atan2(u[0]*v[1]-u[1]*v[0],u[0]*v[0]+u[1]*v[1])*180/Math.PI;return Math.abs(a)<35?'dF':a>0?'dR':'dL'}
+const ln=s=>sn(s).split('·')[0].trim();
+function passBy(f,seg,ex){if(plen(seg)<110)return'';const out=[];let acc=0;for(let i=1;i<seg.length;i++){const a=seg[i-1],b=seg[i],L=dist(a,b);for(let d=(acc>0?0:30);d<L;d+=30){const p=[a[0]+(b[0]-a[0])*d/L,a[1]+(b[1]-a[1])*d/L];const s=landmark2(f,p,ex);if(s&&!out.includes(s))out.push(s)}acc+=L}
+  const pick=out.slice(0,-1).filter((_,i,arr)=>arr.length<=3||i%Math.ceil(arr.length/3)===0).slice(0,3);return pick.length?tf('pass',{s:pick.map(ln).join(' → ')}):''}
+function mtxt(L){const m=Math.max(1,Math.round(L*MPU));return{m,sub:tf('m',{n:m})+' · '+tf('stepsN',{n:Math.max(1,Math.round(m/0.65))})}}
+function stepList(p){const S=[];let num=1;
+  p.legs.forEach((l,li)=>{
+    if(l.k==='ride'){const up=ORDER.indexOf(l.b)>ORDER.indexOf(l.a);S.push({ic:l.type==='esc'?'esc':'stairs',tx:(l.cont?tf('contPre',{f:l.a}):'')+tf(l.type==='esc'?(up?'rEscUp':'rEscDown'):(up?'rStUp':'rStDown'),{b:l.b}),sub:l.a+' → '+l.b,leg:li,num:num++});return}
+    const pts=l.pts,{K,ang}=turns(pts),destStore=l.end==='dest'?(DEST.zone||DEST):null;
+    for(let j=0;j<K.length-1;j++){const seg=pts.slice(K[j],K[j+1]+1),mm=mtxt(plen(seg));
+      if(j===0&&l.xfer){const tot=Math.max(1,Math.round(plen(pts)*MPU)),xn=t(l.end==='esc'?(l.up?'xEscUp':'xEscDown'):(l.up?'xStUp':'xStDown'));const lmB=landmark(l.floor,pts[pts.length-1]);
+        S.push({ic:'xfer',tx:tf('xfer',{f:l.floor,m:tot,x:xn}),sub:l.floor+' · '+(lmB?tf('near',{s:ln(lmB)})+' · ':'')+tf('stepsN',{n:Math.max(1,Math.round(tot/0.65))}),leg:li,v0:K[0],v1:K[j+1],floor:l.floor,num:num++})}
+      else if(j===0){const endP=pts[K[1]],startS=landmark(l.floor,pts[0]);let lmS=(K.length===2&&l.end==='dest')?null:landmark(l.floor,endP,destStore);if(lmS&&lmS===startS)lmS=landmark2(l.floor,endP,[destStore,startS]);
+        const s=lmS?ln(lmS):(l.end==='dest'?nm(DEST):t('fac')[l.end==='esc'?'esc':'stairs']);const pb=passBy(l.floor,seg,[destStore,startS,lmS]);
+        S.push({ic:'start',tx:tf('iStart',{s,m:mm.m}),sub:l.floor+' · '+mm.sub+(pb?'\n'+pb:''),leg:li,v0:K[0],v1:K[j+1],floor:l.floor,num:num++})}
+      else{const th=ang(pts[K[j-1]],pts[K[j]],pts[K[j+1]]),dk=Math.abs(th)<45?(th>0?'sR':'sL'):(th>0?'R':'L');let lm=landmark2(l.floor,pts[K[j]],[destStore]);if(lm&&lm===l._prevLm)lm=landmark2(l.floor,pts[K[j]],[destStore,lm]);l._prevLm=lm;
+        const pb=passBy(l.floor,seg,[destStore,lm]);S.push({ic:dk,tx:tf('iTurn',{s:lm?ln(lm):t('corr').replace('{f}',l.floor),d:t(dk),m:mm.m}),sub:mm.sub+(pb?'\n'+pb:''),leg:li,v0:K[j],v1:K[j+1],floor:l.floor,at:pts[K[j]],num:num++})}}
+    const last=pts[pts.length-1],prev=pts[Math.max(0,K[K.length-2])];
+    if(l.end==='dest'){const sd=sideOf(l.floor,prev,last,[DEST.x,DEST.y]);S.push({ic:'pin',tx:tf('iArrive',{b:nm(DEST),d:t(sd)}),sub:desc(DEST),leg:li,arrive:1,num:num++})}
+    else{const xpo=F[l.floor].pois.find(o=>o.poi===(l.end==='esc'?'esc':'stairs'))||{x:last[0],y:last[1]};let best=xpo,bd=1e9;for(const o of F[l.floor].pois)if(o.poi===(l.end==='esc'?'esc':'stairs')){const dd=dist([o.x,o.y],last);if(dd<bd){bd=dd;best=o}}
+      const sd=sideOf(l.floor,prev,last,[best.x,best.y]);const lm=landmark(l.floor,last);S.push({ic:l.end==='esc'?'esc':'stairs',tx:tf('iArrive',{b:t('fac')[l.end==='esc'?'esc':'stairs'],d:t(sd)}),sub:lm?tf('near',{s:ln(lm)}):'',leg:li,side:1,num:num++})}});
+  return S}
+const SI={pin:'<svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7z" fill="#ea4335"/><circle cx="12" cy="9" r="2.6" fill="#b31412"/></svg>',esc:chipSvg('esc'),stairs:chipSvg('stairs')};
+function icHTML(ic){return SI[ic]||`<span class="arr">${ARW[ic]||'⬆'}</span>`}
+function setGo(on){const g=$('goTop');g.disabled=!on;g.textContent=navigating?t('stop'):t('start');g.classList.toggle('stop',navigating)}
+function renderSheet(active){const box=$('sumBox'),stp=$('steps');setGo(!!DEST);
+  if(!DEST){box.innerHTML=`<div class="empty">${t('pick')}</div>`;stp.innerHTML='';STEPS=null;return}
+  if(!navigating&&C.floor===DEST.floor&&dist([C.x,C.y],tgt(DEST))<6){PLAN=null;STEPS=null;drawRoute();box.innerHTML=`<div class="sum"><div class="tm">📍 ${t('arrived')}</div></div><div class="via" style="color:#5f6368;font-size:13px;margin-top:4px">${nm(DEST)} · ${desc(DEST)}</div>`;stp.innerHTML='';setGo(false);return}
+  if(!PLAN)PLAN=plan(C,DEST);const m=metrics(PLAN),ne=PLAN.rides.filter(r=>r.type==='esc').length,ns=PLAN.rides.length-ne;
+  const via=PLAN.rides.length?PLAN.from+' → '+PLAN.to+' · '+[ne?tf('viaE',{n:ne}):'',ns?tf('viaS',{n:ns}):'',...PLAN.segs.filter(x=>x.xfer).map(x=>'⇄ '+tf('xferAt',{f:x.floor}))].filter(Boolean).join(' · '):t('same');
+  box.innerHTML=`<div class="sum"><div style="flex:1"><div class="tm">${tf('min',{n:m.min})}<small>(${tf('m',{n:m.m})})</small></div><div class="via">${via}</div></div></div>`;
+  STEPS=stepList(PLAN);stp.innerHTML='';STEPS.forEach((s,i)=>{const d=document.createElement('div');d.className='st'+(i===active?' cur':'');
+    d.innerHTML=`<div class="no">${s.num}</div><div class="si">${icHTML(s.ic)}</div><div class="sx"></div>`;d.lastChild.textContent=s.tx;if(s.sub){const sm=document.createElement('small');sm.textContent=s.sub;d.lastChild.appendChild(sm)}stp.appendChild(d)});
+  if(active!=null){const c=stp.children[active];if(c&&navigating)c.scrollIntoView({block:'nearest',behavior:'smooth'})}
+  drawRoute()}
+function navShow(ic,txt,sub){spdLabel();$('navbar').style.display='flex';$('top').classList.add('nav');$('navI').textContent=ic;$('navT').textContent=txt;$('navS').textContent=sub||''}
+const NI=s=>s.ic==='esc'||s.ic==='stairs'?'⇅':s.ic==='pin'?'📍':ARW[s.ic]||'⬆';
+async function startNav(){if(!DEST)return;$('sheet').classList.remove('peek','full');const my=++job;navigating=true;mode='follow';setView(C.floor,true);PLAN=plan(C,DEST);const p=PLAN;renderSheet(0);const S=STEPS;
+  const show=i=>{renderSheet(i);navShow(NI(S[i]),S[i].tx,S[i].sub)};
+  for(let li=0;li<p.legs.length;li++){const l=p.legs[li];
+    if(l.k==='walk'){const mine=S.map((s,i)=>[s,i]).filter(([s])=>s.leg===li&&s.v0!=null);let cur=-1;
+      const prog=vi=>{let k=mine.findIndex(([s])=>vi<=s.v1);if(k<0)k=mine.length-1;if(mine[k]&&mine[k][1]!==cur){cur=mine[k][1];show(cur)}};prog(1);
+      if(!(await walk(l,my,prog)))return;
+      const sideI=S.findIndex(s=>s.leg===li&&(s.side||s.arrive));if(sideI>=0){show(sideI);if(S[sideI].side){await sleep(1300/SPD);if(my!==job)return}}}
+    else{const ri=S.findIndex(s=>s.leg===li);show(ri);await sleep(700/SPD);if(my!==job)return;if(!(await ride(l.a,l.b,my,l.type)))return}}
+  C.face=1;refreshFrom();celebrate();await sleep(2600);if(my!==job)return;navigating=false;$('navbar').style.display='none';$('top').classList.remove('nav');PLAN=plan(C,DEST);renderSheet()}
+function stopNav(){job++;navigating=false;C.walk=0;$('navbar').style.display='none';$('top').classList.remove('nav');$('transfer').style.display='none';C.scale=1;C.op=1;afterMove()}
+function celebrate(){const g=el('g',{},$('pinG'));const cs=['#ea4335','#fbbc04','#34a853','#1a73e8'];
+  for(let k=0;k<20;k++){const a=Math.random()*Math.PI*2,r=8+Math.random()*16;const c=el('circle',{cx:C.x,cy:C.y-14,r:1.3,fill:cs[k%4]},g);
+    c.animate([{transform:'translate(0,0)',opacity:1},{transform:`translate(${Math.cos(a)*r}px,${Math.sin(a)*r-6}px)`,opacity:0}],{duration:1100,easing:'cubic-bezier(.2,.7,.3,1)',fill:'forwards'})}
+  setTimeout(()=>g.remove(),1300)}
+
+/* ===== UI ===== */
+function setView(f,keep){viewFloor=f;ORDER.forEach(x=>$('fl_'+x).style.display=x===f?'':'none');if(!keep&&!navigating)mode=(PLAN&&PLAN.segs.some(s=>s.floor===f))?'fit':'overview';drawFloorSw();drawPois();drawRoute()}
+function drawFloorSw(){const w=$('floorSw');w.innerHTML='';[...ORDER].reverse().forEach(f=>{const b=document.createElement('button');b.textContent=f;if(f===viewFloor)b.className='on';
+  if(C.floor===f)b.innerHTML+='<i style="background:#1a73e8"></i>';else if(DEST&&DEST.floor===f)b.innerHTML+='<i style="background:#ea4335"></i>';else if(PLAN&&PLAN.mid&&PLAN.mid.includes(f))b.innerHTML+='<i style="background:#e8710a"></i>';
+  b.onclick=()=>setView(f);w.appendChild(b)})}
+function refreshFrom(){const s=whereIs(C.floor,C.x,C.y);$('inFrom').value=t('my')+' · '+(origin?nm(origin):s?sn(s):t('corr').replace('{f}',C.floor))+' ('+C.floor+')'}
+function setDest(o){DEST=o;$('inTo').value=nm(o)+' · '+o.floor;PLAN=plan(C,DEST);renderSheet();setView(C.floor===o.floor?o.floor:C.floor);mode='fit';drawFloorSw();drawRoute()}
+function nearestOf(types){let b=null,bc=1e9;for(const o of ALL)if(o.poi&&types.includes(o.poi)){const c=cost(C,o);if(c<bc){bc=c;b=o}}return b}
+function search(q){q=q.trim().toLowerCase().replace(/\s+/g,' ');if(!q)return[];
+  return ALL.filter(o=>((o.name||'')+' '+(o.ko||'')+' '+(o.poi?Object.values(T).map(x=>x.fac[o.poi]+' toilet wc restroom 화장실').join(' '):'')).toLowerCase().includes(q)).slice(0,30)}
+function icFor(o){if(o.poi)return chipSvg(o.poi).replace('<svg','<svg width="22" height="22"');return'<svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7z" fill="#9aa0a6"/></svg>'}
+function bindSearch(inp,ls,set,restore){inp.onfocus=()=>{inp.value='';show()};inp.oninput=show;
+  function show(){const r=search(inp.value);ls.innerHTML='';if(!inp.value.trim()){ls.style.display='none';return}
+    if(!r.length)ls.innerHTML=`<div>${t('none')}</div>`;
+    for(const o of r){const d=document.createElement('div');d.innerHTML=`<span class="ic">${icFor(o)}</span><span class="tx"><b></b><span></span></span>`;
+      d.querySelector('b').textContent=nm(o)+(L==='ko'&&o.ko&&!o.poi?'  '+o.name:'');d.querySelector('.tx span').textContent=desc(o);
+      d.onmousedown=ev=>ev.preventDefault();d.onclick=()=>{set(o);ls.style.display='none';inp.blur()};ls.appendChild(d)}
+    ls.style.display='block'}
+  inp.onblur=()=>setTimeout(()=>{ls.style.display='none';restore()},200)}
+bindSearch($('inFrom'),$('lsFrom'),o=>{job++;navigating=false;$('navbar').style.display='none';$('top').classList.remove('nav');C.walk=0;C.floor=o.floor;[C.x,C.y]=tgt(o);origin=o;mode='follow';cam=null;setView(o.floor,true);afterMove()},refreshFrom);
+bindSearch($('inTo'),$('lsTo'),setDest,()=>{$('inTo').value=DEST?nm(DEST)+' · '+DEST.floor:''});
+$('swap').onclick=()=>{if(!DEST||navigating)return;const prev={floor:C.floor,x:C.x,y:C.y,pt:1,label:origin?nm(origin):(whereIs(C.floor,C.x,C.y)?sn(whereIs(C.floor,C.x,C.y)):'')};
+  const o=DEST;C.floor=o.floor;[C.x,C.y]=tgt(o);origin=o;DEST=prev;$('inTo').value=nm(prev)+' · '+prev.floor;cam=null;mode='follow';setView(C.floor,true);afterMove()};
+$('recenter').onclick=()=>{mode='follow';setView(C.floor,true)};
+$('zin').onclick=()=>{if(mode==='follow')zoomW=Math.max(90,zoomW/1.4);else zoomFree(1/1.4,cam)};
+$('zout').onclick=()=>{if(mode==='follow')zoomW=Math.min(maxW(),zoomW*1.4);else zoomFree(1.4,cam)};
+function applyLang(){document.documentElement.lang={ko:'ko',zh:'zh-CN',tw:'zh-TW',en:'en',ja:'ja',vi:'vi',th:'th',fil:'fil'}[L];document.title=t('title');$('brandbar').textContent=t('title');
+  $('inFrom').placeholder=t('fromPh');$('inTo').placeholder=t('toPh');$('note').textContent=t('note');$('toast').textContent=t('hint');
+  $('chips').innerHTML=`<button class="chip" data-k="wc">${chipSvg('wc')}${t('chipWc')}</button><button class="chip" data-k="awc">${chipSvg('awc')}${t('fac').awc}</button><button class="chip" data-k="esc">${chipSvg('esc')}${t('chipEsc')}</button><button class="chip" data-k="info">${chipSvg('info')}${t('chipInfo')}</button>`;
+  $('lang').value=L;if(!window._langBound){window._langBound=1;$('lang').onchange=e=>{L=e.target.value;try{localStorage.setItem('sdf_lang',L)}catch(_){};applyLang()}};
+  document.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{const k=b.dataset.k;const o=nearestOf([k]);if(o)setDest(o)});
+  $('legend').innerHTML=Object.entries(t('cat')).filter(([k])=>k!=='z').map(([k,v])=>`<span><b style="background:${COL[k]}"></b>${v}</span>`).join('');
+  refreshFrom();if(DEST)$('inTo').value=nm(DEST)+' · '+DEST.floor;renderSheet();drawPois();drawRoute()}
+
+const SPDS=[0.5,1,2];function spdLabel(){$('spdBtn').textContent=(SPD===0.5?'🐢 ':SPD===2?'🐇 ':'🚶 ')+t('speed')+' '+SPD+'x'}
+$('spdBtn').onclick=()=>{SPD=SPDS[(SPDS.indexOf(SPD)+1)%3];try{localStorage.setItem('sdf_spd',SPD)}catch(e){}spdLabel()};
+$('grab').onclick=()=>{const sh=$('sheet');if(sh.classList.contains('peek')){sh.classList.remove('peek');sh.classList.add('full')}else if(sh.classList.contains('full')){sh.classList.remove('full')}else sh.classList.add('peek')};
+function fitZoom(){zoomW=Math.min(maxW(),Math.max(220,$('stage').clientWidth*0.42))}
+window.addEventListener('resize',()=>{cam=null});
+$('goTop').onclick=()=>navigating?stopNav():startNav();
+// Kiosk / QR start point: #loc-1F-450-278
+function fromHash(){const m=/^#loc-(B1F|1F|2F|2MF|3F)-(\d+)-(\d+)$/i.exec(location.hash);if(!m)return;C.floor=m[1].toUpperCase();[C.x,C.y]=snap(C.floor,[+m[2],+m[3]]);origin=null;setView(C.floor,true);cam=null;afterMove()}
+window.addEventListener('hashchange',fromHash);
+[C.x,C.y]=F['1F'].liftPt;setView('1F',true);fitZoom();fromHash();applyLang();requestAnimationFrame(loop);
+setTimeout(()=>$('toast').style.opacity=0,5000);
+</script>
+</body>
+</html>
