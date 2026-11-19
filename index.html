@@ -74,7 +74,7 @@ body{font-family:Roboto,"Noto Sans KR","Noto Sans Thai","PingFang SC","Hiragino 
 .transfer .big .dir.up{background:#1a73e8}.transfer .big .dir.down{background:#e8710a}
 .transfer .sm{font-size:14px;color:var(--g2)}
 /* bottom sheet */
-.sheet{background:#fff;border-radius:14px 14px 0 0;box-shadow:0 -2px 10px #0002;z-index:15;max-height:44vh;overflow:auto;padding:6px 16px 16px;margin-top:-12px;position:relative}
+.sheet{background:#fff;border-radius:14px 14px 0 0;box-shadow:0 -2px 10px #0002;z-index:15;max-height:40vh;overflow:auto;padding:4px 16px 16px;margin-top:-12px;position:relative}
 .grab{width:36px;height:4px;border-radius:2px;background:var(--g3);margin:4px auto 10px}
 .sum{display:flex;align-items:center;gap:12px}
 .sum .tm{font-size:22px;font-weight:500}
@@ -97,12 +97,42 @@ body{font-family:Roboto,"Noto Sans KR","Noto Sans Thai","PingFang SC","Hiragino 
 .legend{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:11px;color:var(--g2);margin-top:12px}
 .legend b{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:-1px;border:1px solid #0001}
 .note{font-size:11px;color:#80868b;line-height:1.5;margin-top:8px}
+
+/* ---------- polish ---------- */
+.chips{scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,#000 92%,transparent);mask-image:linear-gradient(90deg,#000 92%,transparent)}
+.chips::-webkit-scrollbar{display:none}
+.brandbar .bt{display:flex;align-items:center;gap:8px;min-width:0}
+.brandbar .bt i{width:26px;height:26px;border-radius:8px;background:var(--blue);display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.brandbar .bt span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.grab{cursor:pointer;padding:6px 0;margin:0 auto 6px;width:60px;height:auto;background:none;display:flex;justify-content:center}
+.grab:before{content:"";width:36px;height:4px;border-radius:2px;background:var(--g3)}
+.sheet{transition:max-height .25s ease}
+.sheet.peek{max-height:118px;overflow:hidden}
+.sheet.full{max-height:72vh}
+.st{border-radius:10px;padding:11px 6px}
+.st.cur{background:#e8f0fe}
+.sum .tm{color:#188038}
+.legend{padding-top:10px;border-top:1px solid var(--g4)}
+/* ---------- tablet / PC: side panel + full map ---------- */
+@media (min-width:760px){
+ .app{max-width:none;display:grid;grid-template-columns:360px 1fr;grid-template-rows:auto 1fr;height:100dvh}
+ .top{grid-column:1;grid-row:1;box-shadow:none;border-right:1px solid var(--g3);padding:16px 16px 12px;z-index:21}
+ .sheet{grid-column:1;grid-row:2;margin-top:0;border-radius:0;box-shadow:none;max-height:none!important;overflow:auto!important;border-right:1px solid var(--g3);border-top:1px solid var(--g4);padding:14px 16px 24px}
+ .grab{display:none}
+ .stage{grid-column:2;grid-row:1/3}
+ .brandbar{font-size:17px}
+ .chips{flex-wrap:wrap;overflow:visible;-webkit-mask-image:none;mask-image:none}
+ .trcard{width:min(60%,460px)}
+ .floors button{width:48px;height:42px;font-size:14px}
+ .fab button{width:48px;height:48px}
+}
+@media (min-width:1200px){.app{grid-template-columns:420px 1fr}}
 </style>
 </head>
 <body>
 <div class="app">
  <div class="top" id="top">
-  <div class="brandbar"><span id="brandbar"></span><label class="langw">🌐<select class="lang" id="lang"><option value="ko">한국어</option><option value="zh">简体中文</option><option value="tw">繁體中文</option><option value="en">English</option><option value="ja">日本語</option><option value="vi">Tiếng Việt</option><option value="th">ภาษาไทย</option><option value="fil">Filipino</option></select></label></div>
+  <div class="brandbar"><div class="bt"><i><svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7z" fill="#fff"/><circle cx="12" cy="9" r="2.6" fill="#1a73e8"/></svg></i><span id="brandbar"></span></div><label class="langw">🌐<select class="lang" id="lang"><option value="ko">한국어</option><option value="zh">简体中文</option><option value="tw">繁體中文</option><option value="en">English</option><option value="ja">日本語</option><option value="vi">Tiếng Việt</option><option value="th">ภาษาไทย</option><option value="fil">Filipino</option></select></label></div>
   <div class="dir">
    <div class="pts"><span class="o"></span><span class="dots"></span><span class="d"></span></div>
    <div class="ins">
@@ -125,7 +155,7 @@ body{font-family:Roboto,"Noto Sans KR","Noto Sans Thai","PingFang SC","Hiragino 
   <div class="transfer" id="transfer"><div class="trcard"><svg id="escSvg" viewBox="0 0 300 200"></svg><div class="big" id="trBig"></div><div class="sm" id="trSm"></div></div></div>
  </div>
  <div class="sheet" id="sheet">
-  <div class="grab"></div>
+  <div class="grab" id="grab" title="Expand/collapse"></div>
   <div id="sumBox"></div>
   <div class="steps" id="steps"></div>
   <div class="legend" id="legend"></div>
@@ -477,7 +507,7 @@ function stepList(p){const S=[];let num=1;
       if(j===0){const endP=pts[K[1]],startS=landmark(l.floor,pts[0]);let lmS=(K.length===2&&l.end==='dest')?null:landmark(l.floor,endP,destStore);if(lmS&&lmS===startS)lmS=landmark2(l.floor,endP,[destStore,startS]);
         const s=lmS?ln(lmS):(l.end==='dest'?nm(DEST):t('fac')[l.end==='esc'?'esc':'stairs']);const pb=passBy(l.floor,seg,[destStore,startS,lmS]);
         S.push({ic:'start',tx:tf('iStart',{s,m:mm.m}),sub:l.floor+' · '+mm.sub+(pb?'\n'+pb:''),leg:li,v0:K[0],v1:K[j+1],floor:l.floor,num:num++})}
-      else{const th=ang(pts[K[j-1]],pts[K[j]],pts[K[j+1]]),dk=Math.abs(th)<45?(th>0?'sR':'sL'):(th>0?'R':'L');const lm=landmark2(l.floor,pts[K[j]],[destStore]);
+      else{const th=ang(pts[K[j-1]],pts[K[j]],pts[K[j+1]]),dk=Math.abs(th)<45?(th>0?'sR':'sL'):(th>0?'R':'L');let lm=landmark2(l.floor,pts[K[j]],[destStore]);if(lm&&lm===l._prevLm)lm=landmark2(l.floor,pts[K[j]],[destStore,lm]);l._prevLm=lm;
         const pb=passBy(l.floor,seg,[destStore,lm]);S.push({ic:dk,tx:tf('iTurn',{s:lm?ln(lm):t('corr').replace('{f}',l.floor),d:t(dk),m:mm.m}),sub:mm.sub+(pb?'\n'+pb:''),leg:li,v0:K[j],v1:K[j+1],floor:l.floor,at:pts[K[j]],num:num++})}}
     const last=pts[pts.length-1],prev=pts[Math.max(0,K[K.length-2])];
     if(l.end==='dest'){const sd=sideOf(l.floor,prev,last,[DEST.x,DEST.y]);S.push({ic:'pin',tx:tf('iArrive',{b:nm(DEST),d:t(sd)}),sub:desc(DEST),leg:li,arrive:1,num:num++})}
@@ -499,7 +529,7 @@ function renderSheet(active){const box=$('sumBox'),stp=$('steps');setGo(!!DEST);
   drawRoute()}
 function navShow(ic,txt,sub){spdLabel();$('navbar').style.display='flex';$('top').classList.add('nav');$('navI').textContent=ic;$('navT').textContent=txt;$('navS').textContent=sub||''}
 const NI=s=>s.ic==='esc'||s.ic==='stairs'?'⇅':s.ic==='pin'?'📍':ARW[s.ic]||'⬆';
-async function startNav(){if(!DEST)return;const my=++job;navigating=true;mode='follow';setView(C.floor,true);PLAN=plan(C,DEST);const p=PLAN;renderSheet(0);const S=STEPS;
+async function startNav(){if(!DEST)return;$('sheet').classList.remove('peek','full');const my=++job;navigating=true;mode='follow';setView(C.floor,true);PLAN=plan(C,DEST);const p=PLAN;renderSheet(0);const S=STEPS;
   const show=i=>{renderSheet(i);navShow(NI(S[i]),S[i].tx,S[i].sub)};
   for(let li=0;li<p.legs.length;li++){const l=p.legs[li];
     if(l.k==='walk'){const mine=S.map((s,i)=>[s,i]).filter(([s])=>s.leg===li&&s.v0!=null);let cur=-1;
@@ -550,11 +580,14 @@ function applyLang(){document.documentElement.lang={ko:'ko',zh:'zh-CN',tw:'zh-TW
 
 const SPDS=[0.5,1,2];function spdLabel(){$('spdBtn').textContent=(SPD===0.5?'🐢 ':SPD===2?'🐇 ':'🚶 ')+t('speed')+' '+SPD+'x'}
 $('spdBtn').onclick=()=>{SPD=SPDS[(SPDS.indexOf(SPD)+1)%3];try{localStorage.setItem('sdf_spd',SPD)}catch(e){}spdLabel()};
+$('grab').onclick=()=>{const sh=$('sheet');if(sh.classList.contains('peek')){sh.classList.remove('peek');sh.classList.add('full')}else if(sh.classList.contains('full')){sh.classList.remove('full')}else sh.classList.add('peek')};
+function fitZoom(){zoomW=Math.min(maxW(),Math.max(220,$('stage').clientWidth*0.42))}
+window.addEventListener('resize',()=>{cam=null});
 $('goTop').onclick=()=>navigating?stopNav():startNav();
 // Kiosk / QR start point: #loc-1F-450-278
 function fromHash(){const m=/^#loc-(B1F|1F|2F|2MF|3F)-(\d+)-(\d+)$/i.exec(location.hash);if(!m)return;C.floor=m[1].toUpperCase();[C.x,C.y]=snap(C.floor,[+m[2],+m[3]]);origin=null;setView(C.floor,true);cam=null;afterMove()}
 window.addEventListener('hashchange',fromHash);
-[C.x,C.y]=F['1F'].liftPt;setView('1F',true);fromHash();applyLang();requestAnimationFrame(loop);
+[C.x,C.y]=F['1F'].liftPt;setView('1F',true);fitZoom();fromHash();applyLang();requestAnimationFrame(loop);
 setTimeout(()=>$('toast').style.opacity=0,5000);
 </script>
 </body>
