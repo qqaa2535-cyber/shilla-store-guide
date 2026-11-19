@@ -16,10 +16,20 @@ for u in re.findall(r'https://media\.shilladfs\.com/files/attach/branchinfo/[^"\
 print("floors:", floors, "images:", len(imgs))
 if not floors or not imgs: print(html[:1500]); sys.exit(1)
 
+import urllib.parse
+# match each Seoul-store floor image by its file name suffix (_B1F, _2F, _2MF, _3F; none = 1F)
+byfloor = {}
+for u in imgs:
+    name = urllib.parse.unquote(u.rsplit("/", 1)[-1])
+    if "서울점" not in name: continue
+    m = re.search(r"_(B1F|2MF|2F|3F)\.(?:jpg|png)$", name)
+    f = m.group(1) if m else "1F"
+    stamp = int(re.match(r"(\d+)", name).group(1)) if re.match(r"(\d+)", name) else 0
+    if f not in byfloor or stamp > byfloor[f][0]: byfloor[f] = (stamp, u)
 os.makedirs("data/maps", exist_ok=True)
 state = {"source": PAGE, "floors": {}}
-for i, f in enumerate(floors):
-    url = imgs[i] if i < len(imgs) else ""
+for f in floors:
+    url = byfloor.get(f, (0, ""))[1]
     state["floors"][f] = {"image": url}
     p = f"data/maps/{f}.jpg"
     old = open(p + ".url").read().strip() if os.path.exists(p + ".url") else None
