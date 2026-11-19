@@ -4,7 +4,7 @@ on:
     - cron: "10 21 * * *"   # every day 06:10 KST
   workflow_dispatch:
   push:
-    paths: [".github/workflows/sync-official.yml", "scripts/sync_official.py"]
+    paths: [".github/workflows/sync-official.yml", "scripts/sync_official.py", "data/traced.json"]
 permissions:
   contents: write
 jobs:
