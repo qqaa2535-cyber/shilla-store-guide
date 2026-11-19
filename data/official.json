@@ -1,0 +1,20 @@
+{
+ "source": "https://m.shilladfs.com/estore/kr/ko/shilladfscustomercenter/store/floor?code=01",
+ "floors": {
+  "B1F": {
+   "image": "https://media.shilladfs.com/files/attach/branchinfo/2024/11/15/1731638530519_20241115_1_KO_MO_통합지점안내_670x400_1.jpg"
+  },
+  "1F": {
+   "image": "https://media.shilladfs.com/files/attach/branchinfo/2026/09/30/1790726293842_20260930_1_서울점_공통_260930_B1F.jpg"
+  },
+  "2F": {
+   "image": "https://media.shilladfs.com/files/attach/branchinfo/2026/11/13/1794528481791_20261113_1_서울점_공통_261113.jpg"
+  },
+  "2MF": {
+   "image": "https://media.shilladfs.com/files/attach/branchinfo/2026/11/19/1795046809659_20261119_1_서울점_공통_2F_261119.jpg"
+  },
+  "3F": {
+   "image": "https://media.shilladfs.com/files/attach/branchinfo/2026/09/30/1790726294898_20260930_1_서울점_공통_260930_2MF.jpg"
+  }
+ }
+}
