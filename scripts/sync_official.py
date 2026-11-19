@@ -22,7 +22,7 @@ byfloor = {}
 for u in imgs:
     name = urllib.parse.unquote(u.rsplit("/", 1)[-1])
     if "서울점" not in name: continue
-    m = re.search(r"_(B1F|2MF|2F|3F)\.(?:jpg|png)$", name)
+    m = re.search(r"_(B1F|2MF|2F|3F)(?:_\d+)?\.(?:jpg|png)$", name)
     f = m.group(1) if m else "1F"
     stamp = int(re.match(r"(\d+)", name).group(1)) if re.match(r"(\d+)", name) else 0
     if f not in byfloor or stamp > byfloor[f][0]: byfloor[f] = (stamp, u)
@@ -40,6 +40,10 @@ for f in floors:
 json.dump(state, open("data/official.json", "w"), ensure_ascii=False, indent=1)
 # stale = floors whose official image differs from the image the current map was traced from
 traced = json.load(open("data/traced.json")) if os.path.exists("data/traced.json") else {}
-stale = [f for f in floors if state["floors"][f]["image"] and traced.get(f) and traced[f] != state["floors"][f]["image"]]
+def version(u):  # upload date in the file name, e.g. 20261119
+    m = re.search(r"_(20\d{6})_", urllib.parse.unquote(u.rsplit("/", 1)[-1])); return m.group(1) if m else u
+for f in floors: state["floors"][f]["version"] = version(state["floors"][f]["image"]) if state["floors"][f]["image"] else ""
+json.dump(state, open("data/official.json", "w"), ensure_ascii=False, indent=1)
+stale = [f for f in floors if state["floors"][f]["version"] and traced.get(f) and traced[f] != state["floors"][f]["version"]]
 json.dump({"stale": stale, "checked": datetime.datetime.now(datetime.UTC).strftime("%Y-%m-%d")}, open("data/status.json", "w"), indent=1)
 print("stale floors:", stale)
