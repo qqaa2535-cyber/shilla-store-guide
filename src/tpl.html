@@ -168,6 +168,11 @@ const ORDER=['B1F','1F','2F','2MF','3F'];
 const COL={f:'#e9eaee',b:'#fce4ec',w:'#e0f2f1',e:'#e8eaf6',d:'#fff3e0',x:'#eceff1',z:'#b0bec5'};
 const MPU=0.18; // metres per map unit (estimated)
 
+/* ===== anonymous usage stats (no personal data: random device id, language, searched brand) ===== */
+const STATS_URL='';
+let UID='';try{UID=localStorage.getItem('sdf_uid')||'';if(!UID){UID=Math.random().toString(36).slice(2,10)+Date.now().toString(36).slice(-4);localStorage.setItem('sdf_uid',UID)}}catch(e){UID='anon'}
+function track(type,extra){if(!STATS_URL)return;try{const body=JSON.stringify(Object.assign({type,lang:(typeof L!=='undefined'?L:''),uid:UID,ua:/Mobi/i.test(navigator.userAgent)?'mobile':'pc',ref:location.hash||''},extra||{}));
+  if(navigator.sendBeacon)navigator.sendBeacon(STATS_URL,new Blob([body],{type:'text/plain'}));else fetch(STATS_URL,{method:'POST',mode:'no-cors',body})}catch(e){}}
 /* ===== i18n ===== */
 const T={
 ko:{title:'신라면세점 서울점 매장 안내',fromPh:'출발지 검색',toPh:'도착지 검색',my:'내 위치',corr:'{f} 통로',near:'{s} 근처',start:'출발',stop:'종료',stepsT:'경로 안내',walk:'{b}까지 걷기',ride:'에스컬레이터 {a} → {b}',arrive:'{b} 도착',min:'{n}분',m:'약 {n}m',via:'에스컬레이터 {n}회 이용',same:'같은 층 · 도보',hint:'지도를 탭하면 그 자리로 이동해요',pick:'도착지를 검색하거나 위 버튼을 눌러보세요',chipWc:'화장실',chipInfo:'안내데스크',chipEsc:'에스컬레이터',nearest:'가장 가까운 {p}',fac:{wc:'화장실',awc:'장애인 화장실',elev:'엘리베이터',info:'안내데스크',esc:'에스컬레이터',stroller:'유모차 대여',stairs:'계단'},wcDesc:'남녀 화장실',awcDesc:'휠체어 이용 가능',escHop:'{f}로 이동 중',up:'상행',down:'하행',speed:'속도',iStart:'{s} 쪽으로 약 {m}m 직진하세요',iTurn:'{s} 앞에서 {d}으로 돌아 약 {m}m 가세요',iArrive:'{b}은(는) {d}에 있어요',L:'왼쪽',R:'오른쪽',sL:'살짝 왼쪽',sR:'살짝 오른쪽',dL:'왼쪽',dR:'오른쪽',dF:'바로 앞',stepsN:'약 {n}걸음',rEscUp:'상행 에스컬레이터를 타고 {b}로 올라가세요',rEscDown:'하행 에스컬레이터를 타고 {b}로 내려가세요',rStUp:'계단을 걸어서 {b}까지 올라가세요',rStDown:'계단을 걸어서 {b}까지 내려가세요',viaE:'에스컬레이터 {n}회',viaS:'계단 {n}회',pass:'지나는 곳: {s}',xfer:'{f}에 도착하면 {x}까지 약 {m}m 걸어가서 갈아타세요',xEscUp:'상행 에스컬레이터',xEscDown:'하행 에스컬레이터',xStUp:'올라가는 계단',xStDown:'내려가는 계단',xferAt:'{f}에서 갈아타기',contPre:'{f}에서 이어서 ',xferTag:'갈아타기',arrived:'도착했습니다',note:'※ 신라면세점 공식 층별 안내도(2026년 9·11월 판)를 보고 직접 그린 약도입니다. 거리·시간은 추정치이며, 매장 크기·통로·에스컬레이터 연결은 실제와 다를 수 있습니다.',none:'검색 결과 없음',cat:{b:'화장품/향수',f:'패션/가방',w:'시계/주얼리',e:'선글라스',d:'식품/주류/담배',x:'기타',z:'라운지'}},
@@ -319,8 +324,12 @@ const body=el('g',{},ch);
 const footL=el('ellipse',{cx:-1.8,cy:-.6,rx:1.8,ry:1,fill:'#c2185b'},body);
 const footR=el('ellipse',{cx:1.8,cy:-.6,rx:1.8,ry:1,fill:'#c2185b'},body);
 const braid=el('g',{},body);
-el('path',{d:'M4.6 -24 q2.6 3 1.6 8',fill:'none',stroke:'#2a1d17','stroke-width':1.9,'stroke-linecap':'round'},braid);
-el('path',{d:'M5.2 -16.8 l2.2 3.4 l-1.2 .3 z M6.2 -16.8 l-.4 3.9 l1.3 -.6 z',fill:'#d32f2f'},braid);
+// long single braid (댕기머리) hanging down the back, tied with a red daenggi ribbon
+[[5.4,-25.4],[6.4,-23.9],[7.2,-22.2],[7.8,-20.4],[8.2,-18.6],[8.45,-16.8],[8.6,-15.0],[8.7,-13.3]].forEach(([x,y],k)=>{
+  el('ellipse',{cx:x+(k%2?0.3:-0.3),cy:y,rx:1.45-k*0.04,ry:1.0,transform:`rotate(${k%2?30:-30} ${x} ${y})`,fill:'#2a1d17',stroke:'#140b07','stroke-width':.3},braid)});
+el('rect',{x:7.55,y:-12.4,width:2.3,height:1.1,rx:.3,fill:'#b71c1c'},braid);
+el('path',{d:'M7.75 -11.5 h1.9 l.4 5.6 l-1.35 -1.15 l-1.35 1.15 z',fill:'#e53935',stroke:'#b71c1c','stroke-width':.25},braid);
+el('path',{d:'M8.1 -10.2 h1.2 M8.15 -8.9 h1.15',stroke:'#ffd54f','stroke-width':.3},braid);
 const skirt=el('g',{},body);
 el('path',{d:'M-3.6 -15.2 L3.6 -15.2 L8 -2.4 Q0 .2 -8 -2.4 Z',fill:'#ec407a'},skirt);
 el('path',{d:'M-8 -2.4 Q0 .2 8 -2.4 L7.6 -3.6 Q0 -1.2 -7.6 -3.6Z',fill:'#ad1457','fill-opacity':.55},skirt);
@@ -344,7 +353,7 @@ const C={floor:'1F',x:0,y:0,face:1,walk:0,scale:1,op:1};
 let viewFloor='1F',mode='follow',zoomW=240,FREE=null,DEST=null,PLAN=null,job=0,navigating=false,origin=null;
 function drawChar(ts){const ph=ts/1000,sw=C.walk?Math.sin(ph*14)*28:0,bob=C.walk?Math.abs(Math.sin(ph*14))*1.1:Math.sin(ph*2.2)*.3;
   const st=sw/28;footL.setAttribute('transform',`translate(${st*1.6} 0)`);footR.setAttribute('transform',`translate(${-st*1.6} 0)`);
-  skirt.setAttribute('transform',`rotate(${st*3} 0 -15)`);braid.setAttribute('transform',`rotate(${-st*6} 4.6 -24)`);
+  skirt.setAttribute('transform',`rotate(${st*3} 0 -15)`);braid.setAttribute('transform',`rotate(${-st*4} 5.4 -25.4)`);
   armB.setAttribute('transform',`rotate(${-sw*.7} -5 -18.4)`);armF.setAttribute('transform',`rotate(${sw*.7} 5 -18.4)`);
   body.setAttribute('transform',`translate(0 ${-bob}) scale(${C.face} 1)`);halo.setAttribute('r',10+Math.sin(ph*3)*1.5);
   ch.setAttribute('transform',`translate(${C.x} ${C.y}) scale(${C.scale*0.82})`);ch.style.opacity=C.op;
@@ -507,7 +516,7 @@ function renderSheet(active){const box=$('sumBox'),stp=$('steps');setGo(!!DEST);
   drawRoute()}
 function navShow(ic,txt,sub){spdLabel();$('navbar').style.display='flex';$('top').classList.add('nav');$('navI').textContent=ic;$('navT').textContent=txt;$('navS').textContent=sub||''}
 const NI=s=>s.ic==='esc'||s.ic==='stairs'?'⇅':s.ic==='pin'?'📍':ARW[s.ic]||'⬆';
-async function startNav(){if(!DEST)return;$('sheet').classList.remove('peek','full');const my=++job;navigating=true;mode='follow';setView(C.floor,true);PLAN=plan(C,DEST);const p=PLAN;renderSheet(0);const S=STEPS;
+async function startNav(){if(!DEST)return;track('nav',{brand:DEST.poi?('['+DEST.poi+']'):DEST.name,floor:DEST.floor,from:C.floor});$('sheet').classList.remove('peek','full');const my=++job;navigating=true;mode='follow';setView(C.floor,true);PLAN=plan(C,DEST);const p=PLAN;renderSheet(0);const S=STEPS;
   const show=i=>{renderSheet(i);navShow(NI(S[i]),S[i].tx,S[i].sub)};
   for(let li=0;li<p.legs.length;li++){const l=p.legs[li];
     if(l.k==='walk'){const mine=S.map((s,i)=>[s,i]).filter(([s])=>s.leg===li&&s.v0!=null);let cur=-1;
@@ -528,7 +537,7 @@ function drawFloorSw(){const w=$('floorSw');w.innerHTML='';[...ORDER].reverse().
   if(C.floor===f)b.innerHTML+='<i style="background:#1a73e8"></i>';else if(DEST&&DEST.floor===f)b.innerHTML+='<i style="background:#ea4335"></i>';else if(PLAN&&PLAN.mid&&PLAN.mid.includes(f))b.innerHTML+='<i style="background:#e8710a"></i>';
   b.onclick=()=>setView(f);w.appendChild(b)})}
 function refreshFrom(){const s=whereIs(C.floor,C.x,C.y);$('inFrom').value=t('my')+' · '+(origin?nm(origin):s?sn(s):t('corr').replace('{f}',C.floor))+' ('+C.floor+')'}
-function setDest(o){DEST=o;$('inTo').value=nm(o)+' · '+o.floor;PLAN=plan(C,DEST);renderSheet();setView(C.floor===o.floor?o.floor:C.floor);mode='fit';drawFloorSw();drawRoute()}
+function setDest(o){DEST=o;track('dest',{brand:o.poi?('['+o.poi+']'):o.name,floor:o.floor});$('inTo').value=nm(o)+' · '+o.floor;PLAN=plan(C,DEST);renderSheet();setView(C.floor===o.floor?o.floor:C.floor);mode='fit';drawFloorSw();drawRoute()}
 function nearestOf(types){let b=null,bc=1e9;for(const o of ALL)if(o.poi&&types.includes(o.poi)){const c=cost(C,o);if(c<bc){bc=c;b=o}}return b}
 function search(q){q=q.trim().toLowerCase().replace(/\s+/g,' ');if(!q)return[];
   return ALL.filter(o=>((o.name||'')+' '+(o.ko||'')+' '+(o.zh||'')+' '+(o.tw||'')+' '+(o.poi?Object.values(T).map(x=>x.fac[o.poi]+' toilet wc restroom 화장실').join(' '):'')).toLowerCase().includes(q)).slice(0,30)}
@@ -551,7 +560,7 @@ $('zout').onclick=()=>{if(mode==='follow')zoomW=Math.min(maxW(),zoomW*1.4);else 
 function applyLang(){relabel();document.documentElement.lang={ko:'ko',zh:'zh-CN',tw:'zh-TW',en:'en',ja:'ja',vi:'vi',th:'th',fil:'fil',es:'es'}[L];document.title=t('title');$('brandbar').textContent=t('title');
   $('inFrom').placeholder=t('fromPh');$('inTo').placeholder=t('toPh');$('note').textContent=t('note');$('toast').textContent=t('hint');
   $('chips').innerHTML=`<button class="chip" data-k="wc">${chipSvg('wc')}${t('chipWc')}</button><button class="chip" data-k="awc">${chipSvg('awc')}${t('fac').awc}</button><button class="chip" data-k="esc">${chipSvg('esc')}${t('chipEsc')}</button><button class="chip" data-k="info">${chipSvg('info')}${t('chipInfo')}</button>`;
-  $('lang').value=L;if(!window._langBound){window._langBound=1;$('lang').onchange=e=>{L=e.target.value;try{localStorage.setItem('sdf_lang',L)}catch(_){};applyLang()}};
+  $('lang').value=L;if(!window._langBound){window._langBound=1;$('lang').onchange=e=>{L=e.target.value;track('lang');try{localStorage.setItem('sdf_lang',L)}catch(_){};applyLang()}};
   document.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{const k=b.dataset.k;const o=nearestOf([k]);if(o)setDest(o)});
   $('legend').innerHTML=Object.entries(t('cat')).filter(([k])=>k!=='z').map(([k,v])=>`<span><b style="background:${COL[k]}"></b>${v}</span>`).join('');
   refreshFrom();if(DEST)$('inTo').value=nm(DEST)+' · '+DEST.floor;renderSheet();drawPois();drawRoute()}
@@ -565,7 +574,7 @@ $('goTop').onclick=()=>navigating?stopNav():startNav();
 // Kiosk / QR start point: #loc-1F-450-278
 function fromHash(){const m=/^#loc-(B1F|1F|2F|2MF|3F)-(\d+)-(\d+)$/i.exec(location.hash);if(!m)return;C.floor=m[1].toUpperCase();[C.x,C.y]=snap(C.floor,[+m[2],+m[3]]);origin=null;setView(C.floor,true);cam=null;afterMove()}
 window.addEventListener('hashchange',fromHash);
-[C.x,C.y]=F['1F'].liftPt;setView('1F',true);fitZoom();fromHash();applyLang();requestAnimationFrame(loop);
+[C.x,C.y]=F['1F'].liftPt;setView('1F',true);fitZoom();fromHash();applyLang();requestAnimationFrame(loop);setTimeout(()=>track('visit'),300);
 setTimeout(()=>$('toast').style.opacity=0,5000);
 </script>
 </body>
