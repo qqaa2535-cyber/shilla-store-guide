@@ -207,7 +207,7 @@ const COL={f:'#e9eaee',b:'#fce4ec',w:'#e0f2f1',e:'#e8eaf6',d:'#fff3e0',x:'#eceff
 const MPU=0.18; // metres per map unit (estimated)
 
 /* ===== anonymous usage stats (no personal data: random device id, language, searched brand) ===== */
-const STATS_URL='';
+const STATS_URL='https://script.google.com/macros/s/AKfycbykHCLfBSRgbyP3EUcwDfheTfM3q96V9Lbtwm8fZ6wMv3PTdDXShuEUp-m6tH104ID_aA/exec';
 let UID='';try{UID=localStorage.getItem('sdf_uid')||'';if(!UID){UID=Math.random().toString(36).slice(2,10)+Date.now().toString(36).slice(-4);localStorage.setItem('sdf_uid',UID)}}catch(e){UID='anon'}
 function track(type,extra){if(!STATS_URL)return;try{const body=JSON.stringify(Object.assign({type,lang:(typeof L!=='undefined'?L:''),uid:UID,ua:/Mobi/i.test(navigator.userAgent)?'mobile':'pc',ref:location.hash||''},extra||{}));
   if(navigator.sendBeacon)navigator.sendBeacon(STATS_URL,new Blob([body],{type:'text/plain'}));else fetch(STATS_URL,{method:'POST',mode:'no-cors',body})}catch(e){}}
