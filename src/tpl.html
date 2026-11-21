@@ -596,7 +596,7 @@ $('recenter').onclick=()=>{mode='follow';setView(C.floor,true)};
 $('zin').onclick=()=>{if(mode==='follow')zoomW=Math.max(90,zoomW/1.4);else zoomFree(1/1.4,cam)};
 $('zout').onclick=()=>{if(mode==='follow')zoomW=Math.min(maxW(),zoomW*1.4);else zoomFree(1.4,cam)};
 // 언어 고르기: 국기 버튼 (처음 접속 때 자동으로 열리고, 위쪽 언어 버튼으로 언제든 다시 열 수 있음)
-const LANGS=[['ko','🇰🇷','한국어'],['zh','🇨🇳','简体中文'],['tw','🇭🇰','繁體中文'],['en','🇺🇸','English'],['ja','🇯🇵','日本語'],['vi','🇻🇳','Tiếng Việt'],['th','🇹🇭','ภาษาไทย'],['fil','🇵🇭','Filipino'],['es','🇪🇸','Español']];
+const LANGS=[['ko','🇰🇷','한국어'],['zh','🇨🇳','简体中文'],['tw','🇹🇼','繁體中文'],['en','🇺🇸','English'],['ja','🇯🇵','日本語'],['vi','🇻🇳','Tiếng Việt'],['th','🇹🇭','ภาษาไทย'],['fil','🇵🇭','Filipino'],['es','🇪🇸','Español']];
 function langLabel(){const x=LANGS.find(a=>a[0]===L)||LANGS[0];const b=$('langBtn');b.querySelector('.lf').textContent=x[1];b.querySelector('.ln').textContent=x[2]}
 let onPicked=null;
 function openLangPick(){const g=document.querySelector('#lpick .lg');g.innerHTML='';for(const [k,f,n] of LANGS){const b=document.createElement('button');b.type='button';b.className=k===L?'cur':'';b.innerHTML='<span class="f"></span><span class="n"></span>';b.querySelector('.f').textContent=f;b.querySelector('.n').textContent=n;
