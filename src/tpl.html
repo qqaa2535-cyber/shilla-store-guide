@@ -16,7 +16,14 @@ body{font-family:Roboto,"Noto Sans KR","Noto Sans Thai","PingFang SC","Hiragino 
 .top{position:relative;z-index:20;background:#fff;box-shadow:0 1px 4px #0003;padding:10px 10px 8px}
 .brandbar{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:15px;font-weight:700;letter-spacing:-.01em;padding:0 2px 9px 4px;color:#202124}
 .langw{display:flex;align-items:center;gap:4px;border:1px solid var(--g3);border-radius:999px;padding:3px 4px 3px 10px;font-size:14px;flex:0 0 auto;cursor:pointer}
-.langw .lang{border:0;padding:3px 2px;margin:0;font-weight:500;color:var(--blue);background:transparent;outline:none}
+.langw{background:#fff;font:inherit;font-size:14px;color:var(--blue);font-weight:600;padding:4px 10px}.langw .lf{font-size:18px;line-height:1}.langw .lc{font-size:11px;color:var(--g2)}
+#lpick{position:fixed;inset:0;z-index:100;background:rgba(32,33,36,.55);display:none;align-items:center;justify-content:center;padding:16px}
+#lpick.on{display:flex}#lpick .lbox{background:#fff;border-radius:18px;padding:20px 16px 16px;width:100%;max-width:420px;box-shadow:0 10px 30px #0005;text-align:center}
+#lpick .lh{font-size:17px;font-weight:800;color:var(--g1)}#lpick .ls{font-size:12px;color:var(--g2);margin:4px 0 14px}
+#lpick .lg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+#lpick button{border:2px solid var(--g3);background:#fff;border-radius:14px;padding:10px 4px 8px;cursor:pointer;font:inherit;display:flex;flex-direction:column;align-items:center;gap:4px}
+#lpick button .f{font-size:34px;line-height:1.1}#lpick button .n{font-size:13px;font-weight:600;color:var(--g1)}
+#lpick button.cur{border-color:var(--blue);background:#e8f0fe}#lpick button:active{transform:scale(.96)}
 .dir{display:flex;align-items:stretch;gap:8px}
 .pts{width:22px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:15px 0}
 .pts .o{width:12px;height:12px;border-radius:50%;border:3px solid var(--blue);background:#fff}
@@ -133,7 +140,7 @@ body{font-family:Roboto,"Noto Sans KR","Noto Sans Thai","PingFang SC","Hiragino 
 <body>
 <div class="app">
  <div class="top" id="top">
-  <div class="brandbar"><div class="bt"><i><svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7z" fill="#fff"/><circle cx="12" cy="9" r="2.6" fill="#1a73e8"/></svg></i><span id="brandbar"></span></div><label class="langw">🌐<select class="lang" id="lang"><option value="ko">한국어</option><option value="zh">简体中文</option><option value="tw">繁體中文</option><option value="en">English</option><option value="ja">日本語</option><option value="vi">Tiếng Việt</option><option value="th">ภาษาไทย</option><option value="fil">Filipino</option><option value="es">Español</option></select></label></div>
+  <div class="brandbar"><div class="bt"><i><svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7z" fill="#fff"/><circle cx="12" cy="9" r="2.6" fill="#1a73e8"/></svg></i><span id="brandbar"></span></div><button type="button" class="langw" id="langBtn"><span class="lf"></span><span class="ln"></span><span class="lc">▾</span></button></div>
   <div class="dir">
    <div class="pts"><span class="o"></span><span class="dots"></span><span class="d"></span></div>
    <div class="ins">
@@ -153,6 +160,7 @@ body{font-family:Roboto,"Noto Sans KR","Noto Sans Thai","PingFang SC","Hiragino 
   <div class="zoom"><button id="zin">+</button><button id="zout">−</button></div>
   <div class="fab"><button id="recenter" title="My location">◎</button></div>
   <div class="toast" id="toast"></div>
+  <div id="lpick"><div class="lbox"><div class="lh">언어를 선택하세요 · 选择语言 · Language</div><div class="ls">Chọn ngôn ngữ · เลือกภาษา · 言語を選択 · Idioma</div><div class="lg"></div></div></div>
   <div class="arrv" id="arrv"><div class="arrvT"></div><div class="arrvS"></div><div class="arrvB"></div></div>
   <div class="transfer" id="transfer"><div class="trcard"><svg id="escSvg" viewBox="0 0 300 200"></svg><div class="big" id="trBig"></div><div class="sm" id="trSm"></div></div></div>
  </div>
@@ -195,7 +203,7 @@ th:{title:'ร้านปลอดภาษีชิลล่า สาขา�
 fil:{title:'Shilla Duty Free Seoul · Gabay sa Tindahan',fromPh:'Pumili ng simula',toPh:'Pumili ng pupuntahan',my:'Lokasyon mo',corr:'Pasilyo ng {f}',near:'Malapit sa {s}',start:'Tara',stop:'Ihinto',stepsT:'Mga hakbang',walk:'Maglakad papunta sa {b}',ride:'Escalator {a} → {b}',arrive:'Nakarating sa {b}',min:'{n} min',m:'~{n} m',via:'{n} beses sa escalator',same:'Parehong palapag · lakad',hint:'I-tap ang mapa para pumunta roon',pick:'Maghanap ng pupuntahan o i-tap ang button sa itaas',chipWc:'CR',chipInfo:'Impormasyon',chipEsc:'Escalator',nearest:'Pinakamalapit na {p}',fac:{wc:'CR',awc:'CR para sa PWD',elev:'Elevator',info:'Information desk',esc:'Escalator',stroller:'Paupahan ng stroller',stairs:'Hagdan'},wcDesc:'Panlalaki at pambabae',awcDesc:'Pang-wheelchair',escHop:'Papunta sa {f}',up:'Pataas',down:'Pababa',speed:'Bilis',iStart:'Dumiretso papunta sa {s}, mga {m} m',iTurn:'Sa {s}, {d} at maglakad nang mga {m} m',iArrive:'Ang {b} ay nasa {d}',L:'kumaliwa',R:'kumanan',sL:'bahagyang kumaliwa',sR:'bahagyang kumanan',dL:'kaliwa mo',dR:'kanan mo',dF:'harap mo',stepsN:'mga {n} hakbang',rEscUp:'Sumakay sa paakyat na escalator papuntang {b}',rEscDown:'Sumakay sa pababang escalator papuntang {b}',rStUp:'Umakyat sa hagdan papuntang {b}',rStDown:'Bumaba sa hagdan papuntang {b}',viaE:'{n} beses sa escalator',viaS:'{n} beses sa hagdan',pass:'Madadaanan: {s}',xfer:'Pagdating sa {f}, maglakad nang mga {m} m papunta sa {x} para lumipat',xEscUp:'paakyat na escalator',xEscDown:'pababang escalator',xStUp:'hagdang paakyat',xStDown:'hagdang pababa',xferAt:'lilipat sa {f}',contPre:'Sa {f}, ituloy: ',xferTag:'Lipat',arrived:'Nakarating ka na',cheer:'Yehey!',arrT:'Nandito ka na!',arrBye:'Masayang pamimili! 🛍️',note:'※ Iginuhit batay sa opisyal na floor guide ng Shilla Duty Free (Set/Nob 2026). Tantiya lang ang layo at oras; maaaring iba ang laki ng tindahan, pasilyo at escalator sa totoo.',none:'Walang resulta',cat:{b:'Kosmetiko/Pabango',f:'Fashion/Bag',w:'Relo/Alahas',e:'Sunglasses',d:'Pagkain/Alak/Sigarilyo',x:'Iba pa',z:'Lounge'}}
 };
 let L='ko';
-try{const s=localStorage.getItem('sdf_lang');if(s&&T[s])L=s;else{const n=(navigator.language||'').toLowerCase();L=/^zh-(tw|hk)/.test(n)?'tw':n.startsWith('zh')?'zh':n.startsWith('ja')?'ja':n.startsWith('vi')?'vi':n.startsWith('th')?'th':n.startsWith('es')?'es':/^(fil|tl)/.test(n)?'fil':n.startsWith('ko')?'ko':'en'}}catch(e){}
+let NEEDPICK=true;try{const s=localStorage.getItem('sdf_lang');if(s&&T[s]){L=s;NEEDPICK=false}else{const n=(navigator.language||'').toLowerCase();L=/^zh-(tw|hk)/.test(n)?'tw':n.startsWith('zh')?'zh':n.startsWith('ja')?'ja':n.startsWith('vi')?'vi':n.startsWith('th')?'th':n.startsWith('es')?'es':/^(fil|tl)/.test(n)?'fil':n.startsWith('ko')?'ko':'en'}}catch(e){}
 function batchim(w){w=(w||'').trim();const c=w.charCodeAt(w.length-1);if(c>=0xAC00&&c<=0xD7A3)return (c-0xAC00)%28!==0;const ch=w.slice(-1).toLowerCase();if(/[0-9]/.test(ch))return '013678'.includes(ch);return 'bcdgklmnpt'.includes(ch)}
 const t=k=>T[L][k],tf=(k,o)=>t(k).replace(/\{(\w)\}(은\(는\))?/g,(_,x,j)=>o[x]+(j?(batchim(o[x])?'은':'는'):''));
 
@@ -587,10 +595,18 @@ $('swap').onclick=()=>{if(!DEST||navigating)return;const prev={floor:C.floor,x:C
 $('recenter').onclick=()=>{mode='follow';setView(C.floor,true)};
 $('zin').onclick=()=>{if(mode==='follow')zoomW=Math.max(90,zoomW/1.4);else zoomFree(1/1.4,cam)};
 $('zout').onclick=()=>{if(mode==='follow')zoomW=Math.min(maxW(),zoomW*1.4);else zoomFree(1.4,cam)};
+// 언어 고르기: 국기 버튼 (처음 접속 때 자동으로 열리고, 위쪽 언어 버튼으로 언제든 다시 열 수 있음)
+const LANGS=[['ko','🇰🇷','한국어'],['zh','🇨🇳','简体中文'],['tw','🇭🇰','繁體中文'],['en','🇺🇸','English'],['ja','🇯🇵','日本語'],['vi','🇻🇳','Tiếng Việt'],['th','🇹🇭','ภาษาไทย'],['fil','🇵🇭','Filipino'],['es','🇪🇸','Español']];
+function langLabel(){const x=LANGS.find(a=>a[0]===L)||LANGS[0];const b=$('langBtn');b.querySelector('.lf').textContent=x[1];b.querySelector('.ln').textContent=x[2]}
+let onPicked=null;
+function openLangPick(){const g=document.querySelector('#lpick .lg');g.innerHTML='';for(const [k,f,n] of LANGS){const b=document.createElement('button');b.type='button';b.className=k===L?'cur':'';b.innerHTML='<span class="f"></span><span class="n"></span>';b.querySelector('.f').textContent=f;b.querySelector('.n').textContent=n;
+  b.onclick=()=>{L=k;try{localStorage.setItem('sdf_lang',L)}catch(_){};applyLang();$('lpick').classList.remove('on');if(onPicked){const f=onPicked;onPicked=null;f()}};g.appendChild(b)}
+  $('lpick').classList.add('on')}
+$('langBtn').onclick=openLangPick;
 function applyLang(){relabel();document.documentElement.lang={ko:'ko',zh:'zh-CN',tw:'zh-TW',en:'en',ja:'ja',vi:'vi',th:'th',fil:'fil',es:'es'}[L];document.title=t('title');$('brandbar').textContent=t('title');
   $('inFrom').placeholder=t('fromPh');$('inTo').placeholder=t('toPh');$('note').textContent=t('note');$('toast').textContent=t('hint');
   $('chips').innerHTML=`<button class="chip" data-k="wc">${chipSvg('wc')}${t('chipWc')}</button><button class="chip" data-k="awc">${chipSvg('awc')}${t('fac').awc}</button><button class="chip" data-k="esc">${chipSvg('esc')}${t('chipEsc')}</button><button class="chip" data-k="info">${chipSvg('info')}${t('chipInfo')}</button>`;
-  $('lang').value=L;if(!window._langBound){window._langBound=1;$('lang').onchange=e=>{L=e.target.value;try{localStorage.setItem('sdf_lang',L)}catch(_){};applyLang()}};
+  langLabel();
   document.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{const k=b.dataset.k;const o=nearestOf([k]);if(o)setDest(o,'(바로가기 버튼)')});
   $('legend').innerHTML=Object.entries(t('cat')).filter(([k])=>k!=='z').map(([k,v])=>`<span><b style="background:${COL[k]}"></b>${v}</span>`).join('');
   refreshFrom();if(DEST)$('inTo').value=nm(DEST)+' · '+DEST.floor;renderSheet();drawPois();drawRoute()}
@@ -604,7 +620,8 @@ $('goTop').onclick=()=>navigating?stopNav():startNav();
 // Kiosk / QR start point: #loc-1F-450-278
 function fromHash(){const m=/^#loc-(B1F|1F|2F|2MF|3F)-(\d+)-(\d+)$/i.exec(location.hash);if(!m)return;C.floor=m[1].toUpperCase();[C.x,C.y]=snap(C.floor,[+m[2],+m[3]]);origin=null;setView(C.floor,true);cam=null;afterMove()}
 window.addEventListener('hashchange',fromHash);
-[C.x,C.y]=F['1F'].liftPt;setView('1F',true);fitZoom();fromHash();applyLang();requestAnimationFrame(loop);setTimeout(()=>track('visit',{vt:VTYPE,entry:ENTRY}),300);
+[C.x,C.y]=F['1F'].liftPt;setView('1F',true);fitZoom();fromHash();applyLang();requestAnimationFrame(loop);{let sent=false;const sendVisit=()=>{if(!sent){sent=true;track('visit',{vt:VTYPE,entry:ENTRY})}};
+  if(NEEDPICK){onPicked=sendVisit;openLangPick();setTimeout(sendVisit,20000)}else setTimeout(sendVisit,300)}
 setTimeout(()=>$('toast').style.opacity=0,5000);
 </script>
 </body>
