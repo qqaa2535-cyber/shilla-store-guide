@@ -212,6 +212,8 @@ const STATS_URL='https://script.google.com/macros/s/AKfycbykHCLfBSRgbyP3EUcwDfhe
 const TODAY=new Date(Date.now()+9*36e5).toISOString().slice(0,10);let VTYPE='';try{localStorage.removeItem('sdf_uid');const last=localStorage.getItem('sdf_last')||'';VTYPE=!last?'new':(last===TODAY?'same':'back');localStorage.setItem('sdf_last',TODAY)}catch(e){}
 const ENTRY=(m=>m?'qr:'+m[1].toUpperCase():'direct')(/^#loc-(B1F|1F|2F|2MF|3F)-/i.exec(location.hash));
 function bname(o){return o.poi?('['+o.poi+']'):o.name}
+// 출발지: 직접 고른 출발지 > 처음 위치 그대로면 'default' > 현재 위치에서 가장 가까운 매장(매장 단위로만, 좌표는 보내지 않음)
+function fromPlace(){if(origin)return bname(origin);const lp=F['1F'].liftPt;if(C.floor==='1F'&&C.x===lp[0]&&C.y===lp[1])return'default';const s=nearStore({floor:C.floor,x:C.x,y:C.y});return s?s.name:''}
 function track(type,extra){if(!STATS_URL)return;try{const body=JSON.stringify(Object.assign({type,lang:(typeof L!=='undefined'?L:''),ua:/Mobi/i.test(navigator.userAgent)?'mobile':'pc'},extra||{}));
   if(navigator.sendBeacon)navigator.sendBeacon(STATS_URL,new Blob([body],{type:'text/plain'}));else fetch(STATS_URL,{method:'POST',mode:'no-cors',body})}catch(e){}}
 /* ===== i18n ===== */
@@ -557,7 +559,7 @@ function renderSheet(active){const box=$('sumBox'),stp=$('steps');setGo(!!DEST);
   drawRoute()}
 function navShow(ic,txt,sub){spdLabel();$('navbar').style.display='flex';$('top').classList.add('nav');$('navI').textContent=ic;$('navT').textContent=txt;$('navS').textContent=sub||''}
 const NI=s=>s.ic==='esc'||s.ic==='stairs'?'⇅':s.ic==='pin'?'📍':ARW[s.ic]||'⬆';
-async function startNav(){if(!DEST)return;track('nav',{brand:bname(DEST),floor:DEST.floor,from:C.floor});$('sheet').classList.remove('peek','full');const my=++job;navigating=true;mode='follow';setView(C.floor,true);PLAN=plan(C,DEST);const p=PLAN;renderSheet(0);const S=STEPS;
+async function startNav(){if(!DEST)return;track('nav',{brand:bname(DEST),floor:DEST.floor,from:C.floor,fromPlace:fromPlace()});$('sheet').classList.remove('peek','full');const my=++job;navigating=true;mode='follow';setView(C.floor,true);PLAN=plan(C,DEST);const p=PLAN;renderSheet(0);const S=STEPS;
   const show=i=>{renderSheet(i);navShow(NI(S[i]),S[i].tx,S[i].sub)};
   for(let li=0;li<p.legs.length;li++){const l=p.legs[li];
     if(l.k==='walk'){const mine=S.map((s,i)=>[s,i]).filter(([s])=>s.leg===li&&s.v0!=null);let cur=-1;
