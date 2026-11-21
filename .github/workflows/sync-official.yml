@@ -1,7 +1,7 @@
 name: Sync official floor guide
 on:
   schedule:
-    - cron: "10 21 * * *"   # every day 06:10 KST
+    - cron: "40 19 * * *"   # every day 04:40 KST (before the 05:05 map-update task)
   workflow_dispatch:
   push:
     paths: [".github/workflows/sync-official.yml", "scripts/sync_official.py", "data/traced.json"]

@@ -4,7 +4,7 @@
 `index.html`은 직접 고치지 말고 `src/tpl.html`(화면·로직) + `src/data.js`(층별 매장 데이터)를 고친 뒤 `python3 scripts/build.py`로 만든다.
 
 ## 자동 동기화
-- `.github/workflows/sync-official.yml` 이 매일 06:10(KST) 공식 층별 안내 페이지를 읽는다.
+- `.github/workflows/sync-official.yml` 이 매일 04:40(KST) 공식 층별 안내 페이지를 읽는다.
 - 층별 안내도 이미지를 `data/maps/<층>.jpg` 로 저장하고, 파일명의 업로드 날짜를 `data/official.json`의 `version`에 남긴다.
 - 지금 지도가 어떤 버전의 안내도로 그려졌는지는 `data/traced.json`에 있다. 두 값이 다르면 `data/status.json`의 `stale`에 그 층이 들어간다.
 - 공식 브랜드 목록 API는 자동 요청을 403으로 거부하므로 사용하지 않는다(우회하지 말 것).
