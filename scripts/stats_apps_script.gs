@@ -120,6 +120,7 @@ function buildSummary_() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var sh = ss.getSheetByName(SUM);
   if (sh) sh.clear(); else sh = ss.insertSheet(SUM, 1);
+  if (sh.getMaxColumns() < 32) sh.insertColumnsAfter(sh.getMaxColumns(), 32 - sh.getMaxColumns());
   sh.setFrozenRows(4);
 
   sh.getRange('A1').setValue('매장안내 이용 요약 — 왼쪽은 날짜별, 오른쪽 표들은 B2~D2 기간 기준 (날짜를 yyyy-mm-dd로 바꿔 넣으면 그 기간으로 다시 계산)').setFontWeight('bold');
