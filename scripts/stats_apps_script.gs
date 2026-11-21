@@ -1,19 +1,17 @@
 // Google Apps Script bound to the sheet "신라면세점 서울점 매장안내 접속 통계".
 // 적용: 확장 프로그램 > Apps Script 에 이 파일 내용을 통째로 붙여넣고 저장
-//       → 배포 > 배포 관리 > (기존 배포) 연필 > 버전: 새 버전 > 배포 (URL은 그대로 유지)
-//       → 편집기 위쪽 함수 목록에서 setupSummary 를 골라 한 번 실행하면 '이용통계'·'요약' 탭이 바로 생긴다.
-// (처음이면 New deployment > Web app, Execute as: Me, Who has access: Anyone → /exec URL을 src/tpl.html의 STATS_URL에.)
+//       → 배포 > 배포 관리 > 연필 > 버전: 새 버전 > 배포 (URL은 그대로 유지)
+//       → 함수 목록에서 setupSummary 를 골라 '실행' (이용통계·요약 탭을 만들거나 다시 만든다)
 //
 // 개인정보 원칙: 기기 고유ID·IP·정확한 초 단위 시각·좌표·URL을 저장하지 않는다.
-// 날짜와 '시간대(시)'만 남기고, 방문자 구분은 첫방문/재방문/당일재접속 값으로만 받는다.
-// 출발지는 '가장 가까운 매장 이름' 수준으로만 받는다.
-// 모든 값은 허용 목록으로 걸러서 한국어로 바꿔 기록한다(목록 밖 값은 버림).
+// 날짜와 '시간대(시)'만 남기고, 방문자 구분은 기기 안에서 판단한 첫방문/재방문/당일재접속 값만 받는다.
+// 출발지는 '가장 가까운 매장 이름' 수준으로만, 검색어는 숫자 4개 이상·@가 있으면 기록하지 않는다.
 
 var RAW = '이용통계';
 var SUM = '요약';
-// A     B       C     D     E     F         G     H       I         J       K       L
-var HEADER = ['날짜', '시간대', '구분', '언어', '기기', '방문유형', '유입', '목적지', '목적지층', '출발지', '출발층', '검색어'];
-var TYPE = {visit: '접속', dest: '목적지선택', nav: '길안내시작', arrive: '도착', lang: '언어변경', miss: '검색결과없음'};
+// A     B       C     D     E     F         G     H       I       J       K         L
+var HEADER = ['날짜', '시간대', '구분', '언어', '기기', '방문유형', '유입', '출발지', '출발층', '목적지', '목적지층', '검색어'];
+var TYPE = {visit: '접속', search: '검색'};
 var LANG = {ko: '한국어', zh: '중국어(간체)', tw: '중국어(번체)', en: '영어', ja: '일본어', vi: '베트남어', th: '태국어', fil: '필리핀어', es: '스페인어'};
 var DEV = {mobile: '모바일', pc: 'PC'};
 var VT = {'new': '첫방문', back: '재방문', same: '당일재접속'};
@@ -25,12 +23,15 @@ var FAC = {wc: '화장실', awc: '장애인 화장실', elev: '엘리베이터',
 function rawSheet_() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var sh = ss.getSheetByName(RAW);
+  if (sh && sh.getRange(1, 1, 1, HEADER.length).getValues()[0].join('|') !== HEADER.join('|')) {
+    sh.setName(RAW + '(이전 형식) ' + Utilities.formatDate(new Date(), 'Asia/Seoul', 'MMdd-HHmm'));
+    sh = null;                               // 열 구성이 바뀐 탭은 이름만 바꿔 보관하고 새로 만든다
+  }
   if (!sh) {
-    sh = ss.insertSheet(RAW, 0);             // 기존 탭은 그대로 두고 맨 앞에 만든다
-    sh.getRange(1, 1, 1, HEADER.length).setValues([HEADER]).setFontWeight('bold');
+    sh = ss.insertSheet(RAW, 0);
+    sh.getRange(1, 1, 1, HEADER.length).setValues([HEADER]).setFontWeight('bold').setBackground('#e8f0fe');
     sh.setFrozenRows(1);
-    sh.getRange('A:A').setNumberFormat('@'); // 날짜를 글자(yyyy-MM-dd)로 고정해 요약 수식이 흔들리지 않게
-    buildSummary_();
+    sh.getRange('A:A').setNumberFormat('@');
   }
   return sh;
 }
@@ -47,198 +48,200 @@ function place_(v) {
 // 시트 수식으로 해석되지 않게(=,+,-,@로 시작) 앞에 ' 를 붙이고, 줄바꿈을 없앤다.
 function safe_(v) { v = String(v || '').replace(/[\r\n\t]/g, ' ').trim(); return /^[=+\-@]/.test(v) ? "'" + v : v; }
 
+function query_(v) {
+  v = String(v || '').trim();
+  if (!v) return '';
+  if (/@/.test(v) || (v.match(/\d/g) || []).length >= 4) return '(기록안함)';
+  return safe_(v.slice(0, 30));
+}
+
 function doPost(e) {
   var d = {};
   try { d = JSON.parse(e.postData.contents); } catch (err) { return ContentService.createTextOutput('bad'); }
   if (!TYPE[d.type]) return ContentService.createTextOutput('skip');
   var now = new Date();
+  var visit = d.type === 'visit';
   var entry = '';
-  if (d.type === 'visit') {
+  if (visit) {
     var q = /^qr:(\w+)$/.exec(String(d.entry || ''));
     entry = q && floor_(q[1]) ? 'QR(' + floor_(q[1]) + ')' : (d.entry === 'direct' ? '직접접속' : '');
   }
-  var term = '';
-  if (d.type === 'miss') {
-    term = String(d.q || '');
-    term = (!term || /[\d@]/.test(term)) ? '(기록안함)' : safe_(term.slice(0, 20));
-  }
-  var from = '';
-  if (d.type === 'nav') from = d.fromPlace === 'default' ? '첫 화면 위치(1F)' : place_(d.fromPlace);
+  var from = visit ? '' : (d.fromPlace === 'default' ? '첫 화면 위치(1F)' : place_(d.fromPlace));
   var sh = rawSheet_();
   var lock = LockService.getScriptLock();
   try { lock.waitLock(5000); } catch (err) {}
   sh.appendRow([
-    "'" + Utilities.formatDate(now, 'Asia/Seoul', 'yyyy-MM-dd'),   // 앞의 ' 는 날짜를 글자로 고정(시트가 날짜로 바꾸지 않게)
+    "'" + Utilities.formatDate(now, 'Asia/Seoul', 'yyyy-MM-dd'),   // 앞의 ' 는 날짜를 글자로 고정
     Number(Utilities.formatDate(now, 'Asia/Seoul', 'H')),
     TYPE[d.type],
     LANG[d.lang] || '',
     DEV[d.ua] || '',
-    d.type === 'visit' ? (VT[d.vt] || '') : '',
+    visit ? (VT[d.vt] || '') : '',
     entry,
-    (d.type === 'dest' || d.type === 'nav' || d.type === 'arrive') ? place_(d.brand) : '',
-    floor_(d.floor),
     from,
-    d.type === 'nav' ? floor_(d.from) : '',
-    term
+    visit ? '' : floor_(d.from),
+    visit ? '' : place_(d.brand),
+    visit ? '' : floor_(d.floor),
+    visit ? '' : query_(d.q)
   ]);
   try { lock.releaseLock(); } catch (err) {}
   return ContentService.createTextOutput('ok');
 }
 
-// ---------- 요약 탭 (수식으로 만들어 두면 기록이 쌓일 때마다 자동 갱신) ----------
+// ---------- 요약 탭 ----------
 
 function onOpen() {
   SpreadsheetApp.getUi().createMenu('매장안내 통계').addItem('요약 탭 다시 만들기', 'setupSummary').addToUi();
 }
 
-// 편집기에서 직접 실행하거나 메뉴에서 누르는 용도
-function setupSummary() { rawSheet_(); fixDates_(); buildSummary_(); }
-
-// 이미 날짜값으로 바뀌어 저장된 '날짜' 칸을 yyyy-MM-dd 글자로 되돌린다(요약 수식이 글자 기준이라)
-function fixDates_() {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var sh = ss.getSheetByName(RAW);
-  var n = sh.getLastRow() - 1;
-  if (n < 1) return;
-  var tz = ss.getSpreadsheetTimeZone();
-  var r = sh.getRange(2, 1, n, 1);
-  var v = r.getValues().map(function (x) {
-    return [x[0] instanceof Date ? "'" + Utilities.formatDate(x[0], tz, 'yyyy-MM-dd') : x[0]];
-  });
-  r.setNumberFormat('@').setValues(v);
-}
+function setupSummary() { rawSheet_(); buildSummary_(); }
 
 var R = "'" + RAW + "'!";
 var PERIOD = "Col1>='\"&TEXT($B$2,\"yyyy-mm-dd\")&\"' and Col1<='\"&TEXT($D$2,\"yyyy-mm-dd\")&\"'";
+var SEARCH_OK = "Col3='검색' and Col10<>''";   // 목적지를 고른 검색
+var SEARCH_NO = "Col3='검색' and (Col10='' or Col10 is null)";    // 결과가 없던 검색
 
-// 기간(B2~D2) 안에서 조건(where)에 맞는 행을 묶어 세는 QUERY 수식
 function q_(select, where, group, extra) {
   var s = 'select ' + select + ' where ' + PERIOD + (where ? ' and ' + where : '') +
           (group ? ' group by ' + group : '') + (extra ? ' ' + extra : '');
   return '=IFERROR(QUERY({' + R + 'A2:L},"' + s + '",0),"기록 없음")';
 }
 
-// 기간 안 건수: 구분이 type 이고 (선택) 추가 조건
 function cnt_(cond) {
   return 'SUMPRODUCT((' + R + 'A2:A>=TEXT($B$2,"yyyy-mm-dd"))*(' + R + 'A2:A<=TEXT($D$2,"yyyy-mm-dd"))' + cond + ')';
 }
 
-function block_(sh, a1, title, formula, note) {
+function title_(sh, a1, text, note) {
   var c = sh.getRange(a1);
-  c.setValue(title).setFontWeight('bold').setBackground('#e8f0fe');
+  c.setValue(text).setFontWeight('bold').setBackground('#e8f0fe');
   if (note) c.setNote(note);
-  c.offset(1, 0).setFormula(formula);
+  return c;
+}
+
+function block_(sh, a1, text, formula, note) { title_(sh, a1, text, note).offset(1, 0).setFormula(formula); }
+
+function chart_(sh, type, range, row, col, title, opts) {
+  var b = sh.newChart().setChartType(type).setNumHeaders(1)
+    .setPosition(row, col, 0, 0)
+    .setOption('title', title).setOption('legend.position', 'none')
+    .setOption('width', 560).setOption('height', 290);
+  [].concat(range).forEach(function (r) { b.addRange(sh.getRange(r)); });
+  for (var k in (opts || {})) b.setOption(k, opts[k]);
+  sh.insertChart(b.build());
 }
 
 function buildSummary_() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   ss.setSpreadsheetTimeZone('Asia/Seoul');   // TODAY()가 한국 날짜가 되도록
   var sh = ss.getSheetByName(SUM);
-  if (sh) sh.clear(); else sh = ss.insertSheet(SUM, 1);
-  if (sh.getMaxColumns() < 32) sh.insertColumnsAfter(sh.getMaxColumns(), 32 - sh.getMaxColumns());
+  if (sh) { sh.getCharts().forEach(function (c) { sh.removeChart(c); }); sh.clear(); sh.clearNotes(); }
+  else sh = ss.insertSheet(SUM, 1);
+  if (sh.getMaxColumns() < 52) sh.insertColumnsAfter(sh.getMaxColumns(), 52 - sh.getMaxColumns());
+  if (sh.getMaxRows() < 400) sh.insertRowsAfter(sh.getMaxRows(), 400 - sh.getMaxRows());
   sh.setFrozenRows(4);
 
-  sh.getRange('A1').setValue('매장안내 이용 요약 — 왼쪽은 날짜별, 오른쪽 표들은 B2~D2 기간 기준 (날짜를 yyyy-mm-dd로 바꿔 넣으면 그 기간으로 다시 계산)').setFontWeight('bold');
+  sh.getRange('A1').setValue('매장안내 이용 요약 — 왼쪽: 날짜별 / 가운데: 그래프 / 오른쪽: 표. 그래프·표는 B2~D2 기간 기준(날짜를 yyyy-mm-dd로 바꿔 넣으면 다시 계산)').setFontWeight('bold');
   sh.getRange('A2').setValue('기간');
   sh.getRange('B2').setFormula('=TEXT(TODAY()-6,"yyyy-mm-dd")');
   sh.getRange('C2').setValue('~');
   sh.getRange('D2').setFormula('=TEXT(TODAY(),"yyyy-mm-dd")');
   sh.getRange('B2:D2').setBackground('#fff8e1');
 
-  // 1) 날짜별 요약 (A4:N)
-  var head = ['날짜', '방문자', '첫방문', '재방문', '당일재접속', '접속수', '모바일 방문자', 'QR 유입',
-              '목적지선택', '길안내시작', '도착', '길안내율', '도착률', '검색결과없음'];
+  // 1) 날짜별 (A4:I) — 최신 날짜가 위
+  var head = ['날짜', '방문자', '첫방문', '재방문', '접속수', '모바일 방문자', 'QR 유입', '검색', '검색결과없음'];
   sh.getRange(4, 1, 1, head.length).setValues([head]).setFontWeight('bold').setBackground('#e8f0fe');
-  sh.getRange('B4').setNote('방문자 = 그날 접속한 기기 수 (접속수 − 당일재접속). 같은 사람이 다른 날 다시 오면 그날도 1명으로 셉니다.');
-  sh.getRange('L4').setNote('길안내율 = 길안내시작 ÷ 목적지선택');
-  sh.getRange('M4').setNote('도착률 = 도착 ÷ 길안내시작');
+  sh.getRange('B4').setNote('그날 사이트를 연 기기 수 = 첫방문 + 재방문. 같은 기기에서 그날 다시 연 것(새로고침 등)은 빼고 셉니다.');
+  sh.getRange('C4').setNote('이 기기에서 처음 연 경우. 휴대폰 브라우저에 "마지막 접속 날짜"가 없으면 첫방문으로 판단합니다.');
+  sh.getRange('D4').setNote('예전 날짜에 연 적이 있는 기기가 오늘 처음 연 경우.');
+  sh.getRange('E4').setNote('사이트를 연 전체 횟수(같은 날 다시 열거나 새로고침한 것 포함).');
+  sh.getRange('G4').setNote('매장에 붙인 위치 QR로 들어온 방문자. QR 주소 끝에 #loc-층-좌표 가 붙어 있어 구분됩니다.');
+  sh.getRange('H4').setNote('목적지를 고른 횟수(검색창·지도·바로가기 버튼 포함).');
+  sh.getRange('I4').setNote('검색했는데 결과가 없어서 아무것도 못 고른 횟수.');
   function day(c) { return '=ARRAYFORMULA(IF($A5:$A="",,COUNTIFS(' + R + 'A:A,$A5:$A' + c + ')))'; }
-  var C = R + 'C:C,';
+  var V = ',' + R + 'C:C,"접속"', S = ',' + R + 'C:C,"검색"';
   sh.getRange('A5').setFormula('=IFERROR(SORT(UNIQUE(FILTER(' + R + 'A2:A,' + R + 'A2:A<>"")),1,FALSE),)');
-  sh.getRange('B5').setFormula('=ARRAYFORMULA(IF($A5:$A="",,F5:F-E5:E))');
-  sh.getRange('C5').setFormula(day(',' + C + '"접속",' + R + 'F:F,"첫방문"'));
-  sh.getRange('D5').setFormula(day(',' + C + '"접속",' + R + 'F:F,"재방문"'));
-  sh.getRange('E5').setFormula(day(',' + C + '"접속",' + R + 'F:F,"당일재접속"'));
-  sh.getRange('F5').setFormula(day(',' + C + '"접속"'));
-  sh.getRange('G5').setFormula(day(',' + C + '"접속",' + R + 'E:E,"모바일",' + R + 'F:F,"<>당일재접속"'));
-  sh.getRange('H5').setFormula(day(',' + C + '"접속",' + R + 'G:G,"QR*"'));
-  sh.getRange('I5').setFormula(day(',' + C + '"목적지선택"'));
-  sh.getRange('J5').setFormula(day(',' + C + '"길안내시작"'));
-  sh.getRange('K5').setFormula(day(',' + C + '"도착"'));
-  sh.getRange('L5').setFormula('=ARRAYFORMULA(IF($A5:$A="",,IFERROR(J5:J/I5:I,0)))');
-  sh.getRange('M5').setFormula('=ARRAYFORMULA(IF($A5:$A="",,IFERROR(K5:K/J5:J,0)))');
-  sh.getRange('N5').setFormula(day(',' + C + '"검색결과없음"'));
-  sh.getRange('L5:M').setNumberFormat('0%');
+  sh.getRange('B5').setFormula('=ARRAYFORMULA(IF($A5:$A="",,C5:C+D5:D))');
+  sh.getRange('C5').setFormula(day(V + ',' + R + 'F:F,"첫방문"'));
+  sh.getRange('D5').setFormula(day(V + ',' + R + 'F:F,"재방문"'));
+  sh.getRange('E5').setFormula(day(V));
+  sh.getRange('F5').setFormula(day(V + ',' + R + 'E:E,"모바일",' + R + 'F:F,"<>당일재접속"'));
+  sh.getRange('G5').setFormula(day(V + ',' + R + 'G:G,"QR*",' + R + 'F:F,"<>당일재접속"'));
+  sh.getRange('H5').setFormula(day(S + ',' + R + 'J:J,"<>"'));
+  sh.getRange('I5').setFormula(day(S + ',' + R + 'J:J,""'));
+  sh.setColumnWidth(1, 95);
+  sh.setColumnWidths(2, 8, 80);
 
-  // 2) 기간 합계 (P4:Q15)
-  var Cc = '*(' + R + 'C2:C=';
-  var kpi = [
-    ['방문자(일별 합)', '=' + cnt_(Cc + '"접속")*(' + R + 'F2:F<>"당일재접속")')],
-    ['첫방문', '=' + cnt_(Cc + '"접속")*(' + R + 'F2:F="첫방문")')],
-    ['재방문', '=' + cnt_(Cc + '"접속")*(' + R + 'F2:F="재방문")')],
-    ['재방문 비율', '=IFERROR(Q7/(Q6+Q7),0)'],
-    ['접속수', '=' + cnt_(Cc + '"접속")')],
-    ['모바일 비율', '=IFERROR(' + cnt_(Cc + '"접속")*(' + R + 'F2:F<>"당일재접속")*(' + R + 'E2:E="모바일")') + '/Q5,0)'],
-    ['목적지선택', '=' + cnt_(Cc + '"목적지선택")')],
-    ['길안내시작', '=' + cnt_(Cc + '"길안내시작")')],
-    ['도착', '=' + cnt_(Cc + '"도착")')],
-    ['길안내율', '=IFERROR(Q12/Q11,0)'],
-    ['도착률', '=IFERROR(Q13/Q12,0)']
-  ];
-  sh.getRange('P4').setValue('기간 합계').setFontWeight('bold').setBackground('#e8f0fe');
-  sh.getRange('P4').setNote('방문자(일별 합): 하루 단위로 센 방문자를 더한 값이라, 여러 날 온 사람은 날마다 1명씩 들어갑니다.');
-  for (var i = 0; i < kpi.length; i++) {
-    sh.getRange(5 + i, 16).setValue(kpi[i][0]);
-    sh.getRange(5 + i, 17).setFormula(kpi[i][1]);
-  }
-  ['Q8', 'Q10', 'Q14', 'Q15'].forEach(function (a) { sh.getRange(a).setNumberFormat('0%'); });
-
-  // 3) 오른쪽 표들 (기간 기준)
-  var notFac = "not Col8 starts with '시설:'";
-  block_(sh, 'S4', '많이 찾은 목적지 TOP 10',
-    q_('Col8, count(Col1)', "Col3='목적지선택' and Col8<>'' and " + notFac, 'Col8',
-       "order by count(Col1) desc limit 10 label Col8 '목적지', count(Col1) '건수'"));
-  block_(sh, 'V4', '도착 많은 곳 TOP 10',
-    q_('Col8, count(Col1)', "Col3='도착' and Col8<>''", 'Col8',
-       "order by count(Col1) desc limit 10 label Col8 '도착지', count(Col1) '건수'"));
-  block_(sh, 'Y4', '출발지 TOP 10 (길안내 시작 위치)',
-    q_('Col10, count(Col1)', "Col3='길안내시작' and Col10<>''", 'Col10',
-       "order by count(Col1) desc limit 10 label Col10 '출발지', count(Col1) '건수'"),
-    '길안내를 시작할 때 서 있던 곳에서 가장 가까운 매장(또는 직접 고른 출발지). 위치를 안 바꾸고 바로 시작하면 "첫 화면 위치(1F)".');
-  block_(sh, 'AB4', '시설 검색',
-    q_('Col8, count(Col1)', "Col3='목적지선택' and Col8 starts with '시설:'", 'Col8',
-       "order by count(Col1) desc label Col8 '시설', count(Col1) '건수'"));
-
-  block_(sh, 'P18', '인기 경로 TOP 10 (출발지 → 목적지)',
-    q_('Col10, Col8, count(Col1)', "Col3='길안내시작' and Col8<>''", 'Col10, Col8',
-       "order by count(Col1) desc limit 10 label Col10 '출발지', Col8 '목적지', count(Col1) '건수'"));
-  block_(sh, 'T18', '층 이동 (행: 출발층, 열: 목적지층)',
-    q_('Col11, count(Col1)', "Col3='길안내시작' and Col11<>''", 'Col11',
-       "pivot Col9 label Col11 '출발층'"));
-  block_(sh, 'AA18', '층별 목적지',
-    q_('Col9, count(Col1)', "Col3='목적지선택' and Col9<>''", 'Col9',
-       "order by count(Col1) desc label Col9 '층', count(Col1) '건수'"));
-
-  block_(sh, 'P31', '언어별 방문자',
+  // 2) 그래프용 데이터 (AL 열부터, 오른쪽 끝) — 그래프가 이 표를 읽는다
+  title_(sh, 'AL3', '▼ 그래프용 데이터 (수정하지 마세요)');
+  block_(sh, 'AL4', '목적지 TOP 10',
+    q_('Col10, count(Col1)', SEARCH_OK + " and not Col10 starts with '시설:'", 'Col10',
+       "order by count(Col1) desc limit 10 label Col10 '목적지', count(Col1) '검색'"));
+  block_(sh, 'AO4', '언어별 방문자',
     q_('Col4, count(Col1)', "Col3='접속' and Col6<>'당일재접속' and Col4<>''", 'Col4',
        "order by count(Col1) desc label Col4 '언어', count(Col1) '방문자'"));
-  block_(sh, 'S31', '시간대별 접속',
-    q_('Col2, count(Col1)', "Col3='접속'", 'Col2',
-       "order by Col2 label Col2 '시', count(Col1) '접속수'"));
-  block_(sh, 'V31', '유입 경로',
-    q_('Col7, count(Col1)', "Col3='접속' and Col7<>''", 'Col7',
-       "order by count(Col1) desc label Col7 '유입', count(Col1) '접속수'"),
-    'QR(층) = 그 층에 붙은 매장안내 QR로 들어온 접속');
-  block_(sh, 'Y31', '검색했는데 없던 이름 TOP 10',
-    q_('Col12, count(Col1)', "Col3='검색결과없음' and Col12<>''", 'Col12',
-       "order by count(Col1) desc limit 10 label Col12 '검색어', count(Col1) '건수'"),
-    '지도에 빠진 매장을 찾는 용도. 숫자·@가 들어간 검색어는 "(기록안함)"으로만 남습니다.');
-  block_(sh, 'AB31', '언어별 많이 찾은 목적지 TOP 5',
-    '=IFERROR(QUERY({' + R + 'A2:L},"select Col4, Col8, count(Col1) where ' + PERIOD +
-      " and Col3='목적지선택' and Col8<>'' and Col4<>'' group by Col4, Col8 order by Col4, count(Col1) desc label Col4 '언어', Col8 '목적지', count(Col1) '건수'" +
-      '",0),"기록 없음")',
-    '언어별로 건수 많은 순. 언어마다 위에서 5개까지 보면 TOP 5입니다.');
+  block_(sh, 'AR4', '시간대별 접속',
+    q_('Col2, count(Col1)', "Col3='접속'", 'Col2', "order by Col2 label Col2 '시', count(Col1) '접속수'"));
+  block_(sh, 'AU4', '출발지 TOP 10',
+    q_('Col8, count(Col1)', SEARCH_OK + " and Col8<>''", 'Col8',
+       "order by count(Col1) desc limit 10 label Col8 '출발지', count(Col1) '검색'"));
+  block_(sh, 'AX4', '층별 목적지',
+    q_('Col11, count(Col1)', SEARCH_OK + " and Col11<>''", 'Col11',
+       "order by count(Col1) desc label Col11 '층', count(Col1) '검색'"));
 
-  sh.setColumnWidth(1, 95);
-  sh.autoResizeColumns(16, 15);
+  // 3) 그래프 (K 열부터 2열 × 3줄)
+  var CT = Charts.ChartType;
+  chart_(sh, CT.COLUMN, ['A4:A400', 'C4:D400'], 5, 11, '날짜별 방문자 (첫방문 + 재방문)',
+    {isStacked: true, 'legend.position': 'top', colors: ['#1a73e8', '#34a853'], 'hAxis.direction': -1});
+  chart_(sh, CT.BAR, 'AL5:AM15', 5, 17, '많이 찾은 목적지 TOP 10', {colors: ['#e8710a']});
+  chart_(sh, CT.PIE, 'AO5:AP15', 20, 11, '언어별 방문자', {'legend.position': 'right', pieHole: 0.4});
+  chart_(sh, CT.COLUMN, 'AR5:AS29', 20, 17, '시간대별 접속', {colors: ['#9334e6']});
+  chart_(sh, CT.BAR, 'AU5:AV15', 35, 11, '출발지 TOP 10 (검색할 때 있던 곳)', {colors: ['#12b5cb']});
+  chart_(sh, CT.PIE, 'AX5:AY10', 35, 17, '층별 목적지', {'legend.position': 'right', pieHole: 0.4});
+
+  // 4) 표 (W 열부터)
+  title_(sh, 'W4', '기간 합계');
+  var Cc = '*(' + R + 'C2:C=';
+  var kpi = [
+    ['방문자', '=' + cnt_(Cc + '"접속")*(' + R + 'F2:F<>"당일재접속")')],
+    ['첫방문', '=' + cnt_(Cc + '"접속")*(' + R + 'F2:F="첫방문")')],
+    ['재방문', '=' + cnt_(Cc + '"접속")*(' + R + 'F2:F="재방문")')],
+    ['재방문 비율', '=IFERROR(X7/(X6+X7),0)'],
+    ['접속수', '=' + cnt_(Cc + '"접속")')],
+    ['모바일 비율', '=IFERROR(' + cnt_(Cc + '"접속")*(' + R + 'F2:F<>"당일재접속")*(' + R + 'E2:E="모바일")') + '/X5,0)'],
+    ['QR 유입', '=' + cnt_(Cc + '"접속")*(' + R + 'F2:F<>"당일재접속")*(LEFT(' + R + 'G2:G,2)="QR")')],
+    ['검색', '=' + cnt_(Cc + '"검색")*(' + R + 'J2:J<>"")')],
+    ['검색결과없음', '=' + cnt_(Cc + '"검색")*(' + R + 'J2:J="")')]
+  ];
+  for (var i = 0; i < kpi.length; i++) {
+    sh.getRange(5 + i, 23).setValue(kpi[i][0]);
+    sh.getRange(5 + i, 24).setFormula(kpi[i][1]);
+  }
+  sh.getRange('X8').setNumberFormat('0%');
+  sh.getRange('X10').setNumberFormat('0%');
+  sh.getRange('W5').setNote('기간 방문자는 날짜별 방문자를 더한 값이라, 여러 날 온 사람은 날마다 1명씩 들어갑니다.');
+
+  block_(sh, 'AA4', '유입 경로',
+    q_('Col7, count(Col1)', "Col3='접속' and Col6<>'당일재접속' and Col7<>''", 'Col7',
+       "order by count(Col1) desc label Col7 '유입', count(Col1) '방문자'"));
+  block_(sh, 'AD4', '시설 검색',
+    q_('Col10, count(Col1)', "Col3='검색' and Col10 starts with '시설:'", 'Col10',
+       "order by count(Col1) desc label Col10 '시설', count(Col1) '검색'"));
+  block_(sh, 'W16', '인기 경로 TOP 10 (출발지 → 목적지)',
+    q_('Col8, Col10, count(Col1)', SEARCH_OK + " and Col8<>''", 'Col8, Col10',
+       "order by count(Col1) desc limit 10 label Col8 '출발지', Col10 '목적지', count(Col1) '검색'"));
+  block_(sh, 'AA16', '많이 쓴 검색어 TOP 10',
+    q_('Col12, count(Col1)', "Col3='검색' and Col12<>'' and not Col12 starts with '('", 'Col12',
+       "order by count(Col1) desc limit 10 label Col12 '검색어', count(Col1) '횟수'"),
+    '검색창에 직접 입력한 말. 지도·바로가기 버튼으로 고른 것은 빠집니다.');
+  block_(sh, 'AD16', '검색했는데 없던 말 TOP 10',
+    q_('Col12, count(Col1)', SEARCH_NO + " and Col12<>''", 'Col12',
+       "order by count(Col1) desc limit 10 label Col12 '검색어', count(Col1) '횟수'"),
+    '지도에 빠진 매장 후보. 숫자 4개 이상·@가 들어간 말은 "(기록안함)"으로만 남습니다.');
+  block_(sh, 'W29', '층 이동 (행: 출발층, 열: 목적지층)',
+    q_('Col9, count(Col1)', SEARCH_OK + " and Col9<>''", 'Col9', "pivot Col11 label Col9 '출발층'"));
+  block_(sh, 'AE29', '언어별 많이 찾은 목적지',
+    q_('Col4, Col10, count(Col1)', SEARCH_OK + " and Col4<>''", 'Col4, Col10',
+       "order by Col4, count(Col1) desc label Col4 '언어', Col10 '목적지', count(Col1) '검색'"),
+    '언어별로 많은 순. 언어마다 위에서 5개까지 보면 TOP 5입니다.');
+  sh.autoResizeColumns(23, 10);
 }
