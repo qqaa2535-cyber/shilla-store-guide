@@ -68,7 +68,7 @@ function doPost(e) {
   var lock = LockService.getScriptLock();
   try { lock.waitLock(5000); } catch (err) {}
   sh.appendRow([
-    Utilities.formatDate(now, 'Asia/Seoul', 'yyyy-MM-dd'),
+    "'" + Utilities.formatDate(now, 'Asia/Seoul', 'yyyy-MM-dd'),   // 앞의 ' 는 날짜를 글자로 고정(시트가 날짜로 바꾸지 않게)
     Number(Utilities.formatDate(now, 'Asia/Seoul', 'H')),
     TYPE[d.type],
     LANG[d.lang] || '',
@@ -92,7 +92,21 @@ function onOpen() {
 }
 
 // 편집기에서 직접 실행하거나 메뉴에서 누르는 용도
-function setupSummary() { rawSheet_(); buildSummary_(); }
+function setupSummary() { rawSheet_(); fixDates_(); buildSummary_(); }
+
+// 이미 날짜값으로 바뀌어 저장된 '날짜' 칸을 yyyy-MM-dd 글자로 되돌린다(요약 수식이 글자 기준이라)
+function fixDates_() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sh = ss.getSheetByName(RAW);
+  var n = sh.getLastRow() - 1;
+  if (n < 1) return;
+  var tz = ss.getSpreadsheetTimeZone();
+  var r = sh.getRange(2, 1, n, 1);
+  var v = r.getValues().map(function (x) {
+    return [x[0] instanceof Date ? "'" + Utilities.formatDate(x[0], tz, 'yyyy-MM-dd') : x[0]];
+  });
+  r.setNumberFormat('@').setValues(v);
+}
 
 var R = "'" + RAW + "'!";
 var PERIOD = "Col1>='\"&TEXT($B$2,\"yyyy-mm-dd\")&\"' and Col1<='\"&TEXT($D$2,\"yyyy-mm-dd\")&\"'";
@@ -118,6 +132,7 @@ function block_(sh, a1, title, formula, note) {
 
 function buildSummary_() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
+  ss.setSpreadsheetTimeZone('Asia/Seoul');   // TODAY()가 한국 날짜가 되도록
   var sh = ss.getSheetByName(SUM);
   if (sh) sh.clear(); else sh = ss.insertSheet(SUM, 1);
   if (sh.getMaxColumns() < 32) sh.insertColumnsAfter(sh.getMaxColumns(), 32 - sh.getMaxColumns());
