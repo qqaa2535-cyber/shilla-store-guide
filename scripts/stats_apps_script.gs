@@ -91,10 +91,34 @@ function doPost(e) {
 // ---------- 요약 탭 ----------
 
 function onOpen() {
-  SpreadsheetApp.getUi().createMenu('매장안내 통계').addItem('요약 탭 다시 만들기', 'setupSummary').addToUi();
+  SpreadsheetApp.getUi().createMenu('매장안내 통계').addItem('요약 탭 다시 만들기', 'setupSummary').addItem('미입점 브랜드 탭 다시 만들기', 'setupMissing').addToUi();
 }
 
-function setupSummary() { rawSheet_(); buildSummary_(); }
+function setupSummary() { rawSheet_(); buildSummary_(); buildMissing_(); }
+function setupMissing() { rawSheet_(); buildMissing_(); }
+
+// ---------- 미입점 브랜드 탭: 검색했는데 지도에 없던 말 (전체 기간) ----------
+var MISS = '미입점 브랜드';
+function buildMissing_() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sh = ss.getSheetByName(MISS);
+  if (sh) { sh.clear(); sh.clearNotes(); } else sh = ss.insertSheet(MISS, 2);
+  sh.setFrozenRows(3);
+  sh.getRange('A1').setValue('미입점 브랜드 후보 — 손님이 검색했는데 지도에서 찾지 못한 말 (전체 기간, 많이 찾은 순, 영문은 소문자로 합침)').setFontWeight('bold');
+  sh.getRange('A2').setValue('※ 오타·다른 표기(예: 한글로 친 영문 브랜드)도 섞일 수 있으니, 실제 미입점인지 확인해서 보세요. 숫자 4개 이상·@가 들어간 말은 기록하지 않습니다.').setFontColor('#5f6368');
+  var miss = "Col3='검색' and (Col10='' or Col10 is null) and Col12<>'' and Col12<>'(기록안함)'";
+  var src = '{' + R + 'A2:L}';
+  title_(sh, 'A3', '검색어별 합계');
+  sh.getRange('A4').setFormula('=IFERROR(QUERY(' + src + ',"select lower(Col12), count(Col1), min(Col1), max(Col1) where ' + miss +
+    " group by lower(Col12) order by count(Col1) desc label lower(Col12) '검색어', count(Col1) '검색 횟수', min(Col1) '처음 검색일', max(Col1) '마지막 검색일'" + '",0),"아직 기록 없음")');
+  title_(sh, 'G3', '검색어 × 언어 (어느 나라 손님이 찾았나)');
+  sh.getRange('G4').setFormula('=IFERROR(QUERY(' + src + ',"select lower(Col12), count(Col1) where ' + miss +
+    " and Col4<>'' group by lower(Col12) pivot Col4 label lower(Col12) '검색어'" + '",0),"아직 기록 없음")');
+  title_(sh, 'A30', '최근 검색 50건 (날짜·시간·언어·검색한 곳)');
+  sh.getRange('A31').setFormula('=IFERROR(QUERY(' + src + ',"select Col1, Col2, Col12, Col4, Col8, Col9 where ' + miss +
+    " order by Col1 desc, Col2 desc limit 50 label Col1 '날짜', Col2 '시', Col12 '검색어', Col4 '언어', Col8 '검색한 곳(가까운 매장)', Col9 '층'" + '",0),"아직 기록 없음")');
+  sh.setColumnWidth(1, 150); sh.setColumnWidths(2, 3, 95); sh.setColumnWidth(7, 150);
+}
 
 var R = "'" + RAW + "'!";
 var PERIOD = "Col1>='\"&TEXT($B$2,\"yyyy-mm-dd\")&\"' and Col1<='\"&TEXT($D$2,\"yyyy-mm-dd\")&\"'";
