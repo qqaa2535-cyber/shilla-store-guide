@@ -2,12 +2,12 @@
  "source": "https://m.shilladfs.com/estore/kr/ko/shilladfscustomercenter/store/floor?code=01",
  "floors": {
   "B1F": {
-   "image": "https://media.shilladfs.com/files/attach/branchinfo/2026/09/30/1790726293842_20260930_1_서울점_공통_260930_B1F.jpg",
-   "version": "20260930"
+   "image": "",
+   "version": ""
   },
   "1F": {
-   "image": "https://media.shilladfs.com/files/attach/branchinfo/2026/11/13/1794528481791_20261113_1_서울점_공통_261113.jpg",
-   "version": "20261113"
+   "image": "https://media.shilladfs.com/files/attach/branchinfo/2026/11/27/1795745327679_20261127_1_서울점_공통_261127.jpg",
+   "version": "20261127"
   },
   "2F": {
    "image": "https://media.shilladfs.com/files/attach/branchinfo/2026/11/25/1795565327551_20261125_1_서울점_공통_261125_2F.jpg",
