@@ -263,7 +263,7 @@ const plen=p=>p.reduce((a,q,i)=>i?a+dist(q,p[i-1]):0,0);
 // B1F–1F–2F are linked by escalators; 2F–2MF–3F by stairs.
 // Each link: where you board (from) and where you get off (to), raw map coords.
 const LINKRAW={'B1F>1F':[[540,137],[493,325]],'1F>B1F':[[403,323],[521,137]],'1F>2F':[[447,330],[467,268]],'2F>1F':[[391,268],[432,330]],
- '2F>2MF':[[656,247],[400,390]],'2MF>2F':[[400,390],[656,247]],'2MF>3F':[[400,390],[622,353]],'3F>2MF':[[622,353],[400,390]]};
+ '2F>2MF':[[656,251],[400,390]],'2MF>2F':[[400,390],[656,251]],'2MF>3F':[[400,390],[622,353]],'3F>2MF':[[622,353],[400,390]]};
 const LK={};for(const k in LINKRAW){const [a,b]=k.split('>'),[p,q]=LINKRAW[k];LK[k]={from:snap(a,[p[0],p[1]-37]),to:snap(b,[q[0],q[1]-37]),fromRaw:[p[0],p[1]-37],toRaw:[q[0],q[1]-37]}}
 const ESCF=['B1F','1F','2F'];
 const hopType=(a,b)=>ESCF.includes(a)&&ESCF.includes(b)?'esc':'st';
